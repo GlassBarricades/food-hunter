@@ -18,10 +18,23 @@ export default defineConfig({
       ],
       // switch to "true" to enable sw on development
       devOptions: {
-        enabled: false,
+        enabled: true,
       },
       workbox: {
         globPatterns: ["**/*.{js,css,html}", "**/*.{svg,png,jpg,gif}"],
+        runtimeCaching: [{
+          handler: 'NetworkOnly',
+          urlPattern: /\/api\/.*\/*.json/,
+          method: 'POST',
+          options: {
+            backgroundSync: {
+              name: 'myQueueName',
+              options: {
+                maxRetentionTime: 24 * 60
+              }
+            }
+          }
+        }]
       },
     }),
   ],
