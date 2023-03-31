@@ -1,6 +1,7 @@
-import { Card, Image, SimpleGrid, Text } from "@mantine/core";
+import { Button, Card, Image, SimpleGrid, Text } from "@mantine/core";
+import { Link } from "react-router-dom";
 
-const MenuGridCategory = ({ data }) => {
+const MenuGridCategory = ({ data, variant }) => {
   console.log(data);
   return (
     <SimpleGrid
@@ -20,16 +21,26 @@ const MenuGridCategory = ({ data }) => {
             shadow="sm"
             padding="xl"
             radius="lg"
-            component="a"
-            href={item.link}
+            component={Link}
+            to={item.link}
           >
             <Card.Section>
               <Image src={item.img} height={160} alt={item.name} />
             </Card.Section>
+            {variant === "price" ? (
+              <Text mt="xs" size="lg">
+                {item.variant[0].price} руб.
+              </Text>
+            ) : undefined}
 
             <Text weight={500} size="lg" mt="md">
               {item.name}
             </Text>
+            {variant === "price" ? (
+              <Button mt="sm" variant="default" fullWidth>
+                Выбрать
+              </Button>
+            ) : undefined}
           </Card>
         );
       })}

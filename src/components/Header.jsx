@@ -11,7 +11,7 @@ import {
   Image,
   Drawer,
   useMantineTheme,
-  Text
+  Text,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { ThemeChange } from "./Theme-change";
@@ -23,7 +23,7 @@ const useStyles = createStyles((theme) => ({
     justifyContent: "space-between",
     alignItems: "center",
     height: "100%",
-    width: "100%"
+    width: "100%",
   },
 
   links: {
@@ -99,59 +99,29 @@ export function HeaderSimple({ links, opened, setOpened }) {
 
   return (
     <Header height={{ base: 50, md: 70 }} p="md">
-    <div
-      style={{ display: "flex", alignItems: "center", height: "100%" }}
-    >
-      <MediaQuery largerThan="sm" styles={{ display: "none" }}>
-        <Burger
-          opened={opened}
-          onClick={() => setOpened((o) => !o)}
-          size="sm"
-          color={theme.colors.gray[6]}
-          mr="xl"
-        />
-      </MediaQuery>
-      
-      <Container className={classes.header}>
-      <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
-      <Image width={60} src="https://food-hunter.by/img/logo.png" />
-      </MediaQuery>
-        <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
-         <Group spacing={5} className={classes.links}>
-           {items}
-         </Group>
-         </MediaQuery>
-         <ThemeChange />
-       </Container>
-    </div>
-  </Header>
-    // <Header
-    //   height={60}
-    //   styles={() => ({
-    //     root: {
-    //       position: "sticky",
-    //     },
-    //   })}
-    // >
-    //   <Container className={classes.header}>
-    //     <Image
-    //       src={"https://aleksann.by/wp-content/themes/oceanic/images/logo.png"}
-    //       width={130}
-    //     />
-    //     <Group spacing={5} className={classes.links}>
-    //       {items}
-    //     </Group>
-    //     <ThemeChange />
-    //     <Burger
-    //       opened={opened}
-    //       onClick={toggle}
-    //       className={classes.burger}
-    //       size="sm"
-    //     />
-    //   </Container>
-    //   <Drawer opened={opened} onClose={close} title="Меню">
-    //     123
-    //   </Drawer>
-    // </Header>
+      <div style={{ display: "flex", alignItems: "center", height: "100%" }}>
+        <MediaQuery largerThan="sm" styles={{ display: "none" }}>
+          <Burger
+            opened={opened}
+            onClick={() => setOpened((o) => !o)}
+            size="sm"
+            color={theme.colors.gray[6]}
+            mr="xl"
+          />
+        </MediaQuery>
+
+        <Container className={classes.header}>
+          <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
+            <Image width={60} src="https://food-hunter.by/img/logo.png" />
+          </MediaQuery>
+          {/* <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
+            <Group spacing={5} className={classes.links}>
+              {items}
+            </Group>
+          </MediaQuery> */}
+          <ThemeChange />
+        </Container>
+      </div>
+    </Header>
   );
 }

@@ -22,19 +22,19 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ["**/*.{js,css,html}", "**/*.{svg,png,jpg,gif}"],
-        runtimeCaching: [{
-          handler: 'NetworkOnly',
-          urlPattern: /\/api\/.*\/*.json/,
-          method: 'POST',
-          options: {
-            backgroundSync: {
-              name: 'myQueueName',
-              options: {
-                maxRetentionTime: 24 * 60
-              }
-            }
-          }
-        }]
+        // runtimeCaching: [{
+        //   handler: 'NetworkOnly',
+        //   urlPattern: /\/api\/.*\/*.json/,
+        //   method: 'POST',
+        //   options: {
+        //     backgroundSync: {
+        //       name: 'myQueueName',
+        //       options: {
+        //         maxRetentionTime: 24 * 60
+        //       }
+        //     }
+        //   }
+        // }]
       },
     }),
   ],
