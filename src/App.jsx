@@ -6,6 +6,8 @@ import { HeaderSimple } from "./components/Header";
 import NavBarApp from "./components/NavBarApp";
 import CategoryPage from "./pages/CategoryPage";
 import ProductPage from "./pages/ProductPage";
+import MenuPage from "./pages/MenuPage";
+import SushiPage from "./pages/SushiPage";
 
 const App = () => {
   const theme = useMantineTheme();
@@ -66,42 +68,99 @@ const App = () => {
     },
     {
       name: "Суши",
-      dataMenu: [
-        {
-          name: "Филадельфия",
-          link: "filadelfia-classic",
-          img: "https://seadelivery.by/upload/iblock/55f/55f30863fc5110f98ccc84c22caf5cee.jpg",
-          variant: [
-            {
-              size: "4",
-              weight: 130,
-              price: 7.5,
-            },
-            {
-              size: "8",
-              weight: 260,
-              price: 14,
-            },
-          ],
-          compound: "Состав: Рис, нори, сыр Филадельфия, форель с/с",
-        },
-        {
-          name: "Унаги Маки",
-          link: "ynagi-maki",
-          img: "https://sushi-tunec.ru/img.php?image=model_1056340851623494020.jpg&w=1200",
-          variant: [
-            {
-              size: 8,
-              weight: 155,
-              price: 9.5,
-            },
-          ],
-          compound:
-            "Состав: Рис, нори,японский майонез, угорь жареный в соусе терияки, огурец,",
-        },
-      ],
       link: "sushi",
       img: "https://img.championat.com/news/big/w/q/pochemu-sushi-vredny-dlja-figury_1590677088981164064.jpg",
+      categories: [
+        {
+          name: "Сеты",
+          link: "sets",
+          img: "https://food-hunter.by/assets/images/products/193/hotmaki.png",
+          items: [
+            {
+              name: "Сeт «Хот Маки»",
+              link: "set-hot-maki",
+              img: "https://food-hunter.by/assets/images/products/193/hotmaki.png",
+              price: 39.5,
+              compound: "Этна Хот, Ямато Хот, Мазури Хот",
+              weight: 730,
+              quantity: 24,
+            },
+          ],
+        },
+        {
+          name: "Классические суши",
+          link: "classic-sushi",
+          img: "https://food-hunter.by/assets/images/products/192/img-5414-3.jpg",
+          items: [
+            {
+              name: "Филадельфия",
+              link: "filadelfia-classic",
+              img: "https://seadelivery.by/upload/iblock/55f/55f30863fc5110f98ccc84c22caf5cee.jpg",
+              variant: [
+                {
+                  size: "4",
+                  weight: 130,
+                  price: 7.5,
+                },
+                {
+                  size: "8",
+                  weight: 260,
+                  price: 14,
+                },
+              ],
+              compound: "Рис, нори, сыр Филадельфия, форель с/с",
+            },
+            {
+              name: "Унаги Маки",
+              link: "ynagi-maki",
+              img: "https://sushi-tunec.ru/img.php?image=model_1056340851623494020.jpg&w=1200",
+              variant: [
+                {
+                  size: 8,
+                  weight: 155,
+                  price: 9.5,
+                },
+              ],
+              compound:
+                "Рис, нори,японский майонез, угорь жареный в соусе терияки, огурец,",
+            },
+            {
+              name: "Унаги Грин",
+              link: "ynagi-green",
+              img: "https://food-hunter.by/assets/images/products/690/unagi-grin.jpg",
+              variant: [
+                {
+                  size: 8,
+                  weight: 155,
+                  price: 18.9,
+                },
+              ],
+              compound:
+                "Рис, нори, угорь, сливочный сыр, чука, огурец, кунжут.",
+            },
+          ],
+        },
+        {
+          name: "Горячие",
+          link: "hot",
+          img: "https://food-hunter.by/assets/images/products/193/hotmaki.png",
+          items: [
+            {
+              name: "Гункан Магуро",
+              link: "gunkan-maguro",
+              img: "https://food-hunter.by/assets/images/products/388/img-6338.jpg",
+              variant: [
+                {
+                  size: 1,
+                  weight: 40,
+                  price: 5,
+                },
+              ],
+              compound: "Рис, нори, тунец",
+            },
+          ],
+        },
+      ],
     },
     {
       name: "Пиццы",
@@ -200,9 +259,18 @@ const App = () => {
       >
         <Routes>
           <Route path="/" element={<HomePage data={data} />} />
+          <Route path="/menu" element={<MenuPage data={data} />} />
           <Route path="/:category" element={<CategoryPage data={data} />} />
+          <Route path="/sushi" element={<SushiPage />} />
           <Route
             path="/:category/:product"
+            element={<ProductPage data={data} />}
+          />
+          <Route path="/menu" element={<MenuPage data={data} />} />
+          <Route path="/menu/sushi" element={<SushiPage data={data} />} />
+          <Route path="menu/:category" element={<CategoryPage data={data} />} />
+          <Route
+            path="menu/:category/:product"
             element={<ProductPage data={data} />}
           />
         </Routes>

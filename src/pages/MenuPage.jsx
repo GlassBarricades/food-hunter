@@ -1,7 +1,6 @@
 import { Title } from "@mantine/core";
 import MenuGridCategory from "../components/MenuGridCategory";
-
-const HomePage = ({ data }) => {
+const MenuPage = ({ data }) => {
   return (
     <>
       <Title mb="md">Меню</Title>
@@ -9,4 +8,4 @@ const HomePage = ({ data }) => {
     </>
   );
 };
-export default HomePage;
+export default MenuPage;

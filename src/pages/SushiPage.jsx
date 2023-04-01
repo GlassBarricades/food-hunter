@@ -1,12 +1,12 @@
 import { Title } from "@mantine/core";
 import MenuGridCategory from "../components/MenuGridCategory";
 
-const HomePage = ({ data }) => {
+const SushiPage = ({ data }) => {
   return (
     <>
-      <Title mb="md">Меню</Title>
-      <MenuGridCategory data={data} />
+      <Title>Суши</Title>
+      {/* <MenuGridCategory /> */}
     </>
   );
 };
-export default HomePage;
+export default SushiPage;
