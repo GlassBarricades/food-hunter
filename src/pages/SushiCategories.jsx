@@ -1,9 +1,10 @@
 import { Outlet } from "react-router-dom";
-const MenuPage = () => {
+
+const SushiCategories = () => {
   return (
     <>
       <Outlet />
     </>
   );
 };
-export default MenuPage;
+export default SushiCategories;

@@ -1,18 +1,14 @@
-import { useState } from "react";
-import { AppShell, Footer, useMantineTheme } from "@mantine/core";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
-import { HeaderSimple } from "./components/Header";
-import NavBarApp from "./components/NavBarApp";
 import CategoryPage from "./pages/CategoryPage";
 import ProductPage from "./pages/ProductPage";
 import MenuPage from "./pages/MenuPage";
+import LayoutPage from "./components/LayoutPage";
 import SushiPage from "./pages/SushiPage";
+import MenuGridCategory from "./components/MenuGridCategory";
+import SushiCategories from "./pages/SushiCategories";
 
 const App = () => {
-  const theme = useMantineTheme();
-  const [opened, setOpened] = useState(false);
-
   const data = [
     {
       name: "Ланчи",
@@ -80,15 +76,19 @@ const App = () => {
               name: "Сeт «Хот Маки»",
               link: "set-hot-maki",
               img: "https://food-hunter.by/assets/images/products/193/hotmaki.png",
-              price: 39.5,
+              variant: [
+                {
+                  size: "24",
+                  weight: 730,
+                  price: 39.5,
+                },
+              ],
               compound: "Этна Хот, Ямато Хот, Мазури Хот",
-              weight: 730,
-              quantity: 24,
             },
           ],
         },
         {
-          name: "Классические суши",
+          name: "Cуши",
           link: "classic-sushi",
           img: "https://food-hunter.by/assets/images/products/192/img-5414-3.jpg",
           items: [
@@ -224,58 +224,41 @@ const App = () => {
     },
   ];
 
-  const links = [
-    {
-      link: "/",
-      label: "Главная",
-    },
-    {
-      link: "/menu",
-      label: "Меню",
-    },
-  ];
+  const dataSushi = data.filter((item) => {
+    if (item.link === "sushi") {
+      return item;
+    }
+  });
   return (
-    <BrowserRouter>
-      <AppShell
-        styles={{
-          main: {
-            background:
-              theme.colorScheme === "dark"
-                ? theme.colors.dark[8]
-                : theme.colors.gray[0],
-          },
-        }}
-        navbarOffsetBreakpoint="sm"
-        asideOffsetBreakpoint="sm"
-        navbar={<NavBarApp links={links} opened={opened} />}
-        footer={
-          <Footer height={60} p="md">
-            Application footer
-          </Footer>
-        }
-        header={
-          <HeaderSimple links={links} opened={opened} setOpened={setOpened} />
-        }
-      >
-        <Routes>
-          <Route path="/" element={<HomePage data={data} />} />
-          <Route path="/menu" element={<MenuPage data={data} />} />
-          <Route path="/:category" element={<CategoryPage data={data} />} />
-          <Route path="/sushi" element={<SushiPage />} />
+    <Routes>
+      <Route path="/" element={<LayoutPage />}>
+        <Route index element={<HomePage data={data} />} />
+        <Route path="menu" element={<MenuPage />}>
+          <Route index element={<MenuGridCategory data={data} />} />
+          <Route path=":category" element={<CategoryPage data={data} />} />
           <Route
-            path="/:category/:product"
+            path=":category/:product"
             element={<ProductPage data={data} />}
           />
-          <Route path="/menu" element={<MenuPage data={data} />} />
-          <Route path="/menu/sushi" element={<SushiPage data={data} />} />
-          <Route path="menu/:category" element={<CategoryPage data={data} />} />
-          <Route
-            path="menu/:category/:product"
-            element={<ProductPage data={data} />}
-          />
-        </Routes>
-      </AppShell>
-    </BrowserRouter>
+          <Route path="sushi" element={<SushiPage />}>
+            <Route
+              index
+              element={<MenuGridCategory data={dataSushi[0].categories} />}
+            />
+            <Route
+              path=":kind"
+              element={
+                <CategoryPage data={dataSushi[0].categories} variant="sushi" />
+              }
+            />
+            <Route
+              path=":kind/:itemProduct"
+              element={<ProductPage data={dataSushi[0].categories} />}
+            />
+          </Route>
+        </Route>
+      </Route>
+    </Routes>
   );
 };
 export default App;

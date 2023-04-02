@@ -1,5 +1,6 @@
 import { MantineProvider, ColorSchemeProvider } from "@mantine/core";
 import { useHotkeys, useLocalStorage } from "@mantine/hooks";
+import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 
 function Main() {
@@ -36,10 +37,12 @@ function Main() {
               styles: (theme) => ({
                 root: {
                   fontFamily: `Greycliff CF, ${theme.fontFamily}`,
-                  color: theme.colorScheme === "dark" ? theme.colors.yellow[5] : theme.black,
-                  
-                }
-              })
+                  color:
+                    theme.colorScheme === "dark"
+                      ? theme.colors.yellow[5]
+                      : theme.black,
+                },
+              }),
             },
             Table: {
               styles: {
@@ -53,7 +56,9 @@ function Main() {
         withGlobalStyles
         withNormalizeCSS
       >
-        <App />
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
       </MantineProvider>
     </ColorSchemeProvider>
   );

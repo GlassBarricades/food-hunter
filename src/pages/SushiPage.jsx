@@ -1,11 +1,9 @@
-import { Title } from "@mantine/core";
-import MenuGridCategory from "../components/MenuGridCategory";
+import { Outlet } from "react-router-dom";
 
-const SushiPage = ({ data }) => {
+const SushiPage = () => {
   return (
     <>
-      <Title>Суши</Title>
-      {/* <MenuGridCategory /> */}
+      <Outlet />
     </>
   );
 };
