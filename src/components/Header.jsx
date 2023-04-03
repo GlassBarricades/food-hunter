@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useLocalStorage } from "@mantine/hooks";
 import {
   createStyles,
@@ -12,10 +11,12 @@ import {
   Drawer,
   useMantineTheme,
   Text,
+  Grid,
 } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
 import { ThemeChange } from "./Theme-change";
 import { Link } from "react-router-dom";
+import ContactsHeader from "./ContactsHeader";
+import Basket from "./Basket";
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -114,12 +115,11 @@ export function HeaderSimple({ links, opened, setOpened }) {
           <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
             <Image width={60} src="https://food-hunter.by/img/logo.png" />
           </MediaQuery>
-          {/* <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
-            <Group spacing={5} className={classes.links}>
-              {items}
-            </Group>
-          </MediaQuery> */}
-          <ThemeChange />
+          <ContactsHeader />
+          <Group spacing="md" align="center">
+            <ThemeChange />
+            <Basket />
+          </Group>
         </Container>
       </div>
     </Header>

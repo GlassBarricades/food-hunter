@@ -164,7 +164,55 @@ const App = () => {
     },
     {
       name: "Пиццы",
-      dataMenu: [],
+      dataMenu: [
+        {
+          name: "Пицца Острая",
+          link: "pizza-ostraya",
+          img: "https://food-hunter.by/assets/images/products/188/ostrjpg.jpg",
+          variant: [
+            {
+              size: 25,
+              weight: 0,
+              price: 16.5,
+            },
+            {
+              size: 30,
+              weight: 0,
+              price: 21,
+            },
+            {
+              size: 35,
+              weight: 0,
+              price: 24,
+            },
+          ],
+          compound: "Бекон, перец болгарский, перец халапеньо, соус сладкий Чили, пепперони, сыр Моцарелла,томатный соус, специи",
+        },
+        {
+          name: "Пицца 'Ранч'",
+          link: "pizza-ranch",
+          img: "https://food-hunter.by/assets/images/products/189/rannch.jpg",
+          variant: [
+            {
+              size: 25,
+              weight: 0,
+              price: 17.5,
+            },
+            {
+              size: 30,
+              weight: 0,
+              price: 21.5
+              ,
+            },
+            {
+              size: 35,
+              weight: 0,
+              price: 26,
+            },
+          ],
+          compound: "американский соус ранч, филе цыпленка, ветчина, свежие томаты, сыр моцарелла.",
+        },
+      ],
       link: "pizza",
       img: "https://www.gastronom.ru/binfiles/images/20191113/bd570867.jpg",
     },
@@ -229,6 +277,7 @@ const App = () => {
       return item;
     }
   });
+
   return (
     <Routes>
       <Route path="/" element={<LayoutPage />}>
@@ -253,7 +302,7 @@ const App = () => {
             />
             <Route
               path=":kind/:itemProduct"
-              element={<ProductPage data={dataSushi[0].categories} />}
+              element={<ProductPage data={dataSushi[0].categories} variantProduct="sushi"/>}
             />
           </Route>
         </Route>

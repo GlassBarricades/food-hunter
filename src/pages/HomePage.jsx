@@ -4,8 +4,7 @@ import MenuGridCategory from "../components/MenuGridCategory";
 const HomePage = ({ data }) => {
   return (
     <>
-      <Title mb="md">Меню</Title>
-      <MenuGridCategory data={data} />
+      <MenuGridCategory data={data} variant="home"/>
     </>
   );
 };

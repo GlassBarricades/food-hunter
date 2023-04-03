@@ -10,6 +10,7 @@ import {
   Stack,
   rem,
   NumberInput,
+  List,
 } from "@mantine/core";
 import { useParams } from "react-router-dom";
 
@@ -21,30 +22,51 @@ const useStyles = createStyles(() => ({
   },
 }));
 
-const ProductPage = ({ data }) => {
-  const { category, product } = useParams();
+const ProductPage = ({ data, variantProduct }) => {
+  const { category, product, kind, itemProduct } = useParams();
   const [value, setValue] = useState(1);
   const [dataBase] = useState(filteredData());
   const { name, img, compound, variant } = dataBase;
   const [selecteArr] = useState(selectArrData());
   const [variantValue, setVarianValue] = useState(selecteArr[0].value);
   const { classes } = useStyles();
+
+  const arr = compound.split(", ");
+
   function filteredData() {
-    const dataCategory = data.filter((item) => {
-      if (item.link === category) {
-        return item;
-      }
-    });
-    const dataItem = dataCategory[0].dataMenu.filter((item) => {
-      if (item.link === product) {
-        return item;
-      }
-    });
-    return dataItem[0];
+    if (variantProduct === "sushi") {
+      const sushiData = data.filter((item) => {
+        if (item.link === kind) {
+          return item.items;
+        }
+      });
+      const sushiItem = sushiData[0].items.filter((item) => {
+        if (item.link === itemProduct) {
+          return item;
+        }
+      });
+      return sushiItem[0];
+    } else {
+      const dataCategory = data.filter((item) => {
+        if (item.link === category) {
+          return item;
+        }
+      });
+      const dataItem = dataCategory[0].dataMenu.filter((item) => {
+        if (item.link === product) {
+          return item;
+        }
+      });
+      return dataItem[0];
+    }
   }
+
   function selectArrData() {
     const arr = variant.map((item, index) => {
-      const obj = { label: `${item.size} шт`, value: `${index}` };
+      const obj = {
+        label: `${item.size} ${category === "pizza" ? "см" : "шт"}`,
+        value: `${index}`,
+      };
       return obj;
     });
     return arr;
@@ -58,7 +80,12 @@ const ProductPage = ({ data }) => {
       <Grid.Col md={6}>
         <Stack>
           <Title order={3}>{name}</Title>
-          <Text>{compound}</Text>
+          <Text>Состав: </Text>
+          <List>
+            {arr.map((item, index) => {
+              return <List.Item key={index}>{item}</List.Item>
+            })}
+          </List>
           <Group>
             <Text>Размер: </Text>
             <SegmentedControl
@@ -68,7 +95,9 @@ const ProductPage = ({ data }) => {
             />
           </Group>
           <Text>Цена: {variant[variantValue].price} руб.</Text>
-          <Text>Цена: {variant[variantValue].weight} гр.</Text>
+          {variant[variantValue].weight !== 0 ? (
+            <Text>Вес: {variant[variantValue].weight} гр.</Text>
+          ) : undefined}
           <Group spacing={5}>
             <Text>Количество: </Text>
             <NumberInput
