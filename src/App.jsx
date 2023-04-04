@@ -292,6 +292,7 @@ const App = () => {
     obj.variantOrder = variant;
     obj.priceOrder = price;
     setOrder([...order, obj]);
+    setValue(1)
   }
 
   return (

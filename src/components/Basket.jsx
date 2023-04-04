@@ -7,6 +7,7 @@ import {
   Stack,
   Group,
   Image,
+  Button,
 } from "@mantine/core";
 import { ShoppingBag } from "tabler-icons-react";
 
@@ -43,9 +44,11 @@ const Basket = ({ order }) => {
               return (
                 <Group key={index}>
                   <Image width={80} src={item.img} />
-                  <Text>{item.name} ({item.variantOrder})</Text>
+                  <Text>
+                    {item.name} ({item.variantOrder})
+                  </Text>
                   <Text>{item.quantity} шт</Text>
-                  <Text>{item.priceOrder} руб</Text>
+                  <Text>{item.quantity * item.priceOrder} руб</Text>
                 </Group>
               );
             })}

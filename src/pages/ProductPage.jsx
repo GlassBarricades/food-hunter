@@ -74,6 +74,7 @@ const ProductPage = ({ data, variantProduct, onAdd, value, setValue }) => {
     });
     return arr;
   }
+  
 
   return (
     <Grid className={classes.wrapper}>
