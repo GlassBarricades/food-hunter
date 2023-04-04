@@ -11,6 +11,9 @@ import {
   rem,
   NumberInput,
   List,
+  Paper,
+  Button,
+  useMantineTheme,
 } from "@mantine/core";
 import { useParams } from "react-router-dom";
 
@@ -22,9 +25,9 @@ const useStyles = createStyles(() => ({
   },
 }));
 
-const ProductPage = ({ data, variantProduct }) => {
+const ProductPage = ({ data, variantProduct, onAdd, value, setValue }) => {
+  const theme = useMantineTheme();
   const { category, product, kind, itemProduct } = useParams();
-  const [value, setValue] = useState(1);
   const [dataBase] = useState(filteredData());
   const { name, img, compound, variant } = dataBase;
   const [selecteArr] = useState(selectArrData());
@@ -78,37 +81,48 @@ const ProductPage = ({ data, variantProduct }) => {
         <Image radius="md" height={500} src={img} alt={name} />
       </Grid.Col>
       <Grid.Col md={6}>
-        <Stack>
-          <Title order={3}>{name}</Title>
-          <Text>Состав: </Text>
-          <List>
-            {arr.map((item, index) => {
-              return <List.Item key={index}>{item}</List.Item>
-            })}
-          </List>
-          <Group>
-            <Text>Размер: </Text>
-            <SegmentedControl
-              value={variantValue}
-              onChange={setVarianValue}
-              data={selecteArr}
-            />
-          </Group>
-          <Text>Цена: {variant[variantValue].price} руб.</Text>
-          {variant[variantValue].weight !== 0 ? (
-            <Text>Вес: {variant[variantValue].weight} гр.</Text>
-          ) : undefined}
-          <Group spacing={5}>
-            <Text>Количество: </Text>
-            <NumberInput
-              value={value}
-              onChange={(val) => setValue(val)}
-              max={10}
-              min={0}
-              styles={{ input: { width: rem(64), height: rem(24) } }}
-            />
-          </Group>
-        </Stack>
+        <Paper shadow="xs" p="md" withBorder>
+          <Stack>
+            <Title order={3}>{name}</Title>
+            <Text>Состав: </Text>
+            <List>
+              {arr.map((item, index) => {
+                return <List.Item key={index}>{item}</List.Item>;
+              })}
+            </List>
+            <Group>
+              <Text>Размер: </Text>
+              <SegmentedControl
+                value={variantValue}
+                onChange={setVarianValue}
+                data={selecteArr}
+              />
+            </Group>
+            <Text>Цена: {variant[variantValue].price} руб.</Text>
+            {variant[variantValue].weight !== 0 ? (
+              <Text>Вес: {variant[variantValue].weight} гр.</Text>
+            ) : undefined}
+            <Group position="apart">
+              <Group spacing={5}>
+                <Text>Количество: </Text>
+                <NumberInput
+                  value={value}
+                  onChange={(val) => setValue(val)}
+                  max={10}
+                  min={0}
+                  styles={{ input: { width: rem(64), height: rem(24) } }}
+                />
+              </Group>
+              <Button
+                variant="outline"
+                color="yellow"
+                onClick={() => onAdd(dataBase, selecteArr[variantValue].label, variant[variantValue].price)}
+              >
+                Добавить в корзину
+              </Button>
+            </Group>
+          </Stack>
+        </Paper>
       </Grid.Col>
     </Grid>
   );

@@ -72,7 +72,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export function HeaderSimple({ links, opened, setOpened }) {
+export function HeaderSimple({ links, opened, setOpened, order }) {
   const theme = useMantineTheme();
   //const [active, setActive] = useState(links[0].link);
   const { classes, cx } = useStyles();
@@ -118,7 +118,7 @@ export function HeaderSimple({ links, opened, setOpened }) {
           <ContactsHeader />
           <Group spacing="md" align="center">
             <ThemeChange />
-            <Basket />
+            <Basket order={order}/>
           </Group>
         </Container>
       </div>

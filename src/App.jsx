@@ -6,9 +6,15 @@ import MenuPage from "./pages/MenuPage";
 import LayoutPage from "./components/LayoutPage";
 import SushiPage from "./pages/SushiPage";
 import MenuGridCategory from "./components/MenuGridCategory";
-import SushiCategories from "./pages/SushiCategories";
+import { useState, useEffect } from "react";
 
 const App = () => {
+  const [order, setOrder] = useState([]);
+  const [value, setValue] = useState(1);
+
+  useEffect(() => {
+    console.log(order);
+  }, [order]);
   const data = [
     {
       name: "Ланчи",
@@ -186,7 +192,8 @@ const App = () => {
               price: 24,
             },
           ],
-          compound: "Бекон, перец болгарский, перец халапеньо, соус сладкий Чили, пепперони, сыр Моцарелла,томатный соус, специи",
+          compound:
+            "Бекон, перец болгарский, перец халапеньо, соус сладкий Чили, пепперони, сыр Моцарелла,томатный соус, специи",
         },
         {
           name: "Пицца 'Ранч'",
@@ -201,8 +208,7 @@ const App = () => {
             {
               size: 30,
               weight: 0,
-              price: 21.5
-              ,
+              price: 21.5,
             },
             {
               size: 35,
@@ -210,7 +216,8 @@ const App = () => {
               price: 26,
             },
           ],
-          compound: "американский соус ранч, филе цыпленка, ветчина, свежие томаты, сыр моцарелла.",
+          compound:
+            "американский соус ранч, филе цыпленка, ветчина, свежие томаты, сыр моцарелла.",
         },
       ],
       link: "pizza",
@@ -278,16 +285,32 @@ const App = () => {
     }
   });
 
+  function addToOrder(item, variant, price) {
+    console.log(variant)
+    let obj = { ...item};
+    obj.quantity = value;
+    obj.variantOrder = variant;
+    obj.priceOrder = price;
+    setOrder([...order, obj]);
+  }
+
   return (
     <Routes>
-      <Route path="/" element={<LayoutPage />}>
+      <Route path="/" element={<LayoutPage order={order} />}>
         <Route index element={<HomePage data={data} />} />
         <Route path="menu" element={<MenuPage />}>
           <Route index element={<MenuGridCategory data={data} />} />
           <Route path=":category" element={<CategoryPage data={data} />} />
           <Route
             path=":category/:product"
-            element={<ProductPage data={data} />}
+            element={
+              <ProductPage
+                data={data}
+                onAdd={addToOrder}
+                value={value}
+                setValue={setValue}
+              />
+            }
           />
           <Route path="sushi" element={<SushiPage />}>
             <Route
@@ -302,7 +325,15 @@ const App = () => {
             />
             <Route
               path=":kind/:itemProduct"
-              element={<ProductPage data={dataSushi[0].categories} variantProduct="sushi"/>}
+              element={
+                <ProductPage
+                  data={dataSushi[0].categories}
+                  variantProduct="sushi"
+                  onAdd={addToOrder}
+                  value={value}
+                  setValue={setValue}
+                />
+              }
             />
           </Route>
         </Route>
