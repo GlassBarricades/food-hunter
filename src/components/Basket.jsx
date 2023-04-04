@@ -13,7 +13,26 @@ import { ShoppingBag } from "tabler-icons-react";
 
 const Basket = ({ order }) => {
   const theme = useMantineTheme();
-  console.log(order.lenght);
+
+  let orderData = {
+    secret:
+      "dR8itATaDfrtYr4tdrSaTyTTtyGtDatGRrT8RB9eHnBsErNHFsHkQr78NDrbDKKf3seETdKss9KYnitTE47ef4bTstZY5z4TR7kz9ZRrZnaaAtT5iR9sFa92yZGnfz8Zshhs72HSaHTB5BsberyKstAQe64ks38H8e466AN67ty3YN435kBiG22NTR29EZHD4AyYZ7RSr9G9NA2FKnReaDSYeFTKrrafQz5BtGfHGQGhayQNHsSKTAy35b",
+  };
+
+  function sendOrder() {
+    fetch("https://app.frontpad.ru/api/index.php?get_products", {
+      method: "POST",
+      headers: {
+        secret:
+          "dR8itATaDfrtYr4tdrSaTyTTtyGtDatGRrT8RB9eHnBsErNHFsHkQr78NDrbDKKf3seETdKss9KYnitTE47ef4bTstZY5z4TR7kz9ZRrZnaaAtT5iR9sFa92yZGnfz8Zshhs72HSaHTB5BsberyKstAQe64ks38H8e466AN67ty3YN435kBiG22NTR29EZHD4AyYZ7RSr9G9NA2FKnReaDSYeFTKrrafQz5BtGfHGQGhayQNHsSKTAy35b",
+      },
+      body: JSON.stringify(orderData),
+    }).then((res) => console.log(res));
+
+    // let result = await response.json();
+    // alert(result.message);
+  }
+
   return (
     <HoverCard width={580} shadow="md">
       <HoverCard.Target>
@@ -38,6 +57,7 @@ const Basket = ({ order }) => {
         </Indicator>
       </HoverCard.Target>
       <HoverCard.Dropdown>
+        <Button onClick={() => sendOrder()}>Отправить</Button>
         {order.length > 0 ? (
           <Stack>
             {order.map((item, index) => {
