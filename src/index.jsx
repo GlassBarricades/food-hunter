@@ -6,7 +6,7 @@ import App from "./App";
 function Main() {
   const [colorScheme, setColorScheme] = useLocalStorage({
     key: "mantine-color-scheme",
-    defaultValue: "light",
+    defaultValue: "dark",
     getInitialValueInEffect: true,
   });
 

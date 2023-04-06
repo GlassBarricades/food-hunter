@@ -7,6 +7,7 @@ import LayoutPage from "./components/LayoutPage";
 import SushiPage from "./pages/SushiPage";
 import MenuGridCategory from "./components/MenuGridCategory";
 import { useState, useEffect } from "react";
+import OrderPage from "./pages/OrderPage";
 
 const App = () => {
   const [order, setOrder] = useState([]);
@@ -299,6 +300,7 @@ const App = () => {
     <Routes>
       <Route path="/" element={<LayoutPage order={order} />}>
         <Route index element={<HomePage data={data} />} />
+        <Route path="/order" element={<OrderPage />} />
         <Route path="menu" element={<MenuPage />}>
           <Route index element={<MenuGridCategory data={data} />} />
           <Route path=":category" element={<CategoryPage data={data} />} />

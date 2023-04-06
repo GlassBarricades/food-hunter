@@ -10,6 +10,7 @@ import {
   Button,
 } from "@mantine/core";
 import { ShoppingBag } from "tabler-icons-react";
+import { Link } from "react-router-dom";
 
 const Basket = ({ order }) => {
   const theme = useMantineTheme();
@@ -57,9 +58,6 @@ const Basket = ({ order }) => {
         </Indicator>
       </HoverCard.Target>
       <HoverCard.Dropdown>
-        <form action="sendOrder.php">
-          <button type="submit">отправить</button>
-        </form>
         {order.length > 0 ? (
           <Stack>
             {order.map((item, index) => {
@@ -74,6 +72,7 @@ const Basket = ({ order }) => {
                 </Group>
               );
             })}
+            <Button component={Link} to="/order" variant="default">Перейти к оформлению заказа</Button>
           </Stack>
         ) : (
           <Text>В вашей корзине пока нет товаров :(</Text>
