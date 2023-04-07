@@ -13,10 +13,18 @@ import {
   TextInput,
   SegmentedControl,
   Textarea,
+  createStyles,
 } from "@mantine/core";
+
+const useStyles = createStyles((theme) => ({
+  formWrapper: {
+    height: "100%",
+  },
+}));
 
 const OrderPage = () => {
   const theme = useMantineTheme();
+  const { classes } = useStyles();
   const [variant, setVariant] = useState("delivery");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -35,7 +43,12 @@ const OrderPage = () => {
         breakpoints={[{ maxWidth: "sm", cols: 1 }]}
       >
         <Paper radius="md">
-          <Card withBorder shadow="sm" radius="md">
+          <Card
+            className={classes.formWrapper}
+            withBorder
+            shadow="sm"
+            radius="md"
+          >
             <Card.Section withBorder inheritPadding py="xs">
               <Group position="apart">
                 <Title order={5} weight={500}>
@@ -59,14 +72,14 @@ const OrderPage = () => {
                   ) : undefined}
                 </Group>
                 <SegmentedControl
-                    mt="sm"
-                    value={paymentType}
-                    onChange={setPaymentType}
-                    data={[
-                      { label: "Наличными", value: "cash" },
-                      { label: "Картой", value: "card" },
-                    ]}
-                  />
+                  mt="sm"
+                  value={paymentType}
+                  onChange={setPaymentType}
+                  data={[
+                    { label: "Наличными", value: "cash" },
+                    { label: "Картой", value: "card" },
+                  ]}
+                />
                 <TextInput
                   placeholder="Имя"
                   label="Имя"
