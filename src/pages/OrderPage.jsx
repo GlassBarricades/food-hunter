@@ -12,12 +12,19 @@ import {
   Divider,
   TextInput,
   SegmentedControl,
+  Textarea,
 } from "@mantine/core";
 
 const OrderPage = () => {
   const theme = useMantineTheme();
   const [variant, setVariant] = useState("delivery");
   const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [street, setStreet] = useState("");
+  const [house, setHouse] = useState("");
+  const [apartment, setApartment] = useState("");
+  const [comment, setComment] = useState("");
+  const [paymentType, setPaymentType] = useState("cash");
   return (
     <>
       <Title>Оформление заказа</Title>
@@ -36,23 +43,73 @@ const OrderPage = () => {
                 </Title>
               </Group>
             </Card.Section>
-            <Card.Section>
+            <Card.Section p="sm">
               <form>
+                <Group>
+                  <SegmentedControl
+                    value={variant}
+                    onChange={setVariant}
+                    data={[
+                      { label: "Доставка", value: "delivery" },
+                      { label: "Самовынос", value: "pickup" },
+                    ]}
+                  />
+                  {variant === "pickup" ? (
+                    <Text>Адрес: проспект Ленина, 15Б</Text>
+                  ) : undefined}
+                </Group>
                 <SegmentedControl
-                  value={variant}
-                  onChange={setVariant}
-                  data={[
-                    { label: "Доставка", value: "delivery" },
-                    { label: "Самовынос", value: "pickup" },
-                  ]}
-                />
-                {variant === "pickup" ? (
-                  <Text>Адрес: проспект Ленина, 15Б</Text>
-                ) : undefined}
+                    mt="sm"
+                    value={paymentType}
+                    onChange={setPaymentType}
+                    data={[
+                      { label: "Наличными", value: "cash" },
+                      { label: "Картой", value: "card" },
+                    ]}
+                  />
                 <TextInput
-                  placeholder="Your name"
-                  label="Full name"
+                  placeholder="Имя"
+                  label="Имя"
+                  value={name}
+                  onChange={(e) => setName(e.currentTarget.value)}
                   withAsterisk
+                />
+                <TextInput
+                  placeholder="Телефон"
+                  label="Телефон"
+                  value={phone}
+                  onChange={(e) => setPhone(e.currentTarget.value)}
+                  withAsterisk
+                />
+                <TextInput
+                  placeholder="Улица"
+                  label="Улица"
+                  value={street}
+                  onChange={(e) => setStreet(e.currentTarget.value)}
+                  withAsterisk
+                />
+                <TextInput
+                  placeholder="Дом"
+                  label="Дом"
+                  value={house}
+                  onChange={(e) => setHouse(e.currentTarget.value)}
+                  withAsterisk
+                />
+                <TextInput
+                  placeholder="Квартира"
+                  label="Квартира"
+                  value={apartment}
+                  onChange={(e) => setApartment(e.currentTarget.value)}
+                  withAsterisk
+                />
+                <Textarea
+                  label="Комментарий к заказу"
+                  placeholder="Комментарий к заказу"
+                  value={comment}
+                  onChange={(e) => setComment(e.currentTarget.value)}
+                  autosize
+                  minRows={2}
+                  maxRows={4}
                 />
               </form>
             </Card.Section>
