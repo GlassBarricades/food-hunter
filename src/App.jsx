@@ -29,6 +29,7 @@ const App = () => {
               size: 1,
               weight: 0,
               price: 17,
+              id: "00488857763",
             },
           ],
           description: 'Том Ям и ролл "Эби маки"',
@@ -43,12 +44,14 @@ const App = () => {
             {
               size: 1,
               weight: 0,
-              price: 17,
+              price: 16.5,
+              id: "33333324435",
             },
           ],
-          description: 'Том Ям и ролл "Эби маки"',
+          description:
+            'Суп с цыплёнком на кокосовом молоке и ролл "Сяке уайт маки"',
           compound:
-            "Состав супа: паста Том Ям, кокосовое молоко, сливки, тофу, рыбный соус, креветка, мидии, грибы шиитаки, кинза. Состав ролла: Рис, нори, креветка, сыр «Филадельфия», салат «Айсберг»",
+            "Состав супа: кокосовое молоко, курица, грибы шиитаки, сливки, перец чили, кинза. Состав ролла: рис, нори, форель, сыр «Филадельфия», огурец.",
         },
         {
           name: "Ланч #3",
@@ -58,12 +61,13 @@ const App = () => {
             {
               size: 1,
               weight: 0,
-              price: 17,
+              price: 16,
+              id: "0089998798798",
             },
           ],
-          description: 'Том Ям и ролл "Эби маки"',
+          description: "Томатный суп и драники с грибами в сливочом соусе",
           compound:
-            "Состав супа: паста Том Ям, кокосовое молоко, сливки, тофу, рыбный соус, креветка, мидии, грибы шиитаки, кинза. Состав ролла: Рис, нори, креветка, сыр «Филадельфия», салат «Айсберг»",
+            " Состав супа: Томатная паста, маслины, оливки, шампиньоны, орегано. Состав драников: Драники, грибы шампиньоны, сливочный соус, лук пассированный, сметана.",
         },
       ],
       link: "lanchi",
@@ -88,6 +92,7 @@ const App = () => {
                   size: "24",
                   weight: 730,
                   price: 39.5,
+                  id: "01480",
                 },
               ],
               compound: "Этна Хот, Ямато Хот, Мазури Хот",
@@ -108,11 +113,13 @@ const App = () => {
                   size: "4",
                   weight: 130,
                   price: 7.5,
+                  id: "2064",
                 },
                 {
                   size: "8",
                   weight: 260,
                   price: 14,
+                  id: "2068",
                 },
               ],
               compound: "Рис, нори, сыр Филадельфия, форель с/с",
@@ -126,6 +133,7 @@ const App = () => {
                   size: 8,
                   weight: 155,
                   price: 9.5,
+                  id: "01320",
                 },
               ],
               compound:
@@ -140,6 +148,7 @@ const App = () => {
                   size: 8,
                   weight: 155,
                   price: 18.9,
+                  id: "23918",
                 },
               ],
               compound:
@@ -161,6 +170,7 @@ const App = () => {
                   size: 1,
                   weight: 40,
                   price: 5,
+                  id: "01340",
                 },
               ],
               compound: "Рис, нори, тунец",
@@ -181,16 +191,19 @@ const App = () => {
               size: 25,
               weight: 0,
               price: 16.5,
+              id: "10125",
             },
             {
               size: 30,
               weight: 0,
               price: 21,
+              id: "10130",
             },
             {
               size: 35,
               weight: 0,
               price: 24,
+              id: "	10135",
             },
           ],
           compound:
@@ -205,16 +218,19 @@ const App = () => {
               size: 25,
               weight: 0,
               price: 17.5,
+              id: "10225",
             },
             {
               size: 30,
               weight: 0,
               price: 21.5,
+              id: "10230",
             },
             {
               size: 35,
               weight: 0,
               price: 26,
+              id: "10235",
             },
           ],
           compound:
@@ -274,7 +290,68 @@ const App = () => {
     },
     {
       name: "Поке",
-      dataMenu: [],
+      dataMenu: [
+        {
+          name: "Поке с креветкой",
+          link: "poke-krevetka",
+          img: "https://food-hunter.by/assets/images/products/708/dsc-9803menyu.jpg",
+          variant: [
+            {
+              size: 1,
+              weight: 310,
+              price: 21,
+              id: "555",
+            },
+          ],
+          compound:
+            "Рис, креветка, салат Чука, огурец, авокадо, ананас, кунжут , икра Тобико, нити нори.",
+        },
+        {
+          name: "Поке с Тунцом",
+          link: "poke-tunec",
+          img: "https://food-hunter.by/assets/images/products/711/dsc-9812inst.jpg",
+          variant: [
+            {
+              size: 1,
+              weight: 300,
+              price: 22,
+              id: "556",
+            },
+          ],
+          compound:
+            "Рис, тунец, манго, ананас, авокадо, чука, огурец, икра Тобико, кунжут.",
+        },
+        {
+          name: "Поке с угрем",
+          link: "poke-ygor",
+          img: "https://food-hunter.by/assets/images/products/713/dsc-9844isnt.jpg",
+          variant: [
+            {
+              size: 1,
+              weight: 310,
+              price: 21,
+              id: "557",
+            },
+          ],
+          compound:
+            "Рис, угорь, авокадо, огурец, нори, чука, кунжут, икра Тобико",
+        },
+        {
+          name: "Поке с Форелью",
+          link: "poke-forel",
+          img: "https://food-hunter.by/assets/images/products/712/dsc-9788inst.jpg",
+          variant: [
+            {
+              size: 1,
+              weight: 300,
+              price: 19.5,
+              id: "558",
+            },
+          ],
+          compound:
+            "Рис, Форель, огурец, авокадо, манго, чука, кукуруза, кунжут, нори (нити)",
+        },
+      ],
       link: "poke",
       img: "https://s1.eda.ru/StaticContent/Photos/120213175233/180404152931/p_O.jpg",
     },
@@ -287,20 +364,20 @@ const App = () => {
   });
 
   function addToOrder(item, variant, price) {
-    console.log(variant)
-    let obj = { ...item};
+    console.log(variant);
+    let obj = { ...item };
     obj.quantity = value;
     obj.variantOrder = variant;
     obj.priceOrder = price;
     setOrder([...order, obj]);
-    setValue(1)
+    setValue(1);
   }
 
   return (
     <Routes>
       <Route path="/" element={<LayoutPage order={order} />}>
         <Route index element={<HomePage data={data} />} />
-        <Route path="/order" element={<OrderPage order={order}/>} />
+        <Route path="/order" element={<OrderPage order={order} />} />
         <Route path="menu" element={<MenuPage />}>
           <Route index element={<MenuGridCategory data={data} />} />
           <Route path=":category" element={<CategoryPage data={data} />} />
