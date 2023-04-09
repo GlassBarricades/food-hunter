@@ -4,21 +4,42 @@ import {
   ActionIcon,
   HoverCard,
   Text,
-  Stack,
   Group,
   Image,
   Button,
   NumberInput,
   rem,
+  Table,
 } from "@mantine/core";
 import { ShoppingBag } from "tabler-icons-react";
 import { Link } from "react-router-dom";
+import { Trash } from "tabler-icons-react";
 
 const Basket = ({ order }) => {
   const theme = useMantineTheme();
 
+  const rows = order.map((element) => (
+    <tr key={element.name}>
+      <td>
+        <Image width={80} src={element.img} />
+      </td>
+      <td>{element.name}</td>
+      <td>{element.variantOrder}</td>
+      <td>
+        <NumberInput
+          value={element.quantity}
+          styles={{ input: { width: rem(64), height: rem(24) } }}
+        />
+      </td>
+      <td>{element.quantity * element.priceOrder} руб</td>
+      <td>
+      <ActionIcon variant="outline"><Trash size="1rem" /></ActionIcon>
+      </td>
+    </tr>
+  ));
+
   return (
-    <HoverCard width={580} shadow="md">
+    <HoverCard width={700} shadow="md">
       <HoverCard.Target>
         <Indicator
           color={
@@ -42,26 +63,16 @@ const Basket = ({ order }) => {
       </HoverCard.Target>
       <HoverCard.Dropdown>
         {order.length > 0 ? (
-          <Stack>
-            {order.map((item, index) => {
-              return (
-                <Group key={index}>
-                  <Image width={80} src={item.img} />
-                  <Text>
-                    {item.name} ({item.variantOrder})
-                  </Text>
-                  <NumberInput
-                    value={item.quantity}
-                    styles={{ input: { width: rem(64), height: rem(24) } }}
-                  />
-                  <Text>{item.quantity * item.priceOrder} руб</Text>
-                </Group>
-              );
-            })}
-            <Button component={Link} to="/order" variant="default">
-              Перейти к оформлению заказа
-            </Button>
-          </Stack>
+          <>
+            <Table>
+              <tbody>{rows}</tbody>
+            </Table>
+            <Group mt="sm" position="center">
+              <Button component={Link} to="/order" variant="default">
+                Перейти к оформлению заказа
+              </Button>
+            </Group>
+          </>
         ) : (
           <Text>В вашей корзине пока нет товаров :(</Text>
         )}

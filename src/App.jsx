@@ -300,7 +300,7 @@ const App = () => {
     <Routes>
       <Route path="/" element={<LayoutPage order={order} />}>
         <Route index element={<HomePage data={data} />} />
-        <Route path="/order" element={<OrderPage />} />
+        <Route path="/order" element={<OrderPage order={order}/>} />
         <Route path="menu" element={<MenuPage />}>
           <Route index element={<MenuGridCategory data={data} />} />
           <Route path=":category" element={<CategoryPage data={data} />} />

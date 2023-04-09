@@ -2,7 +2,6 @@ import { useState } from "react";
 import {
   Grid,
   SimpleGrid,
-  useMantineTheme,
   Title,
   Paper,
   Card,
@@ -14,6 +13,9 @@ import {
   SegmentedControl,
   Textarea,
   createStyles,
+  Image,
+  ScrollArea,
+  Table
 } from "@mantine/core";
 
 const useStyles = createStyles((theme) => ({
@@ -22,8 +24,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const OrderPage = () => {
-  const theme = useMantineTheme();
+const OrderPage = ({ order }) => {
   const { classes } = useStyles();
   const [variant, setVariant] = useState("delivery");
   const [name, setName] = useState("");
@@ -33,6 +34,25 @@ const OrderPage = () => {
   const [apartment, setApartment] = useState("");
   const [comment, setComment] = useState("");
   const [paymentType, setPaymentType] = useState("cash");
+
+  const rowsPrice = order.map((element) => (
+    <tr key={element.name}>
+      <td>
+        {element.name} ({element.quantity})
+      </td>
+      <td>{element.quantity * element.priceOrder} руб</td>
+    </tr>
+  ));
+
+  const arrPrice = order.map((item) => {
+    return item.priceOrder * item.quantity
+  })
+
+  const fullPrice = arrPrice.reduce(function(sum, elem) {
+    return sum + elem;
+  }, 0);
+
+  console.log(fullPrice);
   return (
     <>
       <Title>Оформление заказа</Title>
@@ -135,40 +155,27 @@ const OrderPage = () => {
                 <Card.Section withBorder inheritPadding py="xs">
                   <Group position="apart">
                     <Title order={5} weight={500}>
-                      Информация о заказе:
+                      Корзина:
                     </Title>
                   </Group>
                 </Card.Section>
-
-                <Text mt="sm" color="dimmed" size="sm">
-                  <Stack spacing={1}>
-                    <Group position="apart">
-                      <Text>Пицца пепперони (1шт)</Text>
-                      <Text>12 руб</Text>
-                    </Group>
-                    <Divider my="sm" />
-                    <Group position="apart">
-                      <Text>Пицца пепперони (1шт)</Text>
-                      <Text>12 руб</Text>
-                    </Group>
-                    <Divider my="sm" />
-                    <Group position="apart">
-                      <Text>Пицца пепперони (1шт)</Text>
-                      <Text>12 руб</Text>
-                    </Group>
-                    <Divider my="sm" />
-                    <Group position="apart">
-                      <Text>Пицца пепперони (1шт)</Text>
-                      <Text>12 руб</Text>
-                    </Group>
-                  </Stack>
-                </Text>
-
-                <Card.Section withBorder inheritPadding py="xs" mt="sm">
-                  <Group position="apart">
-                    <Text weight={500}>Итого:</Text>
-                    <Text>48 руб</Text>
-                  </Group>
+                <Card.Section p="md">
+                  <ScrollArea h={200}>
+                    <Stack>
+                      {order.map((item, index) => {
+                        return (
+                          <Group key={index} position="apart">
+                            <Image width={80} src={item.img} />
+                            <Text>
+                              {item.name} ({item.variantOrder})
+                            </Text>
+                            <Text>{item.quantity} шт</Text>
+                            <Text>{item.quantity * item.priceOrder} руб</Text>
+                          </Group>
+                        );
+                      })}
+                    </Stack>
+                  </ScrollArea>
                 </Card.Section>
               </Card>
             </Paper>
@@ -227,35 +234,13 @@ const OrderPage = () => {
                     </Title>
                   </Group>
                 </Card.Section>
-
-                <Text mt="sm" color="dimmed" size="sm">
-                  <Stack spacing={1}>
-                    <Group position="apart">
-                      <Text>Пицца пепперони (1шт)</Text>
-                      <Text>12 руб</Text>
-                    </Group>
-                    <Divider my="sm" />
-                    <Group position="apart">
-                      <Text>Пицца пепперони (1шт)</Text>
-                      <Text>12 руб</Text>
-                    </Group>
-                    <Divider my="sm" />
-                    <Group position="apart">
-                      <Text>Пицца пепперони (1шт)</Text>
-                      <Text>12 руб</Text>
-                    </Group>
-                    <Divider my="sm" />
-                    <Group position="apart">
-                      <Text>Пицца пепперони (1шт)</Text>
-                      <Text>12 руб</Text>
-                    </Group>
-                  </Stack>
-                </Text>
-
+                <Table>
+                  <tbody>{rowsPrice}</tbody>
+                </Table>
                 <Card.Section withBorder inheritPadding py="xs" mt="sm">
                   <Group position="apart">
                     <Text weight={500}>Итого:</Text>
-                    <Text>48 руб</Text>
+                    <Text weight={500}>{fullPrice} руб</Text>
                   </Group>
                 </Card.Section>
               </Card>
