@@ -8,6 +8,8 @@ import SushiPage from "./pages/SushiPage";
 import MenuGridCategory from "./components/MenuGridCategory";
 import { useState, useEffect } from "react";
 import OrderPage from "./pages/OrderPage";
+import AdminPage from "./pages/AdminPage";
+import AdminLayout from "./components/AdminLayout";
 
 const App = () => {
   const [order, setOrder] = useState([]);
@@ -417,6 +419,9 @@ const App = () => {
             />
           </Route>
         </Route>
+      </Route>
+      <Route path="admin"  element={<AdminLayout />}>
+          
       </Route>
     </Routes>
   );

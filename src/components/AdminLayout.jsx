@@ -4,23 +4,19 @@ import { Outlet } from "react-router-dom";
 import { HeaderSimple } from "./Header";
 import NavBarApp from "./NavBarApp";
 
-const App = ({ order }) => {
+const AdminLayout = () => {
   const theme = useMantineTheme();
   const [opened, setOpened] = useState(false);
 
   const links = [
     {
-      link: "/",
-      label: "Главная",
+      link: "/123",
+      label: "123",
     },
     {
-      link: "/menu",
-      label: "Меню",
+      link: "/321",
+      label: "321",
     },
-    {
-      link: "/admin",
-      label: "Панель администратора",
-    }
   ];
   return (
     <AppShell
@@ -45,7 +41,7 @@ const App = ({ order }) => {
           links={links}
           opened={opened}
           setOpened={setOpened}
-          order={order}
+          admin={true}
         />
       }
     >
@@ -53,4 +49,4 @@ const App = ({ order }) => {
     </AppShell>
   );
 };
-export default App;
+export default AdminLayout;
