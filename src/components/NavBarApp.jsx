@@ -46,7 +46,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const NavBarApp = ({ links, opened }) => {
+const NavBarApp = ({ links, opened, admin }) => {
   const theme = useMantineTheme();
   const { classes, cx } = useStyles();
   const [active, setActive] = useLocalStorage({
@@ -76,6 +76,11 @@ const NavBarApp = ({ links, opened }) => {
       hidden={!opened}
       width={{ sm: 200, lg: 300 }}
     >
+      {admin ? (
+        <Anchor component={Link} to="category" className={classes.link}>
+          Категории
+        </Anchor>
+      ) : undefined}
       {items}
     </Navbar>
   );

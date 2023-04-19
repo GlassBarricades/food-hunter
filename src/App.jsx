@@ -8,12 +8,24 @@ import SushiPage from "./pages/SushiPage";
 import MenuGridCategory from "./components/MenuGridCategory";
 import { useState, useEffect } from "react";
 import OrderPage from "./pages/OrderPage";
-import AdminPage from "./pages/AdminPage";
 import AdminLayout from "./components/AdminLayout";
+import AdminMain from "./components/AdminPanel/AdminMain";
+import AdminCategory from "./components/AdminPanel/AdminCategory";
 
 const App = () => {
   const [order, setOrder] = useState([]);
   const [value, setValue] = useState(1);
+
+  const links = [
+    {
+      link: "sushi",
+      label: "Суши",
+    },
+    {
+      link: "pizza",
+      label: "Пицца",
+    },
+  ];
 
   useEffect(() => {
     console.log(order);
@@ -420,8 +432,9 @@ const App = () => {
           </Route>
         </Route>
       </Route>
-      <Route path="admin"  element={<AdminLayout />}>
-          
+      <Route path="/admin"  element={<AdminLayout links={links}/>}>
+          <Route path=":adminElement" element={<AdminMain links={links}/>} />
+          <Route path="category" element={<AdminCategory />} />
       </Route>
     </Routes>
   );
