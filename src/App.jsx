@@ -12,6 +12,9 @@ import AdminLayout from "./components/AdminLayout";
 import AdminMain from "./components/AdminPanel/AdminMain";
 import AdminCategory from "./components/AdminPanel/AdminCategory";
 
+import { set, ref, remove } from "firebase/database";
+import { db } from "./firebase";
+
 const App = () => {
   const [order, setOrder] = useState([]);
   const [value, setValue] = useState(1);
@@ -30,6 +33,7 @@ const App = () => {
   useEffect(() => {
     console.log(order);
   }, [order]);
+  
   const data = [
     {
       name: "Ланчи",
@@ -387,6 +391,20 @@ const App = () => {
     setValue(1);
   }
 
+  const writeToDatabase = (link, data, reset, close) => (e) => {
+    e.preventDefault();
+    set(ref(db, link), {
+      ...data,
+    });
+
+    reset();
+    close();
+  };
+
+  const handleDelete = (link) => {
+    remove(ref(db, link));
+  };
+
   return (
     <Routes>
       <Route path="/" element={<LayoutPage order={order} />}>
@@ -432,9 +450,17 @@ const App = () => {
           </Route>
         </Route>
       </Route>
-      <Route path="/admin"  element={<AdminLayout links={links}/>}>
-          <Route path=":adminElement" element={<AdminMain links={links}/>} />
-          <Route path="category" element={<AdminCategory />} />
+      <Route path="/admin" element={<AdminLayout links={links} />}>
+        <Route path=":adminElement" element={<AdminMain links={links} />} />
+        <Route
+          path="category"
+          element={
+            <AdminCategory
+              writeToDatabase={writeToDatabase}
+              handleDelete={handleDelete}
+            />
+          }
+        />
       </Route>
     </Routes>
   );
