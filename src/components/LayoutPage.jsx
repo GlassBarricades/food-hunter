@@ -8,19 +8,19 @@ const App = ({ order }) => {
   const theme = useMantineTheme();
   const [opened, setOpened] = useState(false);
 
-  const links = [
+  const linksMain = [
     {
       link: "/",
-      label: "Главная",
+      name: "Главная",
     },
     {
       link: "/menu",
-      label: "Меню",
+      name: "Меню",
     },
     {
       link: "/admin",
-      label: "Панель администратора",
-    }
+      name: "Панель администратора",
+    },
   ];
   return (
     <AppShell
@@ -34,19 +34,14 @@ const App = ({ order }) => {
       }}
       navbarOffsetBreakpoint="sm"
       asideOffsetBreakpoint="sm"
-      navbar={<NavBarApp links={links} opened={opened} />}
+      navbar={<NavBarApp links={linksMain} opened={opened} />}
       footer={
         <Footer height={60} p="md">
           Application footer
         </Footer>
       }
       header={
-        <HeaderSimple
-          links={links}
-          opened={opened}
-          setOpened={setOpened}
-          order={order}
-        />
+        <HeaderSimple opened={opened} setOpened={setOpened} order={order} />
       }
     >
       <Outlet />

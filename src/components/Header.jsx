@@ -72,31 +72,9 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export function HeaderSimple({ links, opened, setOpened, order, admin }) {
+export function HeaderSimple({ opened, setOpened, order, admin }) {
   const theme = useMantineTheme();
-  //const [active, setActive] = useState(links[0].link);
   const { classes, cx } = useStyles();
-  const [active, setActive] = useLocalStorage({
-    key: "active-link",
-    defaultValue: links[0].link,
-    getInitialValueInEffect: true,
-  });
-
-  const items = links.map((link) => (
-    <Anchor
-      component={Link}
-      to={link.link}
-      key={link.label}
-      className={cx(classes.link, {
-        [classes.linkActive]: active === link.link,
-      })}
-      onClick={() => {
-        setActive(link.link);
-      }}
-    >
-      {link.label}
-    </Anchor>
-  ));
 
   return (
     <Header height={{ base: 50, md: 70 }} p="md">
@@ -118,7 +96,7 @@ export function HeaderSimple({ links, opened, setOpened, order, admin }) {
           <ContactsHeader />
           <Group spacing="md" align="center">
             <ThemeChange />
-            {!admin ? <Basket order={order}/> : undefined}
+            {!admin ? <Basket order={order} /> : undefined}
           </Group>
         </Container>
       </div>

@@ -2,11 +2,13 @@ import { useState } from "react";
 import { AppShell, Footer, useMantineTheme } from "@mantine/core";
 import { Outlet } from "react-router-dom";
 import { HeaderSimple } from "./Header";
+import useFetchData from "../hooks/useFetchData";
 import NavBarApp from "./NavBarApp";
 
-const AdminLayout = ({links}) => {
+const AdminLayout = ({ links }) => {
   const theme = useMantineTheme();
   const [opened, setOpened] = useState(false);
+
   return (
     <AppShell
       styles={{
@@ -19,19 +21,14 @@ const AdminLayout = ({links}) => {
       }}
       navbarOffsetBreakpoint="sm"
       asideOffsetBreakpoint="sm"
-      navbar={<NavBarApp links={links} opened={opened} admin={true}/>}
+      navbar={<NavBarApp links={links} opened={opened} admin={true} />}
       footer={
         <Footer height={60} p="md">
           Application footer
         </Footer>
       }
       header={
-        <HeaderSimple
-          links={links}
-          opened={opened}
-          setOpened={setOpened}
-          admin={true}
-        />
+        <HeaderSimple opened={opened} setOpened={setOpened} admin={true} />
       }
     >
       <Outlet />

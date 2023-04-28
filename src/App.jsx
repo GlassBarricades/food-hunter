@@ -11,29 +11,15 @@ import OrderPage from "./pages/OrderPage";
 import AdminLayout from "./components/AdminLayout";
 import AdminMain from "./components/AdminPanel/AdminMain";
 import AdminCategory from "./components/AdminPanel/AdminCategory";
-
 import { set, ref, remove } from "firebase/database";
 import { db } from "./firebase";
+import useFetchData from "./hooks/useFetchData";
 
 const App = () => {
   const [order, setOrder] = useState([]);
   const [value, setValue] = useState(1);
+  const [links, loading] = useFetchData("/categories/");
 
-  const links = [
-    {
-      link: "sushi",
-      label: "Суши",
-    },
-    {
-      link: "pizza",
-      label: "Пицца",
-    },
-  ];
-
-  useEffect(() => {
-    console.log(order);
-  }, [order]);
-  
   const data = [
     {
       name: "Ланчи",
@@ -408,10 +394,13 @@ const App = () => {
   return (
     <Routes>
       <Route path="/" element={<LayoutPage order={order} />}>
-        <Route index element={<HomePage data={data} />} />
+        <Route index element={<HomePage data={data} categories={links} />} />
         <Route path="/order" element={<OrderPage order={order} />} />
         <Route path="menu" element={<MenuPage />}>
-          <Route index element={<MenuGridCategory data={data} />} />
+          <Route
+            index
+            element={<MenuGridCategory data={data} categories={links} />}
+          />
           <Route path=":category" element={<CategoryPage data={data} />} />
           <Route
             path=":category/:product"
@@ -451,7 +440,16 @@ const App = () => {
         </Route>
       </Route>
       <Route path="/admin" element={<AdminLayout links={links} />}>
-        <Route path=":adminElement" element={<AdminMain links={links} />} />
+        <Route
+          path=":adminElement"
+          element={
+            <AdminMain
+              links={links}
+              writeToDatabase={writeToDatabase}
+              handleDelete={handleDelete}
+            />
+          }
+        />
         <Route
           path="category"
           element={

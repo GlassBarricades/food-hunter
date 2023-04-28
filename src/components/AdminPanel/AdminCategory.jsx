@@ -1,45 +1,115 @@
-import { Button, Group, Title, Modal, TextInput, Table } from "@mantine/core";
+import {
+  Button,
+  Group,
+  Title,
+  Modal,
+  TextInput,
+  NumberInput,
+  Table,
+  Image,
+  ActionIcon,
+  Checkbox,
+  useMantineColorScheme,
+} from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useState } from "react";
+import useFetchData from "../../hooks/useFetchData";
+import useSortData from "../../hooks/useSortData";
 import { uid } from "uid";
-import useFetchData from "../../hooks/useFetchData"
+import { ref, update, remove } from "firebase/database";
+import { db } from "../../firebase";
+import { Pencil, Trash, Eye, EyeOff } from "tabler-icons-react";
 
-const AdminCategory = ({writeToDatabase, handleDelete}) => {
+const AdminCategory = ({ writeToDatabase }) => {
+  const colorScheme = useMantineColorScheme();
   const [opened, handlers] = useDisclosure(false, {
     onClose: () => resetState(),
   });
   const [name, setName] = useState("");
   const [link, setLink] = useState("");
+  const [position, setPosition] = useState(0);
+  const [image, setImage] = useState("");
+  const [visible, setVisible] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
   const [categories] = useFetchData(`/categories/`);
+  const data = useSortData(categories, "position");
 
   const resetState = () => {
     setName("");
     setLink("");
+    setPosition(0);
+    setImage("");
+    setVisible(false);
+    setIsEdit(false);
   };
 
-  console.log(categories)
+  const handleDelete = (item, base) => {
+    remove(ref(db, `/${base}/${item.link}`));
+  };
 
-  const rows = categories.map((element) => (
+  const handleEdit = (item) => {
+    setIsEdit(true);
+    setName(item.name);
+    setLink(item.link);
+    setPosition(item.position);
+    setImage(item.image);
+    setVisible(item.visible);
+    handlers.open();
+  };
+
+  const rows = data.map((element) => (
     <tr key={element.link}>
+      <td>{element.position}</td>
       <td>{element.name}</td>
-      <td>{element.link}</td>
+      <td>
+        <Image width={50} src={element.image} alt={element.name} />
+      </td>
+      <td>{`/${element.link}`}</td>
+      <td>
+        <Group>
+          <ActionIcon
+            mt="xs"
+            variant={colorScheme.colorScheme === "dark" ? "outline" : "default"}
+            onClick={() => handleEdit(element)}
+            color={colorScheme.colorScheme === "dark" ? "yellow.5" : undefined}
+          >
+            <Pencil size="1rem" />
+          </ActionIcon>
+          <ActionIcon
+            mt="xs"
+            variant={colorScheme.colorScheme === "dark" ? "outline" : "default"}
+            onClick={() => handleDelete(element, "categories")}
+            color={colorScheme.colorScheme === "dark" ? "yellow.5" : undefined}
+          >
+            <Trash size="1rem" />
+          </ActionIcon>
+        </Group>
+      </td>
     </tr>
   ));
 
-
   return (
     <>
-      <Modal opened={opened} onClose={handlers.close} title="Добавление категории">
-        <form onSubmit={writeToDatabase(
+      <Modal
+        opened={opened}
+        onClose={handlers.close}
+        title={isEdit ? "Редактирование категории" : "Добавление категории"}
+      >
+        <form
+          onSubmit={writeToDatabase(
             `/categories/${link}`,
             {
               name: name,
               link: link,
+              position: position,
+              image: image,
+              visible: visible,
               uuid: uid(),
             },
             resetState,
             handlers.close
-          )}>
+          )}
+        >
           <TextInput
             placeholder="Название катерогии"
             label="Название категории"
@@ -54,8 +124,29 @@ const AdminCategory = ({writeToDatabase, handleDelete}) => {
             value={link}
             onChange={(e) => setLink(e.target.value)}
           />
+          <NumberInput
+            placeholder="Позиция для сортировки"
+            label="Позиция для сортировки"
+            value={position}
+            onChange={setPosition}
+          />
+          <TextInput
+            label="Картинка"
+            placeholder="Картинка"
+            value={image}
+            onChange={(e) => setImage(e.target.value)}
+          />
+          <Group>
+            <Checkbox
+              mt="xs"
+              size="md"
+              label="Скрыть"
+              checked={visible}
+              onChange={(event) => setVisible(event.currentTarget.checked)}
+            />
+          </Group>
           <Button mt="md" type="submit">
-              Отправить
+            {isEdit ? "Сохранить" : "Отправить"}
           </Button>
         </form>
       </Modal>
@@ -63,15 +154,24 @@ const AdminCategory = ({writeToDatabase, handleDelete}) => {
         <Title>Категории меню</Title>
         <Button onClick={handlers.open}>Добавить категорию</Button>
       </Group>
-      <Table highlightOnHover withBorder withColumnBorders>
-      <thead>
-        <tr>
-          <th>Название</th>
-          <th>Ссылка</th>
-        </tr>
-      </thead>
-      <tbody>{rows}</tbody>
-    </Table>
+      <Table
+        highlightOnHover
+        withBorder
+        withColumnBorders
+        fontSize="md"
+        mt="md"
+      >
+        <thead>
+          <tr>
+            <th>Сортировка</th>
+            <th>Название</th>
+            <th>Картинка</th>
+            <th>Ссылка</th>
+            <th>Настройки</th>
+          </tr>
+        </thead>
+        <tbody>{rows}</tbody>
+      </Table>
     </>
   );
 };
