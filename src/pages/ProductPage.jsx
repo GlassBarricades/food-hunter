@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Grid,
   Image,
@@ -17,6 +17,7 @@ import {
 } from "@mantine/core";
 import { useParams } from "react-router-dom";
 import useFetchDataOne from "../hooks/useFetchDataOne";
+import useFetchData from "../hooks/useFetchData";
 
 const useStyles = createStyles(() => ({
   wrapper: {
@@ -29,15 +30,17 @@ const useStyles = createStyles(() => ({
 const ProductPage = ({ data, variantProduct, onAdd, value, setValue }) => {
   const { category, product, kind, itemProduct } = useParams();
   const [dataProduct] = useFetchDataOne(`/menu/${category}/${product}`);
-  // const [dataBase] = useState(filteredData());
-  // const [variantValue, setVarianValue] = useState(selecteArr[0].value);
+  const [dataVariants] = useFetchData(`/menu/${category}/${product}/variant/`);
+  const [variantValue, setVarianValue] = useState("0");
   const { classes } = useStyles();
-
-  console.log(dataProduct.variant)
-
-
-
-  // const arr = compound.split(", ");
+  console.log(dataVariants);
+  const arr = dataVariants.map((item, index) => {
+    const obj = {
+      label: `${item.size} ${category === "pizza" ? "см" : "шт"}`,
+      value: `${index}`,
+    };
+    return obj;
+  });
 
   // function filteredData() {
   //   if (variantProduct === "sushi") {
@@ -66,31 +69,30 @@ const ProductPage = ({ data, variantProduct, onAdd, value, setValue }) => {
   //     return dataItem[0];
   //   }
   // }
-  
 
   return (
     <Grid className={classes.wrapper}>
       <Grid.Col md={6}>
-        <Image radius="md" height={500} src={dataProduct.image} alt={dataProduct.name} />
+        <Image
+          radius="md"
+          height={500}
+          src={dataProduct.image}
+          alt={dataProduct.name}
+        />
       </Grid.Col>
       <Grid.Col md={6}>
         <Paper shadow="xs" p="md" withBorder>
           <Stack>
             <Title order={3}>{dataProduct.name}</Title>
             <Text>Состав: </Text>
-            <List>
-              {dataProduct.compound}
-              {/* {arr.map((item, index) => {
-                return <List.Item key={index}>{item}</List.Item>;
-              })} */}
-            </List>
+            <List>{dataProduct.compound}</List>
             <Group>
               <Text>Размер: </Text>
-              {/* <SegmentedControl
+              <SegmentedControl
                 value={variantValue}
                 onChange={setVarianValue}
-                data={selecteArr}
-              /> */}
+                data={arr}
+              />
             </Group>
             {/* <Text>Цена: {variant[variantValue].price} руб.</Text>
             {variant[variantValue].weight !== 0 ? (

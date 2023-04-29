@@ -15,6 +15,9 @@ const MenuGridCategory = ({ data, variant, categories }) => {
       ]}
     >
       {categories.map((item, index) => {
+        const itemVariants = item.variant
+          ? Object.values(item.variant)
+          : undefined;
         return (
           <Card
             key={index}
@@ -27,11 +30,11 @@ const MenuGridCategory = ({ data, variant, categories }) => {
             <Card.Section>
               <Image src={item.image} height={160} alt={item.name} />
             </Card.Section>
-            {/* {variant === "price" ? (
+            {variant === "price" ? (
               <Text mt="xs" size="lg">
-                {item.variant["1"].price} руб.
+                {itemVariants[0].price} руб.
               </Text>
-            ) : undefined} */}
+            ) : undefined}
 
             <Text weight={500} size="lg" mt="md">
               {item.name}
