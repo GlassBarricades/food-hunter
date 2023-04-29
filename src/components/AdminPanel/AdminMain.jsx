@@ -13,6 +13,7 @@ import {
   Checkbox,
   useMantineColorScheme,
   Textarea,
+  Stack,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useState } from "react";
@@ -30,34 +31,20 @@ const AdminMain = ({ writeToDatabase }) => {
   const [opened, handlers] = useDisclosure(false, {
     onClose: () => resetState(),
   });
+  const [openedVariant, handlersVariant] = useDisclosure(false, {
+    onClose: () => resetState(),
+  });
   const [name, setName] = useState("");
   const [link, setLink] = useState("");
   const [position, setPosition] = useState(0);
   const [image, setImage] = useState("");
   const [visible, setVisible] = useState(false);
   const [compound, setCompound] = useState("");
-  const [variant, setVariant] = useState([
-    {
-      size: 25,
-      weight: 0,
-      price: 17.5,
-      id: "10225",
-    },
-    {
-      size: 30,
-      weight: 0,
-      price: 21.5,
-      id: "10230",
-    },
-    {
-      size: 35,
-      weight: 0,
-      price: 26,
-      id: "10235",
-    },
-  ]);
+  const [size, setSize] = useState(0);
+  const [weight, setWeight] = useState(0);
+  const [price, setPrice] = useState(0);
+  const [id, setId] = useState("");
   const [isEdit, setIsEdit] = useState(false);
-  const [variantAdd, setVariantAdd] = useState([]);
   const [categories] = useFetchData(`/menu/${adminElement}`);
   const data = useSortData(categories, "position");
 
@@ -71,9 +58,26 @@ const AdminMain = ({ writeToDatabase }) => {
     setIsEdit(false);
   };
 
+  const resetStateVariant = () => {
+    setSize(0);
+    setWeight(0);
+    setPrice(0);
+    setId("");
+    setIsEdit(false);
+  };
+
   const handleDelete = (item, base) => {
     remove(ref(db, `/menu/${base}/${item.link}`));
   };
+
+  const handleDeleteVariant = (item, base, variant) => {
+    remove(ref(db, `/menu/${base}/${item.link}/variant/${variant}`));
+  };
+
+  const handleVariantAdd = (item) => {
+    handlersVariant.open();
+    setLink(item.link)
+  }
 
   const handleEdit = (item) => {
     setIsEdit(true);
@@ -86,6 +90,16 @@ const AdminMain = ({ writeToDatabase }) => {
     handlers.open();
   };
 
+  const handleEditVariant = (item, link) => {
+    setIsEdit(true);
+    setSize(item.size);
+    setWeight(item.weight);
+    setPrice(item.price);
+    setId(item.id);
+    setLink(link);
+    handlersVariant.open();
+  };
+
   const rows = data.map((element) => (
     <tr key={element.link}>
       <td>{element.position}</td>
@@ -94,59 +108,30 @@ const AdminMain = ({ writeToDatabase }) => {
         <Image width={50} src={element.image} alt={element.name} />
       </td>
       <td>{`/${element.link}`}</td>
-      {/* <form
-            onSubmit={writeToDatabase(
-              `/menu/${adminElement}/${link}/variant`,
-              {
-                name: name,
-                link: link,
-                position: position,
-                image: image,
-                visible: visible,
-                compound: compound,
-              },
-              resetState,
-              handlers.close
-            )}
-          >
-            <NumberInput
-              placeholder="Размер"
-              label="Размер"
-              value={position}
-              onChange={setPosition}
-            />
-            <NumberInput
-              placeholder="Вес"
-              label="Вес"
-              value={weight}
-              onChange={setWeight}
-            />
-            <NumberInput
-              placeholder="Цена"
-              label="Цена"
-              value={price}
-              onChange={setPrice}
-            />
-            <TextInput
-              label="id"
-              placeholder="id"
-              value={id}
-              onChange={(e) => setId(e.target.value)}
-            />
-            <Group>
-              <Checkbox
-                mt="xs"
-                size="md"
-                label="Скрыть"
-                checked={visible}
-                onChange={(event) => setVisible(event.currentTarget.checked)}
-              />
-            </Group>
-            <Button mt="md" type="submit">
-              {isEdit ? "Сохранить" : "Отправить"}
-            </Button>
-          </form> */}
       <td>{element.compound}</td>
+      <td>
+        {element.variant ? Object.values(element.variant).map((item, index) => {
+          return <Group key={index}>
+            {item.size}
+            <ActionIcon
+            variant={colorScheme.colorScheme === "dark" ? "outline" : "default"}
+            onClick={() => handleEditVariant(item, element.link)}
+            color={colorScheme.colorScheme === "dark" ? "yellow.5" : undefined}
+          >
+            <Pencil size="1rem" />
+          </ActionIcon>
+          <ActionIcon
+            variant={colorScheme.colorScheme === "dark" ? "outline" : "default"}
+            onClick={() => handleDeleteVariant(element, adminElement, item.size)}
+            color={colorScheme.colorScheme === "dark" ? "yellow.5" : undefined}
+          >
+            <Trash size="1rem" />
+          </ActionIcon>
+          </Group>
+        }) : undefined}
+        <Stack>
+        </Stack>
+      </td>
       <td>
         <Group>
           <ActionIcon
@@ -165,6 +150,7 @@ const AdminMain = ({ writeToDatabase }) => {
           </ActionIcon>
           <ActionIcon
             variant={colorScheme.colorScheme === "dark" ? "outline" : "default"}
+            onClick={() => handleVariantAdd(element)}
             color={colorScheme.colorScheme === "dark" ? "yellow.5" : undefined}
           >
             <Plus size="1rem" />
@@ -191,7 +177,6 @@ const AdminMain = ({ writeToDatabase }) => {
               image: image,
               visible: visible,
               compound: compound,
-              variant: variant,
               uuid: uid(),
             },
             resetState,
@@ -246,6 +231,62 @@ const AdminMain = ({ writeToDatabase }) => {
           </Button>
         </form>
       </Modal>
+      <Modal
+        opened={openedVariant}
+        onClose={handlersVariant.close}
+        title={isEdit ? "Редактирование категории" : "Добавление категории"}
+      >
+        <form
+            onSubmit={writeToDatabase(
+              `/menu/${adminElement}/${link}/variant/${size}`,
+              {
+                size: size,
+                weight: weight,
+                price: price,
+                id: id,
+              },
+              resetStateVariant,
+              handlersVariant.close
+            )}
+          >
+            <NumberInput
+              placeholder="Размер"
+              label="Размер"
+              value={size}
+              onChange={setSize}
+            />
+            <NumberInput
+              placeholder="Вес"
+              label="Вес"
+              value={weight}
+              onChange={setWeight}
+            />
+            <NumberInput
+              placeholder="Цена"
+              label="Цена"
+              value={price}
+              onChange={setPrice}
+            />
+            <TextInput
+              label="id"
+              placeholder="id"
+              value={id}
+              onChange={(e) => setId(e.target.value)}
+            />
+            <Group>
+              <Checkbox
+                mt="xs"
+                size="md"
+                label="Скрыть"
+                checked={visible}
+                onChange={(event) => setVisible(event.currentTarget.checked)}
+              />
+            </Group>
+            <Button mt="md" type="submit">
+              {isEdit ? "Сохранить" : "Отправить"}
+            </Button>
+          </form>
+      </Modal>
       <Group position="apart">
         <Title>{linkItem[0].name}</Title>
         <Button onClick={handlers.open}>Добавить категорию</Button>
@@ -264,6 +305,7 @@ const AdminMain = ({ writeToDatabase }) => {
             <th>Картинка</th>
             <th>Ссылка</th>
             <th>Состав</th>
+            <th>Варианты</th>
             <th>Настройки</th>
           </tr>
         </thead>

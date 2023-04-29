@@ -16,6 +16,7 @@ import {
   useMantineTheme,
 } from "@mantine/core";
 import { useParams } from "react-router-dom";
+import useFetchDataOne from "../hooks/useFetchDataOne";
 
 const useStyles = createStyles(() => ({
   wrapper: {
@@ -26,83 +27,75 @@ const useStyles = createStyles(() => ({
 }));
 
 const ProductPage = ({ data, variantProduct, onAdd, value, setValue }) => {
-  const theme = useMantineTheme();
   const { category, product, kind, itemProduct } = useParams();
-  const [dataBase] = useState(filteredData());
-  const { name, img, compound, variant } = dataBase;
-  const [selecteArr] = useState(selectArrData());
-  const [variantValue, setVarianValue] = useState(selecteArr[0].value);
+  const [dataProduct] = useFetchDataOne(`/menu/${category}/${product}`);
+  // const [dataBase] = useState(filteredData());
+  // const [variantValue, setVarianValue] = useState(selecteArr[0].value);
   const { classes } = useStyles();
 
-  const arr = compound.split(", ");
+  console.log(dataProduct.variant)
 
-  function filteredData() {
-    if (variantProduct === "sushi") {
-      const sushiData = data.filter((item) => {
-        if (item.link === kind) {
-          return item.items;
-        }
-      });
-      const sushiItem = sushiData[0].items.filter((item) => {
-        if (item.link === itemProduct) {
-          return item;
-        }
-      });
-      return sushiItem[0];
-    } else {
-      const dataCategory = data.filter((item) => {
-        if (item.link === category) {
-          return item;
-        }
-      });
-      const dataItem = dataCategory[0].dataMenu.filter((item) => {
-        if (item.link === product) {
-          return item;
-        }
-      });
-      return dataItem[0];
-    }
-  }
 
-  function selectArrData() {
-    const arr = variant.map((item, index) => {
-      const obj = {
-        label: `${item.size} ${category === "pizza" ? "см" : "шт"}`,
-        value: `${index}`,
-      };
-      return obj;
-    });
-    return arr;
-  }
+
+  // const arr = compound.split(", ");
+
+  // function filteredData() {
+  //   if (variantProduct === "sushi") {
+  //     const sushiData = dataProduct.filter((item) => {
+  //       if (item.link === kind) {
+  //         return item.items;
+  //       }
+  //     });
+  //     const sushiItem = sushiData[0].items.filter((item) => {
+  //       if (item.link === itemProduct) {
+  //         return item;
+  //       }
+  //     });
+  //     return sushiItem[0];
+  //   } else {
+  //     const dataCategory = dataProduct.filter((item) => {
+  //       if (item.link === category) {
+  //         return item;
+  //       }
+  //     });
+  //     const dataItem = dataCategory[0].dataMenu.filter((item) => {
+  //       if (item.link === product) {
+  //         return item;
+  //       }
+  //     });
+  //     return dataItem[0];
+  //   }
+  // }
   
 
   return (
     <Grid className={classes.wrapper}>
       <Grid.Col md={6}>
-        <Image radius="md" height={500} src={img} alt={name} />
+        <Image radius="md" height={500} src={dataProduct.image} alt={dataProduct.name} />
       </Grid.Col>
       <Grid.Col md={6}>
         <Paper shadow="xs" p="md" withBorder>
           <Stack>
-            <Title order={3}>{name}</Title>
+            <Title order={3}>{dataProduct.name}</Title>
             <Text>Состав: </Text>
             <List>
-              {arr.map((item, index) => {
+              {dataProduct.compound}
+              {/* {arr.map((item, index) => {
                 return <List.Item key={index}>{item}</List.Item>;
-              })}
+              })} */}
             </List>
             <Group>
               <Text>Размер: </Text>
-              <SegmentedControl
+              {/* <SegmentedControl
                 value={variantValue}
                 onChange={setVarianValue}
                 data={selecteArr}
-              />
+              /> */}
             </Group>
-            <Text>Цена: {variant[variantValue].price} руб.</Text>
+            {/* <Text>Цена: {variant[variantValue].price} руб.</Text>
             {variant[variantValue].weight !== 0 ? (
               <Text>Вес: {variant[variantValue].weight} гр.</Text>
-            ) : undefined}
+            ) : undefined} */}
             <Group position="apart">
               <Group spacing={5}>
                 <Text>Количество: </Text>
@@ -114,13 +107,13 @@ const ProductPage = ({ data, variantProduct, onAdd, value, setValue }) => {
                   styles={{ input: { width: rem(64), height: rem(24) } }}
                 />
               </Group>
-              <Button
+              {/* <Button
                 variant="outline"
                 color="yellow"
                 onClick={() => onAdd(dataBase, selecteArr[variantValue].label, variant[variantValue].price)}
               >
                 Добавить в корзину
-              </Button>
+              </Button> */}
             </Group>
           </Stack>
         </Paper>

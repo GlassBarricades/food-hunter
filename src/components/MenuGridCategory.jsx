@@ -2,7 +2,6 @@ import { Button, Card, Image, SimpleGrid, Text } from "@mantine/core";
 import { Link } from "react-router-dom";
 
 const MenuGridCategory = ({ data, variant, categories }) => {
-  console.log(categories);
   return (
     <SimpleGrid
       cols={5}
@@ -28,11 +27,11 @@ const MenuGridCategory = ({ data, variant, categories }) => {
             <Card.Section>
               <Image src={item.image} height={160} alt={item.name} />
             </Card.Section>
-            {variant === "price" ? (
+            {/* {variant === "price" ? (
               <Text mt="xs" size="lg">
-                {item.variant[0].price} руб.
+                {item.variant["1"].price} руб.
               </Text>
-            ) : undefined}
+            ) : undefined} */}
 
             <Text weight={500} size="lg" mt="md">
               {item.name}
