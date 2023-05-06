@@ -56,9 +56,7 @@ function Main() {
         withGlobalStyles
         withNormalizeCSS
       >
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
+        <App />
       </MantineProvider>
     </ColorSchemeProvider>
   );

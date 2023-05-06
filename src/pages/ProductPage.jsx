@@ -30,7 +30,9 @@ const useStyles = createStyles(() => ({
 const ProductPage = ({ data, variantProduct, onAdd, value, setValue }) => {
   const { category, product, kind, itemProduct } = useParams();
   const [dataProduct] = useFetchDataOne(`/menu/${category}/${product}`);
-  const [dataVariants] = useFetchData(`/menu/${category}/${product}/variant/`);
+  const [dataVariants, loading] = useFetchData(
+    `/menu/${category}/${product}/variant/`
+  );
   const [variantValue, setVarianValue] = useState("0");
   const { classes } = useStyles();
   console.log(dataVariants);
@@ -70,57 +72,66 @@ const ProductPage = ({ data, variantProduct, onAdd, value, setValue }) => {
   //   }
   // }
 
+  console.log(dataVariants);
+  console.log(loading);
+
   return (
-    <Grid className={classes.wrapper}>
-      <Grid.Col md={6}>
-        <Image
-          radius="md"
-          height={500}
-          src={dataProduct.image}
-          alt={dataProduct.name}
-        />
-      </Grid.Col>
-      <Grid.Col md={6}>
-        <Paper shadow="xs" p="md" withBorder>
-          <Stack>
-            <Title order={3}>{dataProduct.name}</Title>
-            <Text>Состав: </Text>
-            <List>{dataProduct.compound}</List>
-            <Group>
-              <Text>Размер: </Text>
-              <SegmentedControl
-                value={variantValue}
-                onChange={setVarianValue}
-                data={arr}
-              />
-            </Group>
-            {/* <Text>Цена: {variant[variantValue].price} руб.</Text>
-            {variant[variantValue].weight !== 0 ? (
-              <Text>Вес: {variant[variantValue].weight} гр.</Text>
-            ) : undefined} */}
-            <Group position="apart">
-              <Group spacing={5}>
-                <Text>Количество: </Text>
-                <NumberInput
-                  value={value}
-                  onChange={(val) => setValue(val)}
-                  max={10}
-                  min={0}
-                  styles={{ input: { width: rem(64), height: rem(24) } }}
-                />
-              </Group>
-              {/* <Button
-                variant="outline"
-                color="yellow"
-                onClick={() => onAdd(dataBase, selecteArr[variantValue].label, variant[variantValue].price)}
-              >
-                Добавить в корзину
-              </Button> */}
-            </Group>
-          </Stack>
-        </Paper>
-      </Grid.Col>
-    </Grid>
+    <>
+      {loading ? (
+        <Text>Загрузка...</Text>
+      ) : (
+        <Grid className={classes.wrapper}>
+          <Grid.Col md={6}>
+            <Image
+              radius="md"
+              height={500}
+              src={dataProduct.image}
+              alt={dataProduct.name}
+            />
+          </Grid.Col>
+          <Grid.Col md={6}>
+            <Paper shadow="xs" p="md" withBorder>
+              <Stack>
+                <Title order={3}>{dataProduct.name}</Title>
+                <Text>Состав: </Text>
+                <List>{dataProduct.compound}</List>
+                <Group>
+                  <Text>Размер: </Text>
+                  <SegmentedControl
+                    value={variantValue}
+                    onChange={setVarianValue}
+                    data={arr}
+                  />
+                </Group>
+                <Text>Цена: {dataVariants[variantValue].price} руб.</Text>
+                {dataVariants[variantValue].weight !== 0 ? (
+                  <Text>Вес: {dataVariants[variantValue].weight} гр.</Text>
+                ) : undefined}
+                <Group position="apart">
+                  <Group spacing={5}>
+                    <Text>Количество: </Text>
+                    <NumberInput
+                      value={value}
+                      onChange={(val) => setValue(val)}
+                      max={10}
+                      min={0}
+                      styles={{ input: { width: rem(64), height: rem(24) } }}
+                    />
+                  </Group>
+                  {/* <Button
+              variant="outline"
+              color="yellow"
+              onClick={() => onAdd(dataBase, selecteArr[variantValue].label, variant[variantValue].price)}
+            >
+              Добавить в корзину
+            </Button> */}
+                </Group>
+              </Stack>
+            </Paper>
+          </Grid.Col>
+        </Grid>
+      )}
+    </>
   );
 };
 export default ProductPage;
