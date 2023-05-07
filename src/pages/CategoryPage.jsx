@@ -4,7 +4,8 @@ import useFetchData from "../hooks/useFetchData";
 
 const CategoryPage = ({ data, variant }) => {
   // const { category, kind } = useParams();
-  // const { dataCategory, category } = useLoaderData();
+  const { dataItem, category } = useLoaderData();
+  console.log(category);
 
   // const dataItem = data.filter((item) => {
   //   if (item.link === category) {
@@ -33,11 +34,11 @@ const CategoryPage = ({ data, variant }) => {
 
 const categoryLoader = async ({ params }) => {
   console.log({ params });
-  // const category = params.category;
-  const categories = useFetchData(`/menu/lanchi`);
-  const item = await categories;
+  const category = params.category;
+  const categories = useFetchData(`/menu/${category}`);
+  const dataItem = await categories;
 
-  return { item, category };
+  return { dataItem, category };
 };
 
 export { categoryLoader };

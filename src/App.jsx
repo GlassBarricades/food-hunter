@@ -398,57 +398,52 @@ const App = () => {
 
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <>
-        <Route path="/" element={<LayoutPage order={order} />}>
-          <Route index element={<HomePage data={data} categories={links} />} />
-          <Route path="/order" element={<OrderPage order={order} />} />
-          <Route path="menu" element={<MenuPage />}>
+      <Route path="/" element={<LayoutPage order={order} />}>
+        <Route index element={<HomePage data={data} categories={links} />} />
+        <Route path="/order" element={<OrderPage order={order} />} />
+        <Route path="menu" element={<MenuPage />}>
+          <Route
+            index
+            element={<MenuGridCategory data={data} categories={links} />}
+          />
+          <Route
+            path=":category"
+            element={<CategoryPage data={data} loader={categoryLoader} />}
+          />
+          <Route
+            path=":category/:product"
+            element={
+              <ProductPage
+                data={data}
+                onAdd={addToOrder}
+                value={value}
+                setValue={setValue}
+              />
+            }
+          />
+          <Route path="sushi" element={<SushiPage />}>
             <Route
               index
-              element={<MenuGridCategory data={data} categories={links} />}
+              element={<MenuGridCategory data={dataSushi[0].categories} />}
             />
             <Route
-              path=":category"
-              element={<CategoryPage data={data} loader={categoryLoader} />}
+              path=":kind"
+              element={
+                <CategoryPage data={dataSushi[0].categories} variant="sushi" />
+              }
             />
             <Route
-              path=":category/:product"
+              path=":kind/:itemProduct"
               element={
                 <ProductPage
-                  data={data}
+                  data={dataSushi[0].categories}
+                  variantProduct="sushi"
                   onAdd={addToOrder}
                   value={value}
                   setValue={setValue}
                 />
               }
             />
-            <Route path="sushi" element={<SushiPage />}>
-              <Route
-                index
-                element={<MenuGridCategory data={dataSushi[0].categories} />}
-              />
-              <Route
-                path=":kind"
-                element={
-                  <CategoryPage
-                    data={dataSushi[0].categories}
-                    variant="sushi"
-                  />
-                }
-              />
-              <Route
-                path=":kind/:itemProduct"
-                element={
-                  <ProductPage
-                    data={dataSushi[0].categories}
-                    variantProduct="sushi"
-                    onAdd={addToOrder}
-                    value={value}
-                    setValue={setValue}
-                  />
-                }
-              />
-            </Route>
           </Route>
         </Route>
         <Route path="/admin" element={<AdminLayout links={links} />}>
@@ -472,10 +467,14 @@ const App = () => {
             }
           />
         </Route>
-      </>
+      </Route>
     )
   );
 
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <RouterProvider router={router} />
+    </>
+  );
 };
 export default App;
