@@ -37,7 +37,7 @@ const App = ({ order }) => {
       navbar={<NavBarApp links={linksMain} opened={opened} />}
       footer={
         <Footer height={60} p="md">
-          Application footer
+          footer
         </Footer>
       }
       header={

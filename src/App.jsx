@@ -5,7 +5,7 @@ import {
   createRoutesFromElements,
 } from "react-router-dom";
 import HomePage from "./pages/HomePage";
-import CategoryPage, { categoryLoader } from "./pages/CategoryPage";
+import { CategoryPage, categoryLoader } from "./pages/CategoryPage";
 import ProductPage from "./pages/ProductPage";
 import MenuPage from "./pages/MenuPage";
 import LayoutPage from "./components/LayoutPage";
@@ -408,7 +408,8 @@ const App = () => {
           />
           <Route
             path=":category"
-            element={<CategoryPage data={data} loader={categoryLoader} />}
+            element={<CategoryPage />}
+            loader={categoryLoader}
           />
           <Route
             path=":category/:product"
@@ -446,28 +447,28 @@ const App = () => {
             />
           </Route>
         </Route>
-        <Route path="/admin" element={<AdminLayout links={links} />}>
-          <Route
-            path=":adminElement"
-            element={
-              <AdminMain
-                links={links}
-                writeToDatabase={writeToDatabase}
-                handleDelete={handleDelete}
-              />
-            }
-          />
-          <Route
-            path="category"
-            element={
-              <AdminCategory
-                writeToDatabase={writeToDatabase}
-                handleDelete={handleDelete}
-              />
-            }
-          />
-        </Route>
       </Route>
+      // <Route path="/admin" element={<AdminLayout links={links} />}>
+      //   <Route
+      //     path=":adminElement"
+      //     element={
+      //       <AdminMain
+      //         links={links}
+      //         writeToDatabase={writeToDatabase}
+      //         handleDelete={handleDelete}
+      //       />
+      //     }
+      //   />
+      //   <Route
+      //     path="category"
+      //     element={
+      //       <AdminCategory
+      //         writeToDatabase={writeToDatabase}
+      //         handleDelete={handleDelete}
+      //       />
+      //     }
+      //   />
+      // </Route>
     )
   );
 
