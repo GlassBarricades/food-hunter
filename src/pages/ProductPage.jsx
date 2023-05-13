@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   Grid,
   Image,
@@ -15,9 +15,8 @@ import {
   Button,
   useMantineTheme,
 } from "@mantine/core";
-import { useParams } from "react-router-dom";
-import useFetchDataOne from "../hooks/useFetchDataOne";
-import useFetchData from "../hooks/useFetchData";
+import { useLoaderData } from "react-router-dom";
+import { getDatabase, ref, child, get } from "firebase/database";
 
 const useStyles = createStyles(() => ({
   wrapper: {
@@ -27,22 +26,18 @@ const useStyles = createStyles(() => ({
   },
 }));
 
-const ProductPage = ({ data, variantProduct, onAdd, value, setValue }) => {
-  const { category, product, kind, itemProduct } = useParams();
-  const [dataProduct] = useFetchDataOne(`/menu/${category}/${product}`);
-  const [dataVariants, loading] = useFetchData(
-    `/menu/${category}/${product}/variant/`
-  );
-  const [variantValue, setVarianValue] = useState("0");
-  const { classes } = useStyles();
-  console.log(dataVariants);
-  const arr = dataVariants.map((item, index) => {
-    const obj = {
-      label: `${item.size} ${category === "pizza" ? "см" : "шт"}`,
-      value: `${index}`,
-    };
-    return obj;
-  });
+const ProductPage = ({ variantProduct, onAdd, value, setValue }) => {
+  const { productDataBase, category } = useLoaderData();
+   const [variantValue, setVarianValue] = useState("0");
+   const { classes } = useStyles();
+   const dataVariants = Object.values(productDataBase.variant)
+   const arr = dataVariants.map((item, index) => {
+     const obj = {
+       label: `${item.size} ${category === "pizza" ? "см" : "шт"}`,
+       value: `${index}`,
+     };
+     return obj;
+   });
 
   // function filteredData() {
   //   if (variantProduct === "sushi") {
@@ -72,66 +67,83 @@ const ProductPage = ({ data, variantProduct, onAdd, value, setValue }) => {
   //   }
   // }
 
-  console.log(dataVariants);
-  console.log(loading);
-
   return (
     <>
-      {loading ? (
-        <Text>Загрузка...</Text>
-      ) : (
-        <Grid className={classes.wrapper}>
-          <Grid.Col md={6}>
-            <Image
-              radius="md"
-              height={500}
-              src={dataProduct.image}
-              alt={dataProduct.name}
-            />
-          </Grid.Col>
-          <Grid.Col md={6}>
-            <Paper shadow="xs" p="md" withBorder>
-              <Stack>
-                <Title order={3}>{dataProduct.name}</Title>
-                <Text>Состав: </Text>
-                <List>{dataProduct.compound}</List>
-                <Group>
-                  <Text>Размер: </Text>
-                  <SegmentedControl
-                    value={variantValue}
-                    onChange={setVarianValue}
-                    data={arr}
+      <Grid className={classes.wrapper}>
+        <Grid.Col md={6}>
+          <Image
+            radius="md"
+            height={500}
+            src={productDataBase.image}
+            alt={productDataBase.name}
+          />
+        </Grid.Col>
+        <Grid.Col md={6}>
+          <Paper shadow="xs" p="md" withBorder>
+            <Stack>
+              <Title order={3}>{productDataBase.name}</Title>
+              <Text>Состав: </Text>
+              <List>{productDataBase.compound}</List>
+              <Group>
+                <Text>Размер: </Text>
+                <SegmentedControl
+                  value={variantValue}
+                  onChange={setVarianValue}
+                  data={arr}
+                />
+              </Group>
+              <Text>Цена: {dataVariants[variantValue].price} руб.</Text>
+              {dataVariants[variantValue].weight !== 0 ? (
+                <Text>Вес: {dataVariants[variantValue].weight} гр.</Text>
+              ) : undefined}
+              <Group position="apart">
+                <Group spacing={5}>
+                  <Text>Количество: </Text>
+                  <NumberInput
+                    value={value}
+                    onChange={(val) => setValue(val)}
+                    max={10}
+                    min={0}
+                    styles={{ input: { width: rem(64), height: rem(24) } }}
                   />
                 </Group>
-                <Text>Цена: {dataVariants[variantValue].price} руб.</Text>
-                {dataVariants[variantValue].weight !== 0 ? (
-                  <Text>Вес: {dataVariants[variantValue].weight} гр.</Text>
-                ) : undefined}
-                <Group position="apart">
-                  <Group spacing={5}>
-                    <Text>Количество: </Text>
-                    <NumberInput
-                      value={value}
-                      onChange={(val) => setValue(val)}
-                      max={10}
-                      min={0}
-                      styles={{ input: { width: rem(64), height: rem(24) } }}
-                    />
-                  </Group>
-                  {/* <Button
-              variant="outline"
-              color="yellow"
-              onClick={() => onAdd(dataBase, selecteArr[variantValue].label, variant[variantValue].price)}
-            >
-              Добавить в корзину
-            </Button> */}
-                </Group>
-              </Stack>
-            </Paper>
-          </Grid.Col>
-        </Grid>
-      )}
+                <Button
+               variant="outline"
+               color="yellow"
+               onClick={() => onAdd(productDataBase, arr[variantValue].label, dataVariants[variantValue].price)}
+             >
+               Добавить в корзину
+             </Button>
+              </Group>
+            </Stack>
+          </Paper>
+        </Grid.Col>
+      </Grid>
     </>
   );
 };
-export default ProductPage;
+
+const productLoader = async ({ params }) => {
+  const category = params.category;
+  const product = params.product;
+  const dbRef = ref(getDatabase());
+  let productDataBase;
+  await get(child(dbRef, `menu/${category}/${product}`))
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        return data;
+      } else {
+        console.log("No data available");
+      }
+    })
+    .then((data) => {
+      productDataBase = data;
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+  return { productDataBase, category, product };
+};
+
+export { ProductPage, productLoader };

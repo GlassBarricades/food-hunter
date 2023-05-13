@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import { CategoryPage, categoryLoader } from "./pages/CategoryPage";
-import ProductPage from "./pages/ProductPage";
+import {ProductPage, productLoader} from "./pages/ProductPage";
 import MenuPage from "./pages/MenuPage";
 import LayoutPage from "./components/LayoutPage";
 import SushiPage from "./pages/SushiPage";
@@ -398,13 +398,14 @@ const App = () => {
 
   const router = createBrowserRouter(
     createRoutesFromElements(
+      <>
       <Route path="/" element={<LayoutPage order={order} />}>
-        <Route index element={<HomePage data={data} categories={links} />} />
+        <Route index element={<HomePage categories={links} />} />
         <Route path="/order" element={<OrderPage order={order} />} />
         <Route path="menu" element={<MenuPage />}>
           <Route
             index
-            element={<MenuGridCategory data={data} categories={links} />}
+            element={<MenuGridCategory categories={links} />}
           />
           <Route
             path=":category"
@@ -415,12 +416,12 @@ const App = () => {
             path=":category/:product"
             element={
               <ProductPage
-                data={data}
                 onAdd={addToOrder}
                 value={value}
                 setValue={setValue}
               />
             }
+            loader={productLoader}
           />
           <Route path="sushi" element={<SushiPage />}>
             <Route
@@ -448,27 +449,28 @@ const App = () => {
           </Route>
         </Route>
       </Route>
-      // <Route path="/admin" element={<AdminLayout links={links} />}>
-      //   <Route
-      //     path=":adminElement"
-      //     element={
-      //       <AdminMain
-      //         links={links}
-      //         writeToDatabase={writeToDatabase}
-      //         handleDelete={handleDelete}
-      //       />
-      //     }
-      //   />
-      //   <Route
-      //     path="category"
-      //     element={
-      //       <AdminCategory
-      //         writeToDatabase={writeToDatabase}
-      //         handleDelete={handleDelete}
-      //       />
-      //     }
-      //   />
-      // </Route>
+     <Route path="/admin" element={<AdminLayout links={links} />}>
+       <Route
+         path=":adminElement"
+         element={
+           <AdminMain
+             links={links}
+             writeToDatabase={writeToDatabase}
+             handleDelete={handleDelete}
+           />
+         }
+       />
+       <Route
+         path="category"
+         element={
+           <AdminCategory
+             writeToDatabase={writeToDatabase}
+             handleDelete={handleDelete}
+           />
+         }
+        />
+     </Route>
+     </>
     )
   );
 

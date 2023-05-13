@@ -16,6 +16,7 @@ import { Link } from "react-router-dom";
 import { Trash } from "tabler-icons-react";
 
 const Basket = ({ order }) => {
+  console.log(order)
   const theme = useMantineTheme();
 
   const rows = order.map((element) => (
