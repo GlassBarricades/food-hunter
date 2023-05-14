@@ -165,7 +165,7 @@ const OrderPage = ({ order }) => {
                       {order.map((item, index) => {
                         return (
                           <Group key={index} position="apart">
-                            <Image width={80} src={item.img} />
+                            <Image width={80} src={item.image} />
                             <Text>
                               {item.name} ({item.variantOrder})
                             </Text>

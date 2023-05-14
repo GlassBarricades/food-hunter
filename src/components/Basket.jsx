@@ -10,19 +10,21 @@ import {
   NumberInput,
   rem,
   Table,
+  useMantineColorScheme,
 } from "@mantine/core";
 import { ShoppingBag } from "tabler-icons-react";
 import { Link } from "react-router-dom";
 import { Trash } from "tabler-icons-react";
 
 const Basket = ({ order }) => {
-  console.log(order)
+  console.log(order);
   const theme = useMantineTheme();
+  const colorScheme = useMantineColorScheme();
 
   const rows = order.map((element) => (
     <tr key={element.name}>
       <td>
-        <Image width={80} src={element.img} />
+        <Image width={80} src={element.image} />
       </td>
       <td>{element.name}</td>
       <td>{element.variantOrder}</td>
@@ -34,7 +36,12 @@ const Basket = ({ order }) => {
       </td>
       <td>{element.quantity * element.priceOrder} руб</td>
       <td>
-      <ActionIcon variant="outline"><Trash size="1rem" /></ActionIcon>
+        <ActionIcon variant="outline" color={colorScheme.colorScheme === "dark" ? "yellow.5" : undefined}>
+          <Trash
+            size="1rem"
+            
+          />
+        </ActionIcon>
       </td>
     </tr>
   ));
