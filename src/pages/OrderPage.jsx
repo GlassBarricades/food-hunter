@@ -15,7 +15,7 @@ import {
   createStyles,
   Image,
   ScrollArea,
-  Table
+  Table,
 } from "@mantine/core";
 
 const useStyles = createStyles((theme) => ({
@@ -45,16 +45,25 @@ const OrderPage = ({ order }) => {
   ));
 
   const arrPrice = order.map((item) => {
-    return item.priceOrder * item.quantity
-  })
+    return item.priceOrder * item.quantity;
+  });
 
-  const fullPrice = arrPrice.reduce(function(sum, elem) {
+  const fullPrice = arrPrice.reduce(function (sum, elem) {
     return sum + elem;
   }, 0);
 
-  console.log(fullPrice);
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    console.log(formData);
+  };
+
   return (
     <>
+      <form id="formTest" onSubmit={onSubmit()}>
+        <input type="text" name="name" />
+        <button type="submit">send</button>
+      </form>
       <Title>Оформление заказа</Title>
       <SimpleGrid
         mt="md"
@@ -77,8 +86,11 @@ const OrderPage = ({ order }) => {
               </Group>
             </Card.Section>
             <Card.Section p="sm">
-              <form>
-                <Group>
+              <form id="formTest">
+                <input type="text" name="name" />
+              </form>
+              <form id="formOrder">
+                {/* <Group>
                   <SegmentedControl
                     value={variant}
                     onChange={setVariant}
@@ -99,10 +111,11 @@ const OrderPage = ({ order }) => {
                     { label: "Наличными", value: "cash" },
                     { label: "Картой", value: "card" },
                   ]}
-                />
+                /> */}
                 <TextInput
                   placeholder="Имя"
                   label="Имя"
+                  name="name"
                   value={name}
                   onChange={(e) => setName(e.currentTarget.value)}
                   withAsterisk
