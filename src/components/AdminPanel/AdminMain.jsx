@@ -14,6 +14,10 @@ import {
   useMantineColorScheme,
   Textarea,
   Stack,
+  Text,
+  Box,
+  Collapse,
+  Anchor,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useState } from "react";
@@ -31,6 +35,7 @@ const AdminMain = ({ writeToDatabase }) => {
   const [opened, handlers] = useDisclosure(false, {
     onClose: () => resetState(),
   });
+  const [openedCollapse, { toggle }] = useDisclosure(false);
   const [openedVariant, handlersVariant] = useDisclosure(false, {
     onClose: () => resetState(),
   });
@@ -40,10 +45,15 @@ const AdminMain = ({ writeToDatabase }) => {
   const [image, setImage] = useState("");
   const [visible, setVisible] = useState(false);
   const [compound, setCompound] = useState("");
-  const [size, setSize] = useState(0);
-  const [weight, setWeight] = useState(0);
-  const [price, setPrice] = useState(0);
-  const [id, setId] = useState("");
+  const [size1, setSize1] = useState(0);
+  const [price1, setPrice1] = useState(0);
+  const [id1, setId1] = useState("");
+  const [size2, setSize2] = useState(0);
+  const [price2, setPrice2] = useState(0);
+  const [id2, setId2] = useState("");
+  const [size3, setSize3] = useState(0);
+  const [price3, setPrice3] = useState(0);
+  const [id3, setId3] = useState("");
   const [isEdit, setIsEdit] = useState(false);
   const [categories] = useFetchData(`/menu/${adminElement}`);
   const data = useSortData(categories, "position");
@@ -55,29 +65,38 @@ const AdminMain = ({ writeToDatabase }) => {
     setImage("");
     setVisible(false);
     setCompound("");
+    setSize1(0);
+    setPrice1(0);
+    setId1("");
+    setSize2(0);
+    setPrice2(0);
+    setId2("");
+    setSize3(0);
+    setPrice3(0);
+    setId3("");
     setIsEdit(false);
   };
 
-  const resetStateVariant = () => {
-    setSize(0);
-    setWeight(0);
-    setPrice(0);
-    setId("");
-    setIsEdit(false);
-  };
+  // const resetStateVariant = () => {
+  //   setSize(0);
+  //   setWeight(0);
+  //   setPrice(0);
+  //   setId("");
+  //   setIsEdit(false);
+  // };
 
   const handleDelete = (item, base) => {
     remove(ref(db, `/menu/${base}/${item.link}`));
   };
 
-  const handleDeleteVariant = (item, base, variant) => {
-    remove(ref(db, `/menu/${base}/${item.link}/variant/${variant}`));
-  };
+  // const handleDeleteVariant = (item, base, variant) => {
+  //   remove(ref(db, `/menu/${base}/${item.link}/variant/${variant}`));
+  // };
 
-  const handleVariantAdd = (item) => {
-    handlersVariant.open();
-    setLink(item.link)
-  }
+  // const handleVariantAdd = (item) => {
+  //   handlersVariant.open();
+  //   setLink(item.link);
+  // };
 
   const handleEdit = (item) => {
     setIsEdit(true);
@@ -87,18 +106,27 @@ const AdminMain = ({ writeToDatabase }) => {
     setImage(item.image);
     setVisible(item.visible);
     setCompound(item.compound);
+    setSize1(item.variant.one.size);
+    setPrice1(item.variant.one.price);
+    setId1(item.variant.one.id);
+    setSize2(item.variant.two.size);
+    setPrice2(item.variant.two.price);
+    setId2(item.variant.two.id);
+    setSize3(item.variant.three.size);
+    setPrice3(item.variant.three.price);
+    setId3(item.variant.three.id);
     handlers.open();
   };
 
-  const handleEditVariant = (item, link) => {
-    setIsEdit(true);
-    setSize(item.size);
-    setWeight(item.weight);
-    setPrice(item.price);
-    setId(item.id);
-    setLink(link);
-    handlersVariant.open();
-  };
+  // const handleEditVariant = (item, link) => {
+  //   setIsEdit(true);
+  //   setSize(item.size);
+  //   setWeight(item.weight);
+  //   setPrice(item.price);
+  //   setId(item.id);
+  //   setLink(link);
+  //   handlersVariant.open();
+  // };
 
   const rows = data.map((element) => (
     <tr key={element.link}>
@@ -110,27 +138,44 @@ const AdminMain = ({ writeToDatabase }) => {
       <td>{`/${element.link}`}</td>
       <td>{element.compound}</td>
       <td>
-        {element.variant ? Object.values(element.variant).map((item, index) => {
-          return <Group key={index}>
-            {item.size}
-            <ActionIcon
-            variant={colorScheme.colorScheme === "dark" ? "outline" : "default"}
-            onClick={() => handleEditVariant(item, element.link)}
-            color={colorScheme.colorScheme === "dark" ? "yellow.5" : undefined}
-          >
-            <Pencil size="1rem" />
-          </ActionIcon>
-          <ActionIcon
-            variant={colorScheme.colorScheme === "dark" ? "outline" : "default"}
-            onClick={() => handleDeleteVariant(element, adminElement, item.size)}
-            color={colorScheme.colorScheme === "dark" ? "yellow.5" : undefined}
-          >
-            <Trash size="1rem" />
-          </ActionIcon>
-          </Group>
-        }) : undefined}
-        <Stack>
-        </Stack>
+        {element.variant
+          ? Object.values(element.variant).map((item, index) => {
+              return (
+                <Group key={index}>
+                  {item.size}
+                  <ActionIcon
+                    variant={
+                      colorScheme.colorScheme === "dark" ? "outline" : "default"
+                    }
+                    onClick={() => handleEditVariant(item, element.link)}
+                    color={
+                      colorScheme.colorScheme === "dark"
+                        ? "yellow.5"
+                        : undefined
+                    }
+                  >
+                    <Pencil size="1rem" />
+                  </ActionIcon>
+                  <ActionIcon
+                    variant={
+                      colorScheme.colorScheme === "dark" ? "outline" : "default"
+                    }
+                    onClick={() =>
+                      handleDeleteVariant(element, adminElement, item.size)
+                    }
+                    color={
+                      colorScheme.colorScheme === "dark"
+                        ? "yellow.5"
+                        : undefined
+                    }
+                  >
+                    <Trash size="1rem" />
+                  </ActionIcon>
+                </Group>
+              );
+            })
+          : undefined}
+        <Stack></Stack>
       </td>
       <td>
         <Group>
@@ -147,13 +192,6 @@ const AdminMain = ({ writeToDatabase }) => {
             color={colorScheme.colorScheme === "dark" ? "yellow.5" : undefined}
           >
             <Trash size="1rem" />
-          </ActionIcon>
-          <ActionIcon
-            variant={colorScheme.colorScheme === "dark" ? "outline" : "default"}
-            onClick={() => handleVariantAdd(element)}
-            color={colorScheme.colorScheme === "dark" ? "yellow.5" : undefined}
-          >
-            <Plus size="1rem" />
           </ActionIcon>
         </Group>
       </td>
@@ -177,6 +215,23 @@ const AdminMain = ({ writeToDatabase }) => {
               image: image,
               visible: visible,
               compound: compound,
+              variant: {
+                one: {
+                  size: size1,
+                  price: price1,
+                  id: id1,
+                },
+                two: {
+                  size: size2,
+                  price: price2,
+                  id: id2,
+                },
+                three: {
+                  size: size3,
+                  price: price3,
+                  id: id3,
+                },
+              },
               uuid: uid(),
             },
             resetState,
@@ -200,6 +255,7 @@ const AdminMain = ({ writeToDatabase }) => {
           <NumberInput
             placeholder="Позиция для сортировки"
             label="Позиция для сортировки"
+            precision={2}
             value={position}
             onChange={setPosition}
           />
@@ -226,67 +282,137 @@ const AdminMain = ({ writeToDatabase }) => {
             value={compound}
             onChange={(e) => setCompound(e.target.value)}
           />
+          <Text>Варианты блюда</Text>
+          <NumberInput
+            placeholder="Размер"
+            label="Размер"
+            precision={2}
+            value={size1}
+            onChange={setSize1}
+          />
+          <NumberInput
+            placeholder="Цена"
+            label="Цена"
+            precision={2}
+            value={price1}
+            onChange={setPrice1}
+          />
+          <TextInput
+            label="id"
+            placeholder="id"
+            value={id1}
+            onChange={(e) => setId1(e.target.value)}
+          />
+          <Group position="center" mb={5}>
+            <Anchor onClick={toggle}>Еще варианты</Anchor>
+          </Group>
+
+          <Collapse in={openedCollapse}>
+            <NumberInput
+              placeholder="Размер"
+              label="Размер"
+              precision={2}
+              value={size2}
+              onChange={setSize2}
+            />
+            <NumberInput
+              placeholder="Цена"
+              label="Цена"
+              precision={2}
+              value={price2}
+              onChange={setPrice2}
+            />
+            <TextInput
+              label="id"
+              placeholder="id"
+              value={id2}
+              onChange={(e) => setId2(e.target.value)}
+            />
+            <NumberInput
+              placeholder="Размер"
+              label="Размер"
+              precision={2}
+              value={size3}
+              onChange={setSize3}
+            />
+            <NumberInput
+              placeholder="Цена"
+              label="Цена"
+              precision={2}
+              value={price3}
+              onChange={setPrice3}
+            />
+            <TextInput
+              label="id"
+              placeholder="id"
+              value={id3}
+              onChange={(e) => setId3(e.target.value)}
+            />
+          </Collapse>
           <Button mt="md" type="submit">
             {isEdit ? "Сохранить" : "Отправить"}
           </Button>
         </form>
       </Modal>
-      <Modal
+      {/* <Modal
         opened={openedVariant}
         onClose={handlersVariant.close}
         title={isEdit ? "Редактирование категории" : "Добавление категории"}
       >
         <form
-            onSubmit={writeToDatabase(
-              `/menu/${adminElement}/${link}/variant/${size}`,
-              {
-                size: size,
-                weight: weight,
-                price: price,
-                id: id,
-              },
-              resetStateVariant,
-              handlersVariant.close
-            )}
-          >
-            <NumberInput
-              placeholder="Размер"
-              label="Размер"
-              value={size}
-              onChange={setSize}
+          onSubmit={writeToDatabase(
+            `/menu/${adminElement}/${link}/variant/${size}`,
+            {
+              size: size,
+              weight: weight,
+              price: price,
+              id: id,
+            },
+            resetStateVariant,
+            handlersVariant.close
+          )}
+        >
+          <NumberInput
+            placeholder="Размер"
+            label="Размер"
+            precision={2}
+            value={size}
+            onChange={setSize}
+          />
+          <NumberInput
+            placeholder="Вес"
+            label="Вес"
+            precision={2}
+            value={weight}
+            onChange={setWeight}
+          />
+          <NumberInput
+            placeholder="Цена"
+            label="Цена"
+            precision={2}
+            value={price}
+            onChange={setPrice}
+          />
+          <TextInput
+            label="id"
+            placeholder="id"
+            value={id}
+            onChange={(e) => setId(e.target.value)}
+          />
+          <Group>
+            <Checkbox
+              mt="xs"
+              size="md"
+              label="Скрыть"
+              checked={visible}
+              onChange={(event) => setVisible(event.currentTarget.checked)}
             />
-            <NumberInput
-              placeholder="Вес"
-              label="Вес"
-              value={weight}
-              onChange={setWeight}
-            />
-            <NumberInput
-              placeholder="Цена"
-              label="Цена"
-              value={price}
-              onChange={setPrice}
-            />
-            <TextInput
-              label="id"
-              placeholder="id"
-              value={id}
-              onChange={(e) => setId(e.target.value)}
-            />
-            <Group>
-              <Checkbox
-                mt="xs"
-                size="md"
-                label="Скрыть"
-                checked={visible}
-                onChange={(event) => setVisible(event.currentTarget.checked)}
-              />
-            </Group>
-            <Button mt="md" type="submit">
-              {isEdit ? "Сохранить" : "Отправить"}
-            </Button>
-          </form>
-      </Modal>
+          </Group>
+          <Button mt="md" type="submit">
+            {isEdit ? "Сохранить" : "Отправить"}
+          </Button>
+        </form>
+      </Modal> */}
       <Group position="apart">
         <Title>{linkItem[0].name}</Title>
         <Button onClick={handlers.open}>Добавить категорию</Button>

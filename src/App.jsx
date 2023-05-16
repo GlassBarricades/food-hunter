@@ -423,7 +423,7 @@ const App = () => {
             }
             loader={productLoader}
           />
-          <Route path="sushi" element={<SushiPage />}>
+          {/* <Route path="sushi" element={<SushiPage />}>
             <Route
               index
               element={<MenuGridCategory data={dataSushi[0].categories} />}
@@ -446,7 +446,7 @@ const App = () => {
                 />
               }
             />
-          </Route>
+          </Route> */}
         </Route>
       </Route>
      <Route path="/admin" element={<AdminLayout links={links} />}>

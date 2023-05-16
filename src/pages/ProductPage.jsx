@@ -39,6 +39,14 @@ const ProductPage = ({ variantProduct, onAdd, value, setValue }) => {
      return obj;
    });
 
+   const filteredArr = arr.filter((item, index) => {
+    if (item.label != "0 шт") {
+      return item
+    }
+   })
+   console.log(filteredArr)
+
+
   // function filteredData() {
   //   if (variantProduct === "sushi") {
   //     const sushiData = dataProduct.filter((item) => {
@@ -87,15 +95,13 @@ const ProductPage = ({ variantProduct, onAdd, value, setValue }) => {
               <Group>
                 <Text>Размер: </Text>
                 <SegmentedControl
+                size="md"
                   value={variantValue}
                   onChange={setVarianValue}
-                  data={arr}
+                  data={filteredArr}
                 />
               </Group>
               <Text>Цена: {dataVariants[variantValue].price} руб.</Text>
-              {dataVariants[variantValue].weight !== 0 ? (
-                <Text>Вес: {dataVariants[variantValue].weight} гр.</Text>
-              ) : undefined}
               <Group position="apart">
                 <Group spacing={5}>
                   <Text>Количество: </Text>

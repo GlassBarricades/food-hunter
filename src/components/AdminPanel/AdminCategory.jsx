@@ -127,6 +127,7 @@ const AdminCategory = ({ writeToDatabase }) => {
           <NumberInput
             placeholder="Позиция для сортировки"
             label="Позиция для сортировки"
+            precision={2}
             value={position}
             onChange={setPosition}
           />
