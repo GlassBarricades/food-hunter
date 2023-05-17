@@ -52,18 +52,8 @@ const OrderPage = ({ order }) => {
     return sum + elem;
   }, 0);
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    console.log(formData);
-  };
-
   return (
     <>
-      <form id="formTest" onSubmit={onSubmit()}>
-        <input type="text" name="name" />
-        <button type="submit">send</button>
-      </form>
       <Title>Оформление заказа</Title>
       <SimpleGrid
         mt="md"
@@ -86,11 +76,8 @@ const OrderPage = ({ order }) => {
               </Group>
             </Card.Section>
             <Card.Section p="sm">
-              <form id="formTest">
-                <input type="text" name="name" />
-              </form>
               <form id="formOrder">
-                {/* <Group>
+                <Group>
                   <SegmentedControl
                     value={variant}
                     onChange={setVariant}
@@ -111,7 +98,7 @@ const OrderPage = ({ order }) => {
                     { label: "Наличными", value: "cash" },
                     { label: "Картой", value: "card" },
                   ]}
-                /> */}
+                />
                 <TextInput
                   placeholder="Имя"
                   label="Имя"
