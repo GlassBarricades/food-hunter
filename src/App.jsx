@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import { CategoryPage, categoryLoader } from "./pages/CategoryPage";
-import {ProductPage, productLoader} from "./pages/ProductPage";
+import { ProductPage, productLoader } from "./pages/ProductPage";
 import MenuPage from "./pages/MenuPage";
 import LayoutPage from "./components/LayoutPage";
 import SushiPage from "./pages/SushiPage";
@@ -15,7 +15,9 @@ import { useState, useEffect } from "react";
 import OrderPage from "./pages/OrderPage";
 import AdminLayout from "./components/AdminLayout";
 import AdminMain from "./components/AdminPanel/AdminMain";
+import AdminMainAlcohol from "./components/AdminPanel/AdminMainAlcohol";
 import AdminCategory from "./components/AdminPanel/AdminCategory";
+import AdminCategoryAlcohol from "./components/AdminPanel/AdminCategorAlcohol";
 import { set, ref, remove } from "firebase/database";
 import { db } from "./firebase";
 import useFetchData from "./hooks/useFetchData";
@@ -24,6 +26,7 @@ const App = () => {
   const [order, setOrder] = useState([]);
   const [value, setValue] = useState(1);
   const [links, loading] = useFetchData("/categories/");
+  const [alcoholLinks, loadingAlcohol] = useFetchData("/categories-alcohol/");
 
   const data = [
     {
@@ -399,31 +402,37 @@ const App = () => {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
-      <Route path="/" element={<LayoutPage order={order} />}>
-        <Route index element={<HomePage categories={links} />} />
-        <Route path="/order" element={<OrderPage order={order} />} />
-        <Route path="menu" element={<MenuPage />}>
-          <Route
-            index
-            element={<MenuGridCategory categories={links} />}
-          />
-          <Route
-            path=":category"
-            element={<CategoryPage />}
-            loader={categoryLoader}
-          />
-          <Route
-            path=":category/:product"
-            element={
-              <ProductPage
-                onAdd={addToOrder}
-                value={value}
-                setValue={setValue}
-              />
-            }
-            loader={productLoader}
-          />
-          {/* <Route path="sushi" element={<SushiPage />}>
+        <Route path="/" element={<LayoutPage order={order} />}>
+          <Route index element={<HomePage categories={links} />} />
+          <Route path="/order" element={<OrderPage order={order} />} />
+          <Route path="menu" element={<MenuPage />}>
+            <Route index element={<MenuGridCategory categories={links} />} />
+            {/* <Route
+              path="alcohol"
+              element={<MenuGridCategory categories={alcoholLinks} />}
+            /> */}
+            {/* <Route
+              path="alcohol"
+              element={<CategoryPage variant="filter" />}
+              loader={categoryLoader}
+            /> */}
+            <Route
+              path=":category"
+              element={<CategoryPage />}
+              loader={categoryLoader}
+            />
+            <Route
+              path=":category/:product"
+              element={
+                <ProductPage
+                  onAdd={addToOrder}
+                  value={value}
+                  setValue={setValue}
+                />
+              }
+              loader={productLoader}
+            />
+            {/* <Route path="sushi" element={<SushiPage />}>
             <Route
               index
               element={<MenuGridCategory data={dataSushi[0].categories} />}
@@ -447,30 +456,38 @@ const App = () => {
               }
             />
           </Route> */}
+          </Route>
         </Route>
-      </Route>
-     <Route path="/admin" element={<AdminLayout links={links} />}>
-       <Route
-         path=":adminElement"
-         element={
-           <AdminMain
-             links={links}
-             writeToDatabase={writeToDatabase}
-             handleDelete={handleDelete}
-           />
-         }
-       />
-       <Route
-         path="category"
-         element={
-           <AdminCategory
-             writeToDatabase={writeToDatabase}
-             handleDelete={handleDelete}
-           />
-         }
-        />
-     </Route>
-     </>
+        <Route path="/admin" element={<AdminLayout links={links} />}>
+          <Route
+            path=":adminElement"
+            element={
+              <AdminMain
+                links={links}
+                writeToDatabase={writeToDatabase}
+                handleDelete={handleDelete}
+              />
+            }
+          />
+          <Route
+            path="category"
+            element={
+              <AdminCategory
+                writeToDatabase={writeToDatabase}
+                handleDelete={handleDelete}
+              />
+            }
+          />
+          <Route
+            path="category-alcohol"
+            element={<AdminCategoryAlcohol writeToDatabase={writeToDatabase} />}
+          />
+          <Route
+            path="alcohol"
+            element={<AdminMainAlcohol writeToDatabase={writeToDatabase} />}
+          />
+        </Route>
+      </>
     )
   );
 

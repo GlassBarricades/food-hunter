@@ -17,7 +17,6 @@ import { Link } from "react-router-dom";
 import { Trash } from "tabler-icons-react";
 
 const Basket = ({ order }) => {
-  console.log(order);
   const theme = useMantineTheme();
   const colorScheme = useMantineColorScheme();
 
@@ -36,11 +35,11 @@ const Basket = ({ order }) => {
       </td>
       <td>{element.quantity * element.priceOrder} руб</td>
       <td>
-        <ActionIcon variant="outline" color={colorScheme.colorScheme === "dark" ? "yellow.5" : undefined}>
-          <Trash
-            size="1rem"
-            
-          />
+        <ActionIcon
+          variant="outline"
+          color={colorScheme.colorScheme === "dark" ? "yellow.5" : undefined}
+        >
+          <Trash size="1rem" />
         </ActionIcon>
       </td>
     </tr>

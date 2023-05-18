@@ -18,6 +18,7 @@ import {
   Box,
   Collapse,
   Anchor,
+  NativeSelect,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useState } from "react";
@@ -28,9 +29,12 @@ import { ref, update, remove } from "firebase/database";
 import { db } from "../../firebase";
 import { Pencil, Trash } from "tabler-icons-react";
 
-const AdminMain = ({ writeToDatabase }) => {
-  const { adminElement } = useParams();
-  const linkItem = useFetchDataOne(`/categories/${adminElement}`);
+const AdminMainAlcohol = ({ writeToDatabase }) => {
+  const { adminElementAlcohol } = useParams();
+  const linkItem = useFetchDataOne(
+    `/alcohol/categories/${adminElementAlcohol}`
+  );
+  const [alcoholCategories] = useFetchData("/categories-alcohol/");
   const colorScheme = useMantineColorScheme();
   const [opened, handlers] = useDisclosure(false, {
     onClose: () => resetState(),
@@ -41,7 +45,7 @@ const AdminMain = ({ writeToDatabase }) => {
   const [position, setPosition] = useState(0);
   const [image, setImage] = useState("");
   const [visible, setVisible] = useState(false);
-  const [compound, setCompound] = useState("");
+  const [alcoholeCategory, setAlcoholeCategory] = useState("");
   const [size1, setSize1] = useState(0);
   const [price1, setPrice1] = useState(0);
   const [id1, setId1] = useState("");
@@ -52,16 +56,19 @@ const AdminMain = ({ writeToDatabase }) => {
   const [price3, setPrice3] = useState(0);
   const [id3, setId3] = useState("");
   const [isEdit, setIsEdit] = useState(false);
-  const [categories] = useFetchData(`/menu/${adminElement}`);
+  const [categories] = useFetchData(`/menu/alcohol/`);
   const data = useSortData(categories, "position");
-
+  console.log(alcoholCategories);
+  const dataCaterories = alcoholCategories.map((item, index) => {
+    return item.name;
+  });
+  console.log(dataCaterories);
   const resetState = () => {
     setName("");
     setLink("");
     setPosition(0);
     setImage("");
-    setVisible(false);
-    setCompound("");
+    setAlcoholeCategory("");
     setSize1(0);
     setPrice1(0);
     setId1("");
@@ -71,11 +78,12 @@ const AdminMain = ({ writeToDatabase }) => {
     setSize3(0);
     setPrice3(0);
     setId3("");
+    setVisible(false);
     setIsEdit(false);
   };
 
   const handleDelete = (item, base) => {
-    remove(ref(db, `/menu/${base}/${item.link}`));
+    remove(ref(db, `/menu/alcohol/${base}/${item.link}`));
   };
 
   const handleEdit = (item) => {
@@ -85,7 +93,7 @@ const AdminMain = ({ writeToDatabase }) => {
     setPosition(item.position);
     setImage(item.image);
     setVisible(item.visible);
-    setCompound(item.compound);
+    setAlcoholeCategory(item.category);
     setSize1(item.variant.one.size);
     setPrice1(item.variant.one.price);
     setId1(item.variant.one.id);
@@ -117,7 +125,7 @@ const AdminMain = ({ writeToDatabase }) => {
         </Group>
       </td>
       <td>{`/${element.link}`}</td>
-      <td>{element.compound}</td>
+      <td>{element.category}</td>
       <td>
         <Group>
           {element.variant
@@ -159,14 +167,14 @@ const AdminMain = ({ writeToDatabase }) => {
       >
         <form
           onSubmit={writeToDatabase(
-            `/menu/${adminElement}/${link}`,
+            `/menu/alcohol/${link}`,
             {
               name: name,
               link: link,
               position: position,
               image: image,
               visible: visible,
-              compound: compound,
+              category: alcoholeCategory,
               variant: {
                 one: {
                   size: size1,
@@ -216,6 +224,12 @@ const AdminMain = ({ writeToDatabase }) => {
             value={image}
             onChange={(e) => setImage(e.target.value)}
           />
+          <NativeSelect
+            value={alcoholeCategory}
+            onChange={(event) => setAlcoholeCategory(event.currentTarget.value)}
+            data={dataCaterories}
+            label="Установите категорию алкоголя"
+          />
           <Group>
             <Checkbox
               mt="xs"
@@ -225,14 +239,6 @@ const AdminMain = ({ writeToDatabase }) => {
               onChange={(event) => setVisible(event.currentTarget.checked)}
             />
           </Group>
-          <Textarea
-            placeholder="Состав"
-            label="Состав"
-            autosize
-            minRows={3}
-            value={compound}
-            onChange={(e) => setCompound(e.target.value)}
-          />
           <Text>Варианты блюда</Text>
           <NumberInput
             placeholder="Размер"
@@ -320,7 +326,7 @@ const AdminMain = ({ writeToDatabase }) => {
             <th>Картинка</th>
             <th>id</th>
             <th>Ссылка</th>
-            <th>Состав</th>
+            <th>Категория</th>
             <th>Варианты</th>
             <th>Настройки</th>
           </tr>
@@ -330,4 +336,4 @@ const AdminMain = ({ writeToDatabase }) => {
     </>
   );
 };
-export default AdminMain;
+export default AdminMainAlcohol;

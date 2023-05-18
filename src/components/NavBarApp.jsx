@@ -80,9 +80,18 @@ const NavBarApp = ({ links, opened, admin }) => {
       width={{ sm: 200, lg: 300 }}
     >
       {admin ? (
-        <Anchor component={Link} to="category" className={classes.link}>
-          Категории
-        </Anchor>
+        <>
+          <Anchor component={Link} to="category" className={classes.link}>
+            Категории
+          </Anchor>
+          <Anchor
+            component={Link}
+            to="category-alcohol"
+            className={classes.link}
+          >
+            Категории Алкоголь
+          </Anchor>
+        </>
       ) : undefined}
       {items}
     </Navbar>
