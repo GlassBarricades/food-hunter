@@ -24,6 +24,8 @@ import useFetchData from "./hooks/useFetchData";
 
 const App = () => {
   const [order, setOrder] = useState([]);
+  const [productsArray, setProductsArray] = useState([]);
+  const [productsKolArr, setProductsKolArr] = useState([]);
   const [value, setValue] = useState(1);
   const [links, loading] = useFetchData("/categories/");
   const [alcoholLinks, loadingAlcohol] = useFetchData("/categories-alcohol/");
@@ -369,14 +371,11 @@ const App = () => {
     },
   ];
 
-  const dataSushi = data.filter((item) => {
-    if (item.link === "sushi") {
-      return item;
-    }
-  });
-
-  function addToOrder(item, variant, price) {
+  function addToOrder(item, variant, price, id) {
     console.log(variant);
+    console.log(id);
+    setProductsArray([...productsArray, id])
+    setProductsKolArr([...productsKolArr, String(value)]);
     let obj = { ...item };
     obj.quantity = value;
     obj.variantOrder = variant;
@@ -404,7 +403,7 @@ const App = () => {
       <>
         <Route path="/" element={<LayoutPage order={order} />}>
           <Route index element={<HomePage categories={links} />} />
-          <Route path="/order" element={<OrderPage order={order} />} />
+          <Route path="/order" element={<OrderPage order={order} productsArray={productsArray} productsKolArr={productsKolArr}/>} />
           <Route path="menu" element={<MenuPage />}>
             <Route index element={<MenuGridCategory categories={links} />} />
             {/* <Route

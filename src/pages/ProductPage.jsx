@@ -44,8 +44,6 @@ const ProductPage = ({ variantProduct, onAdd, value, setValue }) => {
       return item
     }
    })
-   console.log(filteredArr)
-
 
   // function filteredData() {
   //   if (variantProduct === "sushi") {
@@ -116,7 +114,7 @@ const ProductPage = ({ variantProduct, onAdd, value, setValue }) => {
                 <Button
                variant="outline"
                color="yellow"
-               onClick={() => onAdd(productDataBase, arr[variantValue].label, dataVariants[variantValue].price)}
+               onClick={() => onAdd(productDataBase, arr[variantValue].label, dataVariants[variantValue].price, dataVariants[variantValue].id)}
              >
                Добавить в корзину
              </Button>

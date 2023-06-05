@@ -16,7 +16,9 @@ import {
   Image,
   ScrollArea,
   Table,
+  Button,
 } from "@mantine/core";
+import { useForm } from "@mantine/form";
 
 const useStyles = createStyles((theme) => ({
   formWrapper: {
@@ -24,7 +26,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const OrderPage = ({ order }) => {
+const OrderPage = ({ order, productsArray, productsKolArr }) => {
   const { classes } = useStyles();
   const [variant, setVariant] = useState("delivery");
   const [name, setName] = useState("");
@@ -34,6 +36,17 @@ const OrderPage = ({ order }) => {
   const [apartment, setApartment] = useState("");
   const [comment, setComment] = useState("");
   const [paymentType, setPaymentType] = useState("cash");
+
+  console.log(order);
+
+  const form = useForm({
+    initialValues: {
+      product: [],
+      product_kol: [],
+      name: "",
+      phone: "",
+    },
+  });
 
   const rowsPrice = order.map((element) => (
     <tr key={element.name}>
@@ -76,7 +89,19 @@ const OrderPage = ({ order }) => {
               </Group>
             </Card.Section>
             <Card.Section p="sm">
-              <form id="formOrder">
+              <form
+                id="formOrder"
+                 onSubmit={form.onSubmit((values) => {
+                   fetch("sendOrder.php", {
+                     method: "POST",
+                     mode: "no-cors",
+                     headers: {
+                       "Content-type": "application/x-www-form-urlencoded; charset=UTF-8" ,
+                     },
+                     body: values,
+                   });
+                 })}
+              >
                 <Group>
                   <SegmentedControl
                     value={variant}
@@ -103,15 +128,17 @@ const OrderPage = ({ order }) => {
                   placeholder="Имя"
                   label="Имя"
                   name="name"
-                  value={name}
-                  onChange={(e) => setName(e.currentTarget.value)}
+                  // value={name}
+                  // onChange={(e) => setName(e.currentTarget.value)}
+                  {...form.getInputProps("name")}
                   withAsterisk
                 />
                 <TextInput
                   placeholder="Телефон"
                   label="Телефон"
-                  value={phone}
-                  onChange={(e) => setPhone(e.currentTarget.value)}
+                  // value={phone}
+                  // onChange={(e) => setPhone(e.currentTarget.value)}
+                  {...form.getInputProps("phone")}
                   withAsterisk
                 />
                 <TextInput
@@ -119,21 +146,18 @@ const OrderPage = ({ order }) => {
                   label="Улица"
                   value={street}
                   onChange={(e) => setStreet(e.currentTarget.value)}
-                  withAsterisk
                 />
                 <TextInput
                   placeholder="Дом"
                   label="Дом"
                   value={house}
                   onChange={(e) => setHouse(e.currentTarget.value)}
-                  withAsterisk
                 />
                 <TextInput
                   placeholder="Квартира"
                   label="Квартира"
                   value={apartment}
                   onChange={(e) => setApartment(e.currentTarget.value)}
-                  withAsterisk
                 />
                 <Textarea
                   label="Комментарий к заказу"
@@ -144,6 +168,17 @@ const OrderPage = ({ order }) => {
                   minRows={2}
                   maxRows={4}
                 />
+                <Button
+                  type="submit"
+                  onClick={() =>
+                    form.setValues({
+                      product: productsArray,
+                      product_kol: productsKolArr,
+                    })
+                  }
+                >
+                  Submit
+                </Button>
               </form>
             </Card.Section>
           </Card>
