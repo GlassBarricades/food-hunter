@@ -1,29 +1,38 @@
 <?php
-$product[0] = "11528";	//Пицца
-$product[1] = "05010";	//Добавка к пицце - сыр
-$product[2] = "05010";	//Добавка к пицце - бекон
-$product[3] = "0202020299";	//Сок
+$paramms = json_decode($_REQUEST["paramm"]);
+// var_dump($paramms->name); // John
+// $base[] = file_get_contents('php://input');
+// $basemain = json_encode($base, true);
+// var_dump($base);
+$product= $paramms->product;
+// $product[0] = "11528";	//Пицца
+// $product[1] = "05010";	//Добавка к пицце - сыр
+// $product[2] = "05010";	//Добавка к пицце - бекон
+// $product[3] = "0202020299";	//Сок
  
 //количество товаров
-$product_kol[0] = "1";
-$product_kol[1] = "1";
-$product_kol[2] = "1";
-$product_kol[3] = "1";
+$product_kol = $paramms->product_kol;
+// $product_kol[0] = "1";
+// $product_kol[1] = "1";
+// $product_kol[2] = "1";
+// $product_kol[3] = "1";
  
 //модификаторы, если есть 
-$product_mod[1] = "0";  //товар с ключом 1 является модификатором товара с ключом 0
-$product_mod[2] = "0";  //товар с ключом 2 является модификатором товара с ключом 0
+// $product_mod[1] = "0";  //товар с ключом 1 является модификатором товара с ключом 0
+// $product_mod[2] = "0";  //товар с ключом 2 является модификатором товара с ключом 0
            	 
 //детали заказа в кодировке utf-8
 $param['secret'] = "dR8itATaDfrtYr4tdrSaTyTTtyGtDatGRrT8RB9eHnBsErNHFsHkQr78NDrbDKKf3seETdKss9KYnitTE47ef4bTstZY5z4TR7kz9ZRrZnaaAtT5iR9sFa92yZGnfz8Zshhs72HSaHTB5BsberyKstAQe64ks38H8e466AN67ty3YN435kBiG22NTR29EZHD4AyYZ7RSr9G9NA2FKnReaDSYeFTKrrafQz5BtGfHGQGhayQNHsSKTAy35b";				//ключ api
-$param['street']  = urlencode("Мира");		//улица
-$param['home']	= "17"; 				//дом
-$param['apart']	= "6";	 			//квартира
-$param['phone'] = "79000000001";		//телефон
-$param['descr']	= urlencode("Быстрее!"); 	//комментарий
-$param['name']	= urlencode("Иван"); 		//имя клиента
-$tags = array(1,5);				//отметки заказа - необязательно
-$hook_status = array(3,4);			//запрос вебхука - необязательно
+$param['street']  = $paramms->street;		//улица
+$param['home']	= $paramms->house; 				//дом
+$param['apart']	= $paramms->apart;	 			//квартира
+$param['phone'] = $paramms->phone;		//телефон
+$param['descr']	= $paramms->descr; 	//комментарий
+$param['name']	= $paramms->name;
+$param['pay'] = $paramms->pay;
+$param['tags'] = $paramms->tags;
+// $tags = $paramms->tags;				//отметки заказа - необязательно
+// $hook_status = array(3,4);			//запрос вебхука - необязательно
 
 //подготовка запроса				
 foreach ($param as $key => $value) { 

@@ -28,14 +28,8 @@ const useStyles = createStyles((theme) => ({
 
 const OrderPage = ({ order, productsArray, productsKolArr }) => {
   const { classes } = useStyles();
-  const [variant, setVariant] = useState("delivery");
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [street, setStreet] = useState("");
-  const [house, setHouse] = useState("");
-  const [apartment, setApartment] = useState("");
-  const [comment, setComment] = useState("");
-  const [paymentType, setPaymentType] = useState("cash");
+  const [variant, setVariant] = useState("2202");
+  const [paymentType, setPaymentType] = useState("1");
 
   console.log(order);
 
@@ -45,6 +39,11 @@ const OrderPage = ({ order, productsArray, productsKolArr }) => {
       product_kol: [],
       name: "",
       phone: "",
+      street: "",
+      house: "",
+      apart: "",
+      descr: "",
+      tags: [],
     },
   });
 
@@ -91,27 +90,28 @@ const OrderPage = ({ order, productsArray, productsKolArr }) => {
             <Card.Section p="sm">
               <form
                 id="formOrder"
-                 onSubmit={form.onSubmit((values) => {
-                   fetch("sendOrder.php", {
-                     method: "POST",
-                     mode: "no-cors",
-                     headers: {
-                       "Content-type": "application/x-www-form-urlencoded; charset=UTF-8" ,
-                     },
-                     body: values,
-                   });
-                 })}
+                onSubmit={form.onSubmit((values) => {
+                  fetch("sendOrder.php", {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: {
+                       "Content-type":
+                         "application/x-www-form-urlencoded; application/json; charset=UTF-8",
+                    },
+                    body: ('paramm=' + JSON.stringify(values)),
+                  });
+                })}
               >
                 <Group>
                   <SegmentedControl
                     value={variant}
                     onChange={setVariant}
                     data={[
-                      { label: "Доставка", value: "delivery" },
-                      { label: "Самовынос", value: "pickup" },
+                      { label: "Доставка", value: "2202" },
+                      { label: "Самовынос", value: "2294" },
                     ]}
                   />
-                  {variant === "pickup" ? (
+                  {variant === "2294" ? (
                     <Text>Адрес: проспект Ленина, 15Б</Text>
                   ) : undefined}
                 </Group>
@@ -120,64 +120,63 @@ const OrderPage = ({ order, productsArray, productsKolArr }) => {
                   value={paymentType}
                   onChange={setPaymentType}
                   data={[
-                    { label: "Наличными", value: "cash" },
-                    { label: "Картой", value: "card" },
+                    { label: "Наличными", value: "1" },
+                    { label: "Картой", value: "2" },
                   ]}
                 />
                 <TextInput
                   placeholder="Имя"
                   label="Имя"
                   name="name"
-                  // value={name}
-                  // onChange={(e) => setName(e.currentTarget.value)}
                   {...form.getInputProps("name")}
                   withAsterisk
                 />
                 <TextInput
                   placeholder="Телефон"
                   label="Телефон"
-                  // value={phone}
-                  // onChange={(e) => setPhone(e.currentTarget.value)}
                   {...form.getInputProps("phone")}
                   withAsterisk
                 />
                 <TextInput
                   placeholder="Улица"
                   label="Улица"
-                  value={street}
-                  onChange={(e) => setStreet(e.currentTarget.value)}
+                  name="street"
+                  {...form.getInputProps("street")}
                 />
                 <TextInput
                   placeholder="Дом"
                   label="Дом"
-                  value={house}
-                  onChange={(e) => setHouse(e.currentTarget.value)}
+                  name="house"
+                  {...form.getInputProps("house")}
                 />
                 <TextInput
                   placeholder="Квартира"
                   label="Квартира"
-                  value={apartment}
-                  onChange={(e) => setApartment(e.currentTarget.value)}
+                  name="apart"
+                  {...form.getInputProps("apart")}
                 />
                 <Textarea
                   label="Комментарий к заказу"
                   placeholder="Комментарий к заказу"
-                  value={comment}
-                  onChange={(e) => setComment(e.currentTarget.value)}
+                  name="descr"
+                  {...form.getInputProps("descr")}
                   autosize
                   minRows={2}
                   maxRows={4}
                 />
                 <Button
+                mt="md"
                   type="submit"
                   onClick={() =>
                     form.setValues({
                       product: productsArray,
                       product_kol: productsKolArr,
+                      tags: [variant],
+                      pay: paymentType,
                     })
                   }
                 >
-                  Submit
+                  Отправить заказ
                 </Button>
               </form>
             </Card.Section>
