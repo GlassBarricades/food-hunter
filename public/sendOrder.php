@@ -30,8 +30,7 @@ $param['phone'] = $paramms->phone;		//телефон
 $param['descr']	= $paramms->descr; 	//комментарий
 $param['name']	= $paramms->name;
 $param['pay'] = $paramms->pay;
-$param['tags'] = $paramms->tags;
-// $tags = $paramms->tags;				//отметки заказа - необязательно
+$tags = $paramms->tags;				//отметки заказа - необязательно
 // $hook_status = array(3,4);			//запрос вебхука - необязательно
 
 //подготовка запроса				

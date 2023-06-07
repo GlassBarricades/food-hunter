@@ -9,9 +9,6 @@ const CategoryPage = () => {
   const [activeTab, setActiveTab] = useState(
     dataCategories ? dataCategories[0].name : undefined
   );
-  console.log(dataBase);
-  console.log(dataCategories);
-  console.log(activeTab);
 
   const filteredData = dataBase.filter((item) => {
     if (activeTab === item.category) {
@@ -145,7 +142,6 @@ const CategoryPage = () => {
 
 const categoryLoader = async ({ params }) => {
   const category = params.category;
-  console.log(category);
   const dbRef = ref(getDatabase());
   let dataBase;
   let dataCategories;

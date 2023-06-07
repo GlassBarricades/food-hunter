@@ -95,10 +95,10 @@ const OrderPage = ({ order, productsArray, productsKolArr }) => {
                     method: "POST",
                     mode: "no-cors",
                     headers: {
-                       "Content-type":
-                         "application/x-www-form-urlencoded; application/json; charset=UTF-8",
+                      "Content-type":
+                        "application/x-www-form-urlencoded; application/json; charset=UTF-8",
                     },
-                    body: ('paramm=' + JSON.stringify(values)),
+                    body: "paramm=" + JSON.stringify(values),
                   });
                 })}
               >
@@ -165,7 +165,7 @@ const OrderPage = ({ order, productsArray, productsKolArr }) => {
                   maxRows={4}
                 />
                 <Button
-                mt="md"
+                  mt="md"
                   type="submit"
                   onClick={() =>
                     form.setValues({
@@ -214,50 +214,7 @@ const OrderPage = ({ order, productsArray, productsKolArr }) => {
               </Card>
             </Paper>
           </Grid.Col>
-          <Grid.Col span={6}>
-            <Paper radius="md">
-              <Card withBorder shadow="sm" radius="md">
-                <Card.Section withBorder inheritPadding py="xs">
-                  <Group position="apart">
-                    <Title order={5} weight={500}>
-                      Информация о заказе:
-                    </Title>
-                  </Group>
-                </Card.Section>
-
-                <Text mt="sm" color="dimmed" size="sm">
-                  <Stack spacing={1}>
-                    <Group position="apart">
-                      <Text>Пицца пепперони (1шт)</Text>
-                      <Text>12 руб</Text>
-                    </Group>
-                    <Divider my="sm" />
-                    <Group position="apart">
-                      <Text>Пицца пепперони (1шт)</Text>
-                      <Text>12 руб</Text>
-                    </Group>
-                    <Divider my="sm" />
-                    <Group position="apart">
-                      <Text>Пицца пепперони (1шт)</Text>
-                      <Text>12 руб</Text>
-                    </Group>
-                    <Divider my="sm" />
-                    <Group position="apart">
-                      <Text>Пицца пепперони (1шт)</Text>
-                      <Text>12 руб</Text>
-                    </Group>
-                  </Stack>
-                </Text>
-
-                <Card.Section withBorder inheritPadding py="xs" mt="sm">
-                  <Group position="apart">
-                    <Text weight={500}>Итого:</Text>
-                    <Text>48 руб</Text>
-                  </Group>
-                </Card.Section>
-              </Card>
-            </Paper>
-          </Grid.Col>
+          <Grid.Col span={6}></Grid.Col>
           <Grid.Col span={6}>
             <Paper radius="md">
               <Card withBorder shadow="sm" radius="md">

@@ -76,7 +76,7 @@ const Basket = ({ order, deleteOrder }) => {
               <tbody>{rows}</tbody>
             </Table>
             <Group mt="sm" position="center">
-              <Button component={Link} to="/order" variant="default">
+              <Button component={Link} to="/order" variant="outline" color="yellow">
                 Перейти к оформлению заказа
               </Button>
             </Group>

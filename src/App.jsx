@@ -10,7 +10,7 @@ import { ProductPage, productLoader } from "./pages/ProductPage";
 import MenuPage from "./pages/MenuPage";
 import LayoutPage from "./components/LayoutPage";
 import MenuGridCategory from "./components/MenuGridCategory";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import OrderPage from "./pages/OrderPage";
 import AdminLayout from "./components/AdminLayout";
 import AdminMain from "./components/AdminPanel/AdminMain";
@@ -25,19 +25,13 @@ const App = () => {
   const [order, setOrder] = useState([]);
   const [productsArray, setProductsArray] = useState([]);
   const [productsKolArr, setProductsKolArr] = useState([]);
-  const [value, setValue] = useState(1);
   const [links, loading] = useFetchData("/categories/");
 
-  console.log(order);
-
   function deleteOrder(id) {
-    console.log(id);
     setOrder(order.filter((el) => el.uuid !== id));
   }
 
-  function addToOrder(item, variant, price, id) {
-    console.log(variant);
-    console.log(id);
+  function addToOrder(item, variant, price, id, value, setValue) {
     setProductsArray([...productsArray, id]);
     setProductsKolArr([...productsKolArr, String(value)]);
     let obj = { ...item };
@@ -92,8 +86,6 @@ const App = () => {
               element={
                 <ProductPage
                   onAdd={addToOrder}
-                  value={value}
-                  setValue={setValue}
                 />
               }
               loader={productLoader}

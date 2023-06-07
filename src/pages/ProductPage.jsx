@@ -13,7 +13,6 @@ import {
   List,
   Paper,
   Button,
-  useMantineTheme,
 } from "@mantine/core";
 import { useLoaderData } from "react-router-dom";
 import { getDatabase, ref, child, get } from "firebase/database";
@@ -26,9 +25,10 @@ const useStyles = createStyles(() => ({
   },
 }));
 
-const ProductPage = ({ variantProduct, onAdd, value, setValue }) => {
+const ProductPage = ({ onAdd }) => {
   const { productDataBase, category } = useLoaderData();
    const [variantValue, setVarianValue] = useState("0");
+   const [value, setValue] = useState(1);
    const { classes } = useStyles();
    const dataVariants = Object.values(productDataBase.variant)
    const arr = dataVariants.map((item, index) => {
@@ -44,34 +44,6 @@ const ProductPage = ({ variantProduct, onAdd, value, setValue }) => {
       return item
     }
    })
-
-  // function filteredData() {
-  //   if (variantProduct === "sushi") {
-  //     const sushiData = dataProduct.filter((item) => {
-  //       if (item.link === kind) {
-  //         return item.items;
-  //       }
-  //     });
-  //     const sushiItem = sushiData[0].items.filter((item) => {
-  //       if (item.link === itemProduct) {
-  //         return item;
-  //       }
-  //     });
-  //     return sushiItem[0];
-  //   } else {
-  //     const dataCategory = dataProduct.filter((item) => {
-  //       if (item.link === category) {
-  //         return item;
-  //       }
-  //     });
-  //     const dataItem = dataCategory[0].dataMenu.filter((item) => {
-  //       if (item.link === product) {
-  //         return item;
-  //       }
-  //     });
-  //     return dataItem[0];
-  //   }
-  // }
 
   return (
     <>
@@ -105,7 +77,7 @@ const ProductPage = ({ variantProduct, onAdd, value, setValue }) => {
                   <Text>Количество: </Text>
                   <NumberInput
                     value={value}
-                    onChange={(val) => setValue(val)}
+                    onChange={setValue}
                     max={10}
                     min={0}
                     styles={{ input: { width: rem(64), height: rem(24) } }}
@@ -114,7 +86,7 @@ const ProductPage = ({ variantProduct, onAdd, value, setValue }) => {
                 <Button
                variant="outline"
                color="yellow"
-               onClick={() => onAdd(productDataBase, arr[variantValue].label, dataVariants[variantValue].price, dataVariants[variantValue].id)}
+               onClick={() => onAdd(productDataBase, arr[variantValue].label, dataVariants[variantValue].price, dataVariants[variantValue].id, value, setValue)}
              >
                Добавить в корзину
              </Button>
