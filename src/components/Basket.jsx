@@ -16,7 +16,7 @@ import { ShoppingBag } from "tabler-icons-react";
 import { Link } from "react-router-dom";
 import { Trash } from "tabler-icons-react";
 
-const Basket = ({ order }) => {
+const Basket = ({ order, deleteOrder }) => {
   const theme = useMantineTheme();
   const colorScheme = useMantineColorScheme();
 
@@ -38,6 +38,7 @@ const Basket = ({ order }) => {
         <ActionIcon
           variant="outline"
           color={colorScheme.colorScheme === "dark" ? "yellow.5" : undefined}
+          onClick={() => deleteOrder(element.uuid)}
         >
           <Trash size="1rem" />
         </ActionIcon>

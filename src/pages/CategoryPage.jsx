@@ -1,15 +1,10 @@
 import { useLoaderData } from "react-router-dom";
 import { useState } from "react";
-import MenuGridCategory from "../components/MenuGridCategory";
-import useFetchData from "../hooks/useFetchData";
-import { db } from "../firebase";
-// import { ref, onValue } from "firebase/database";
 import { Text, SimpleGrid, Card, Image, Button, Tabs } from "@mantine/core";
 import { Link } from "react-router-dom";
 import { getDatabase, ref, child, get } from "firebase/database";
 
-const CategoryPage = ({ variant }) => {
-  // const { category, kind } = useParams();
+const CategoryPage = () => {
   const { dataBase, category, dataCategories } = useLoaderData();
   const [activeTab, setActiveTab] = useState(
     dataCategories ? dataCategories[0].name : undefined
@@ -24,20 +19,15 @@ const CategoryPage = ({ variant }) => {
     }
   });
 
-  // const dataItem = data.filter((item) => {
-  //   if (item.link === category) {
-  //     return item;
-  //   }
-  // });
-  // const sushiData = data.filter((item) => {
-  //   if (item.link === kind) {
-  //     return item.items;
-  //   }
-  // });
   return (
     <>
       {category === "alcohol" ? (
-        <Tabs value={activeTab} onTabChange={setActiveTab}>
+        <Tabs
+          color="yellow"
+          variant="pills"
+          value={activeTab}
+          onTabChange={setActiveTab}
+        >
           <Tabs.List>
             {dataCategories.map((item) => {
               return (
@@ -79,6 +69,7 @@ const CategoryPage = ({ variant }) => {
                           <Image
                             src={item.image}
                             height={160}
+                            fit={category === "alcohol" ? "contain" : "cover"}
                             alt={item.name}
                           />
                         </Card.Section>
@@ -101,40 +92,6 @@ const CategoryPage = ({ variant }) => {
           })}
         </Tabs>
       ) : (
-        // <SimpleGrid
-        //   cols={5}
-        //   spacing="xl"
-        //   breakpoints={[
-        //     { maxWidth: "xl", cols: 5, spacing: "lg" },
-        //     { maxWidth: "lg", cols: 4, spacing: "lg" },
-        //     { maxWidth: "md", cols: 3, spacing: "md" },
-        //     { maxWidth: "sm", cols: 2, spacing: "sm" },
-        //     { maxWidth: "xs", cols: 2, spacing: "sm" },
-        //   ]}
-        // >
-        //   {dataCategories.map((item, index) => {
-        //     return (
-        //       <Card
-        //         key={index}
-        //         shadow="sm"
-        //         padding="xl"
-        //         radius="lg"
-        //         onClick={filteredData(item.name)}
-        //       >
-        //         <Card.Section>
-        //           <Image src={item.image} height={160} alt={item.name} />
-        //         </Card.Section>
-
-        //         <Text weight={500} size="lg" mt="md">
-        //           {item.name}
-        //         </Text>
-        //         <Button mt="sm" variant="default" fullWidth>
-        //           Выбрать
-        //         </Button>
-        //       </Card>
-        //     );
-        //   })}
-        // </SimpleGrid>
         <SimpleGrid
           cols={5}
           spacing="xl"
@@ -160,7 +117,12 @@ const CategoryPage = ({ variant }) => {
                 to={`${item.link}`}
               >
                 <Card.Section>
-                  <Image src={item.image} height={160} alt={item.name} />
+                  <Image
+                    src={item.image}
+                    height={160}
+                    alt={item.name}
+                    fit={category === "napitki" ? "contain" : "cover"}
+                  />
                 </Card.Section>
                 <Text mt="xs" size="lg">
                   {itemVariants[0].price} руб.
@@ -177,9 +139,6 @@ const CategoryPage = ({ variant }) => {
           })}
         </SimpleGrid>
       )}
-      {/* {dataItem.lenght === 0 ? <Text>Загрузка</Text> : <MenuGridCategory variant="price" categories={dataItem} />} */}
-
-      {/* <MenuGridCategory variant="price" categories={dataBase} /> */}
     </>
   );
 };

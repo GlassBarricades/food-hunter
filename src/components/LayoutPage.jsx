@@ -4,7 +4,7 @@ import { Outlet } from "react-router-dom";
 import { HeaderSimple } from "./Header";
 import NavBarApp from "./NavBarApp";
 
-const App = ({ order }) => {
+const App = ({ order, deleteOrder }) => {
   const theme = useMantineTheme();
   const [opened, setOpened] = useState(false);
 
@@ -37,11 +37,16 @@ const App = ({ order }) => {
       navbar={<NavBarApp links={linksMain} opened={opened} />}
       footer={
         <Footer height={60} p="md">
-          footer
+          food-hunter
         </Footer>
       }
       header={
-        <HeaderSimple opened={opened} setOpened={setOpened} order={order} />
+        <HeaderSimple
+          opened={opened}
+          setOpened={setOpened}
+          order={order}
+          deleteOrder={deleteOrder}
+        />
       }
     >
       <Outlet />
