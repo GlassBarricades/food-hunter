@@ -17,10 +17,10 @@ const App = ({ order, deleteOrder }) => {
       link: "/menu",
       name: "Меню",
     },
-    {
-      link: "/admin",
-      name: "Панель администратора",
-    },
+    // {
+    //   link: "/admin",
+    //   name: "Панель администратора",
+    // },
   ];
   return (
     <AppShell

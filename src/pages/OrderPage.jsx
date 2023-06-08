@@ -17,8 +17,10 @@ import {
   ScrollArea,
   Table,
   Button,
+  Modal,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { useDisclosure } from "@mantine/hooks";
 
 const useStyles = createStyles((theme) => ({
   formWrapper: {
@@ -27,11 +29,10 @@ const useStyles = createStyles((theme) => ({
 }));
 
 const OrderPage = ({ order, productsArray, productsKolArr }) => {
+  const [opened, { open, close }] = useDisclosure(false);
   const { classes } = useStyles();
   const [variant, setVariant] = useState("2202");
   const [paymentType, setPaymentType] = useState("1");
-
-  console.log(order);
 
   const form = useForm({
     initialValues: {
@@ -64,8 +65,27 @@ const OrderPage = ({ order, productsArray, productsKolArr }) => {
     return sum + elem;
   }, 0);
 
+  function sendOrder() {
+    form.setValues({
+      product: productsArray,
+      product_kol: productsKolArr,
+      tags: [variant],
+      pay: paymentType,
+    });
+    form.reset();
+    open();
+  }
+
   return (
     <>
+      <Modal opened={opened} onClose={close} title=" " centered>
+        <Text align="center" color="yellow" size={45}>
+          Спасибо!
+        </Text>
+        <Text align="center" color="yellow" size={21}>
+          Ваш заказ отправлен. Ожидайте звонок администратора.
+        </Text>
+      </Modal>
       <Title>Оформление заказа</Title>
       <SimpleGrid
         mt="md"
@@ -99,8 +119,10 @@ const OrderPage = ({ order, productsArray, productsKolArr }) => {
                         "application/x-www-form-urlencoded; application/json; charset=UTF-8",
                     },
                     body: "paramm=" + JSON.stringify(values),
-                  });
+                  })
+                  open();
                 })}
+                onReset={form.onReset}
               >
                 <Group>
                   <SegmentedControl
@@ -167,7 +189,7 @@ const OrderPage = ({ order, productsArray, productsKolArr }) => {
                 <Button
                   mt="md"
                   type="submit"
-                  onClick={() =>
+                  onClick={() => 
                     form.setValues({
                       product: productsArray,
                       product_kol: productsKolArr,

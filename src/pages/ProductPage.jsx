@@ -16,6 +16,7 @@ import {
 } from "@mantine/core";
 import { useLoaderData } from "react-router-dom";
 import { getDatabase, ref, child, get } from "firebase/database";
+// import AddList from "../components/AddList";
 
 const useStyles = createStyles(() => ({
   wrapper: {
@@ -62,6 +63,7 @@ const ProductPage = ({ onAdd }) => {
               <Title order={3}>{productDataBase.name}</Title>
               <Text>Состав: </Text>
               <List>{productDataBase.compound}</List>
+              {/* <AddList /> */}
               <Group>
                 <Text>Размер: </Text>
                 <SegmentedControl

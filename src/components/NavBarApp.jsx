@@ -49,11 +49,6 @@ const useStyles = createStyles((theme) => ({
 const NavBarApp = ({ links, opened, admin }) => {
   const theme = useMantineTheme();
   const { classes, cx } = useStyles();
-  // const [active, setActive] = useLocalStorage({
-  //   key: "active-link",
-  //   defaultValue: links[0].link,
-  //   getInitialValueInEffect: true,
-  // });
 
   const items = links.map((link, indx) => {
     return (
@@ -61,12 +56,6 @@ const NavBarApp = ({ links, opened, admin }) => {
         component={Link}
         to={link.link}
         key={indx}
-        // className={cx(classes.link, {
-        //   [classes.linkActive]: active === link.link,
-        // })}
-        // onClick={() => {
-        //   setActive(link.link);
-        // }}
       >
         {link.name}
       </Anchor>

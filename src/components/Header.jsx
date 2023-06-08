@@ -91,7 +91,7 @@ export function HeaderSimple({ opened, setOpened, order, admin, deleteOrder }) {
 
         <Container className={classes.header}>
           <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
-            <Image width={60} src="https://food-hunter.by/img/logo.png" />
+            <Image width={60} src="https://firebasestorage.googleapis.com/v0/b/food-hunter-e4f88.appspot.com/o/logo1.png?alt=media&token=8b727db5-bc8e-48d3-b565-d69737528536&_gl=1*xupmpe*_ga*MTI0NzY3NTcxOS4xNjc4MDM2MjA5*_ga_CW55HF8NVT*MTY4NjIyNDA0NC4yNy4xLjE2ODYyMjQwOTYuMC4wLjA." />
           </MediaQuery>
           <ContactsHeader />
           <Group spacing="md" align="center">
