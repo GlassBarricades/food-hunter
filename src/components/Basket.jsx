@@ -11,6 +11,7 @@ import {
   rem,
   Table,
   useMantineColorScheme,
+  MediaQuery,
 } from "@mantine/core";
 import { ShoppingBag } from "tabler-icons-react";
 import { Link } from "react-router-dom";
@@ -47,45 +48,52 @@ const Basket = ({ order, deleteOrder }) => {
   ));
 
   return (
-    <HoverCard width={700} shadow="md">
-      <HoverCard.Target>
-        <Indicator
-          color={
-            theme.colorScheme === "dark" ? theme.colors.gray[6] : theme.black
-          }
-          inline
-          label={order.length}
-          size={16}
-        >
-          <ActionIcon variant="default">
-            <ShoppingBag
-              color={
-                theme.colorScheme === "dark"
-                  ? theme.colors.yellow[5]
-                  : theme.black
-              }
-              size={35}
-            />
-          </ActionIcon>
-        </Indicator>
-      </HoverCard.Target>
-      <HoverCard.Dropdown>
-        {order.length > 0 ? (
-          <>
-            <Table>
-              <tbody>{rows}</tbody>
-            </Table>
-            <Group mt="sm" position="center">
-              <Button component={Link} to="/order" variant="outline" color="yellow">
-                Перейти к оформлению заказа
-              </Button>
-            </Group>
-          </>
-        ) : (
-          <Text>В вашей корзине пока нет товаров :(</Text>
-        )}
-      </HoverCard.Dropdown>
-    </HoverCard>
+    <MediaQuery largerThan="lg">
+      <HoverCard width={"100%"} shadow="md">
+        <HoverCard.Target>
+          <Indicator
+            color={
+              theme.colorScheme === "dark" ? theme.colors.gray[6] : theme.black
+            }
+            inline
+            label={order.length}
+            size={16}
+          >
+            <ActionIcon variant="default">
+              <ShoppingBag
+                color={
+                  theme.colorScheme === "dark"
+                    ? theme.colors.yellow[5]
+                    : theme.black
+                }
+                size={35}
+              />
+            </ActionIcon>
+          </Indicator>
+        </HoverCard.Target>
+        <HoverCard.Dropdown>
+          {order.length > 0 ? (
+            <>
+              <Table>
+                <tbody>{rows}</tbody>
+              </Table>
+              <Group mt="sm" position="center">
+                <Button
+                  component={Link}
+                  to="/order"
+                  variant="outline"
+                  color="yellow"
+                >
+                  Перейти к оформлению заказа
+                </Button>
+              </Group>
+            </>
+          ) : (
+            <Text>В вашей корзине пока нет товаров :(</Text>
+          )}
+        </HoverCard.Dropdown>
+      </HoverCard>
+    </MediaQuery>
   );
 };
 export default Basket;
