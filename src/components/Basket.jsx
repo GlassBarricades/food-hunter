@@ -48,8 +48,8 @@ const Basket = ({ order, deleteOrder }) => {
   ));
 
   return (
-    <MediaQuery largerThan="lg">
-      <HoverCard width={"100%"} shadow="md">
+    <MediaQuery largerThan="lg" styles={{maxWidth: "700px"}}>
+      <HoverCard shadow="md">
         <HoverCard.Target>
           <Indicator
             color={
