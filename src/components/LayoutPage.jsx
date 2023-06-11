@@ -34,7 +34,7 @@ const App = ({ order, deleteOrder }) => {
       }}
       navbarOffsetBreakpoint="sm"
       asideOffsetBreakpoint="sm"
-      navbar={<NavBarApp links={linksMain} opened={opened} />}
+      navbar={<NavBarApp links={linksMain} opened={opened} setOpened={setOpened} />}
       footer={
         <Footer height={60} p="md">
           food-hunter

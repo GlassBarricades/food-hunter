@@ -19,7 +19,7 @@ import {
   Button,
   Modal,
 } from "@mantine/core";
-import { useForm } from "@mantine/form";
+import { useForm, hasLength, isNotEmpty } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
 
 const useStyles = createStyles((theme) => ({
@@ -45,6 +45,13 @@ const OrderPage = ({ order, productsArray, productsKolArr }) => {
       apart: "",
       descr: "",
       tags: [],
+    },
+    validate: {
+      name: hasLength({ min: 2, max: 12 }, 'Имя должно быть 2-12 символов длинной'),
+      phone: isNotEmpty('Введите корректный номер телефона'),
+      // email: isEmail('Invalid email'),
+      // favoriteColor: matches(/^#([0-9a-f]{3}){1,2}$/, 'Enter a valid hex color'),
+      // age: isInRange({ min: 18, max: 99 }, 'You must be 18-99 years old to register'),
     },
   });
 

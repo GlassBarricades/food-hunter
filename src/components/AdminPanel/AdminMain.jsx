@@ -123,7 +123,7 @@ const AdminMain = ({ writeToDatabase }) => {
           {element.variant
             ? Object.values(element.variant).map((item, index) => {
                 return item.size != 0 ? (
-                  <Text key={index}>{item.size}шт</Text>
+                  <Text key={index}>{item.size}шт - {item.price}р</Text>
                 ) : undefined;
               })
             : undefined}

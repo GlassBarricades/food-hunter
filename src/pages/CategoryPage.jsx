@@ -3,18 +3,23 @@ import { useState } from "react";
 import { Text, SimpleGrid, Card, Image, Button, Tabs } from "@mantine/core";
 import { Link } from "react-router-dom";
 import { getDatabase, ref, child, get } from "firebase/database";
+import useSortData from "../hooks/useSortData";
 
 const CategoryPage = () => {
   const { dataBase, category, dataCategories } = useLoaderData();
   const [activeTab, setActiveTab] = useState(
     dataCategories ? dataCategories[0].name : undefined
   );
+  const sortedData = useSortData(dataBase, "position");
+
 
   const filteredData = dataBase.filter((item) => {
     if (activeTab === item.category) {
       return item;
     }
   });
+
+  const sortedDataA = useSortData(filteredData, "position");
 
   return (
     <>
@@ -49,7 +54,7 @@ const CategoryPage = () => {
                     { maxWidth: "xs", cols: 2, spacing: "sm" },
                   ]}
                 >
-                  {filteredData.map((item, index) => {
+                  {sortedDataA.map((item, index) => {
                     const itemVariants = item.variant
                       ? Object.values(item.variant)
                       : undefined;
@@ -100,7 +105,7 @@ const CategoryPage = () => {
             { maxWidth: "xs", cols: 2, spacing: "sm" },
           ]}
         >
-          {dataBase.map((item, index) => {
+          {sortedData.map((item, index) => {
             const itemVariants = item.variant
               ? Object.values(item.variant)
               : undefined;

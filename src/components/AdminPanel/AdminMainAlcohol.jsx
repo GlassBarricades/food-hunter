@@ -62,7 +62,9 @@ const AdminMainAlcohol = ({ writeToDatabase }) => {
   const dataCaterories = alcoholCategories.map((item, index) => {
     return item.name;
   });
-  console.log(dataCaterories);
+
+  console.log(dataCaterories)
+
   const resetState = () => {
     setName("");
     setLink("");
@@ -227,7 +229,7 @@ const AdminMainAlcohol = ({ writeToDatabase }) => {
           <NativeSelect
             value={alcoholeCategory}
             onChange={(event) => setAlcoholeCategory(event.currentTarget.value)}
-            data={dataCaterories}
+            data={["Выберите категорию", ... dataCaterories]}
             label="Установите категорию алкоголя"
           />
           <Group>

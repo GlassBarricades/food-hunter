@@ -46,7 +46,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const NavBarApp = ({ links, opened, admin }) => {
+const NavBarApp = ({ links, opened, admin, setOpened }) => {
   const theme = useMantineTheme();
   const { classes, cx } = useStyles();
 
@@ -56,6 +56,7 @@ const NavBarApp = ({ links, opened, admin }) => {
         component={Link}
         to={link.link}
         key={indx}
+        onClick={() => setOpened(false)}
       >
         {link.name}
       </Anchor>

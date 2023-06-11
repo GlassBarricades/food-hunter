@@ -18,7 +18,7 @@ import useSortData from "../../hooks/useSortData";
 import { uid } from "uid";
 import { ref, update, remove } from "firebase/database";
 import { db } from "../../firebase";
-import { Pencil, Trash, Eye, EyeOff } from "tabler-icons-react";
+import { Pencil, Trash } from "tabler-icons-react";
 
 const AdminCategoryAlcohol = ({ writeToDatabase }) => {
   const colorScheme = useMantineColorScheme();
@@ -33,6 +33,7 @@ const AdminCategoryAlcohol = ({ writeToDatabase }) => {
   const [isEdit, setIsEdit] = useState(false);
   const [categories] = useFetchData(`/categories-alcohol/`);
   const data = useSortData(categories, "position");
+
 
   const resetState = () => {
     setName("");
@@ -127,7 +128,6 @@ const AdminCategoryAlcohol = ({ writeToDatabase }) => {
           <NumberInput
             placeholder="Позиция для сортировки"
             label="Позиция для сортировки"
-            precision={2}
             value={position}
             onChange={setPosition}
           />

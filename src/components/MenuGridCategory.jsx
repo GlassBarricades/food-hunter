@@ -1,7 +1,10 @@
 import { Button, Card, Image, SimpleGrid, Text } from "@mantine/core";
 import { Link } from "react-router-dom";
+import useSortData from "../hooks/useSortData";
 
 const MenuGridCategory = ({ variant, categories }) => {
+  const dataCategories = useSortData(categories, "position");
+
   return (
     <SimpleGrid
       cols={5}
@@ -14,7 +17,7 @@ const MenuGridCategory = ({ variant, categories }) => {
         { maxWidth: "xs", cols: 2, spacing: "sm" },
       ]}
     >
-      {categories.map((item, index) => {
+      {dataCategories.map((item, index) => {
         const itemVariants = item.variant
           ? Object.values(item.variant)
           : undefined;
