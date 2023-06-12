@@ -18,6 +18,7 @@ import {
   Box,
   Collapse,
   Anchor,
+  NativeSelect,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useState } from "react";
@@ -31,6 +32,7 @@ import { Pencil, Trash } from "tabler-icons-react";
 const AdminMain = ({ writeToDatabase }) => {
   const { adminElement } = useParams();
   const linkItem = useFetchDataOne(`/categories/${adminElement}`);
+  const [units] = useFetchData("/units/");
   const colorScheme = useMantineColorScheme();
   const [opened, handlers] = useDisclosure(false, {
     onClose: () => resetState(),
@@ -40,6 +42,7 @@ const AdminMain = ({ writeToDatabase }) => {
   const [link, setLink] = useState("");
   const [position, setPosition] = useState(0);
   const [image, setImage] = useState("");
+  const [unit, setUnit] = useState("");
   const [visible, setVisible] = useState(false);
   const [compound, setCompound] = useState("");
   const [size1, setSize1] = useState(0);
@@ -55,11 +58,16 @@ const AdminMain = ({ writeToDatabase }) => {
   const [categories] = useFetchData(`/menu/${adminElement}`);
   const data = useSortData(categories, "position");
 
+  const dataUnits = units.map((item) => {
+    return item.name;
+  });
+
   const resetState = () => {
     setName("");
     setLink("");
     setPosition(0);
     setImage("");
+    setUnit("");
     setVisible(false);
     setCompound("");
     setSize1(0);
@@ -84,6 +92,7 @@ const AdminMain = ({ writeToDatabase }) => {
     setLink(item.link);
     setPosition(item.position);
     setImage(item.image);
+    setUnit(item.unit);
     setVisible(item.visible);
     setCompound(item.compound);
     setSize1(item.variant.one.size);
@@ -105,6 +114,7 @@ const AdminMain = ({ writeToDatabase }) => {
       <td>
         <Image width={50} src={element.image} alt={element.name} />
       </td>
+      <td>{element.unit}</td>
       <td>
         <Group>
           {element.variant
@@ -123,7 +133,9 @@ const AdminMain = ({ writeToDatabase }) => {
           {element.variant
             ? Object.values(element.variant).map((item, index) => {
                 return item.size != 0 ? (
-                  <Text key={index}>{item.size}шт - {item.price}р</Text>
+                  <Text key={index}>
+                    {item.size}шт - {item.price}р
+                  </Text>
                 ) : undefined;
               })
             : undefined}
@@ -165,6 +177,7 @@ const AdminMain = ({ writeToDatabase }) => {
               link: link,
               position: position,
               image: image,
+              unit: unit,
               visible: visible,
               compound: compound,
               variant: {
@@ -215,6 +228,12 @@ const AdminMain = ({ writeToDatabase }) => {
             placeholder="Картинка"
             value={image}
             onChange={(e) => setImage(e.target.value)}
+          />
+          <NativeSelect
+            value={unit}
+            onChange={(event) => setUnit(event.currentTarget.value)}
+            data={["Выберите единицу измерения", ...dataUnits]}
+            label="Установите единицу измерения"
           />
           <Group>
             <Checkbox
@@ -318,6 +337,7 @@ const AdminMain = ({ writeToDatabase }) => {
             <th>Сортировка</th>
             <th>Название</th>
             <th>Картинка</th>
+            <th>Измерение</th>
             <th>id</th>
             <th>Ссылка</th>
             <th>Состав</th>

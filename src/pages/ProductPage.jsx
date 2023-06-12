@@ -28,23 +28,24 @@ const useStyles = createStyles(() => ({
 
 const ProductPage = ({ onAdd }) => {
   const { productDataBase, category } = useLoaderData();
-   const [variantValue, setVarianValue] = useState("0");
-   const [value, setValue] = useState(1);
-   const { classes } = useStyles();
-   const dataVariants = Object.values(productDataBase.variant)
-   const arr = dataVariants.map((item, index) => {
-     const obj = {
-       label: `${item.size} ${category === "pizza" ? "см" : "шт"}`,
-       value: `${index}`,
-     };
-     return obj;
-   });
-
-   const filteredArr = arr.filter((item, index) => {
-    if (item.label != "0 шт") {
-      return item
+  const [variantValue, setVarianValue] = useState("0");
+  const [value, setValue] = useState(1);
+  const { classes } = useStyles();
+  const dataVariants = Object.values(productDataBase.variant);
+  const arr = dataVariants.map((item, index) => {
+    if (item.size !== 0) {
+      const obj = {
+        label: `${item.size} ${productDataBase.unit}`,
+        value: `${index}`,
+      };
+      return obj;
     }
-   })
+    return false;
+  });
+
+  const filteredArr = arr.filter((item) => {
+    return item !== false ? item : undefined;
+  });
 
   return (
     <>
@@ -67,7 +68,7 @@ const ProductPage = ({ onAdd }) => {
               <Group>
                 <Text>Размер: </Text>
                 <SegmentedControl
-                size="md"
+                  size="md"
                   value={variantValue}
                   onChange={setVarianValue}
                   data={filteredArr}
@@ -86,12 +87,21 @@ const ProductPage = ({ onAdd }) => {
                   />
                 </Group>
                 <Button
-               variant="outline"
-               color="yellow"
-               onClick={() => onAdd(productDataBase, arr[variantValue].label, dataVariants[variantValue].price, dataVariants[variantValue].id, value, setValue)}
-             >
-               Добавить в корзину
-             </Button>
+                  variant="outline"
+                  color="yellow"
+                  onClick={() =>
+                    onAdd(
+                      productDataBase,
+                      arr[variantValue].label,
+                      dataVariants[variantValue].price,
+                      dataVariants[variantValue].id,
+                      value,
+                      setValue
+                    )
+                  }
+                >
+                  Добавить в корзину
+                </Button>
               </Group>
             </Stack>
           </Paper>

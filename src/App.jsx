@@ -20,6 +20,8 @@ import AdminCategoryAlcohol from "./components/AdminPanel/AdminCategorAlcohol";
 import { set, ref, remove } from "firebase/database";
 import { db } from "./firebase";
 import useFetchData from "./hooks/useFetchData";
+import "./app.css";
+import AdminUnits from "./components/AdminPanel/AdminUnits";
 
 const App = () => {
   const [order, setOrder] = useState([]);
@@ -83,11 +85,7 @@ const App = () => {
             />
             <Route
               path=":category/:product"
-              element={
-                <ProductPage
-                  onAdd={addToOrder}
-                />
-              }
+              element={<ProductPage onAdd={addToOrder} />}
               loader={productLoader}
             />
           </Route>
@@ -119,6 +117,10 @@ const App = () => {
           <Route
             path="alcohol"
             element={<AdminMainAlcohol writeToDatabase={writeToDatabase} />}
+          />
+          <Route
+            path="units"
+            element={<AdminUnits writeToDatabase={writeToDatabase} />}
           />
         </Route>
       </>

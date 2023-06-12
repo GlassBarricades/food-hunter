@@ -5,8 +5,7 @@ import {
   createStyles,
   Navbar,
 } from "@mantine/core";
-import { useLocalStorage } from "@mantine/hooks";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const useStyles = createStyles((theme) => ({
   links: {
@@ -34,7 +33,7 @@ const useStyles = createStyles((theme) => ({
           : theme.colors.gray[0],
     },
   },
-  linkActive: {
+  active: {
     "&, &:hover": {
       backgroundColor: theme.fn.variant({
         variant: "light",
@@ -53,9 +52,10 @@ const NavBarApp = ({ links, opened, admin, setOpened }) => {
   const items = links.map((link, indx) => {
     return (
       <Anchor
-        component={Link}
+        component={NavLink}
         to={link.link}
         key={indx}
+        className={classes.link}
         onClick={() => setOpened(false)}
       >
         {link.name}
@@ -71,15 +71,18 @@ const NavBarApp = ({ links, opened, admin, setOpened }) => {
     >
       {admin ? (
         <>
-          <Anchor component={Link} to="category" className={classes.link}>
+          <Anchor component={NavLink} to="category" className={classes.link}>
             Категории
           </Anchor>
           <Anchor
-            component={Link}
+            component={NavLink}
             to="category-alcohol"
             className={classes.link}
           >
             Категории Алкоголь
+          </Anchor>
+          <Anchor component={NavLink} to="units" className={classes.link}>
+            Единицы измерения
           </Anchor>
         </>
       ) : undefined}
