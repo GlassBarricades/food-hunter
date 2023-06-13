@@ -13,9 +13,7 @@ import {
   Checkbox,
   useMantineColorScheme,
   Textarea,
-  Stack,
   Text,
-  Box,
   Collapse,
   Anchor,
   NativeSelect,
@@ -25,7 +23,7 @@ import { useState } from "react";
 import useFetchData from "../../hooks/useFetchData";
 import useSortData from "../../hooks/useSortData";
 import { uid } from "uid";
-import { ref, update, remove } from "firebase/database";
+import { ref, remove } from "firebase/database";
 import { db } from "../../firebase";
 import { Pencil, Trash } from "tabler-icons-react";
 
@@ -37,6 +35,7 @@ const AdminMain = ({ writeToDatabase }) => {
   const [opened, handlers] = useDisclosure(false, {
     onClose: () => resetState(),
   });
+  const [openedDelete, { open, close }] = useDisclosure(false);
   const [openedCollapse, { toggle }] = useDisclosure(false);
   const [name, setName] = useState("");
   const [link, setLink] = useState("");
@@ -84,6 +83,7 @@ const AdminMain = ({ writeToDatabase }) => {
 
   const handleDelete = (item, base) => {
     remove(ref(db, `/menu/${base}/${item.link}`));
+    close();
   };
 
   const handleEdit = (item) => {
@@ -134,7 +134,7 @@ const AdminMain = ({ writeToDatabase }) => {
             ? Object.values(element.variant).map((item, index) => {
                 return item.size != 0 ? (
                   <Text key={index}>
-                    {item.size}шт - {item.price}р
+                    {item.size} - {item.price}р
                   </Text>
                 ) : undefined;
               })
@@ -143,6 +143,13 @@ const AdminMain = ({ writeToDatabase }) => {
       </td>
       <td>
         <Group>
+          <Modal opened={openedDelete} onClose={close} title="Удаление" centered>
+            <Text align="center" mb="md">Вы действительно хотите удалить этот объект?</Text>
+            <Group position="center">
+            <Button color="green" onClick={() => handleDelete(element, adminElement)}>Удалить</Button>
+            <Button color="red" onClick={() => close()}>Отмена</Button>
+            </Group>
+          </Modal>
           <ActionIcon
             variant={colorScheme.colorScheme === "dark" ? "outline" : "default"}
             onClick={() => handleEdit(element)}
@@ -152,7 +159,7 @@ const AdminMain = ({ writeToDatabase }) => {
           </ActionIcon>
           <ActionIcon
             variant={colorScheme.colorScheme === "dark" ? "outline" : "default"}
-            onClick={() => handleDelete(element, adminElement)}
+            onClick={() => open()}
             color={colorScheme.colorScheme === "dark" ? "yellow.5" : undefined}
           >
             <Trash size="1rem" />

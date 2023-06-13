@@ -16,6 +16,7 @@ import {
 } from "@mantine/core";
 import { useLoaderData } from "react-router-dom";
 import { getDatabase, ref, child, get } from "firebase/database";
+import useSortData from "../hooks/useSortData";
 // import AddList from "../components/AddList";
 
 const useStyles = createStyles(() => ({
@@ -32,7 +33,8 @@ const ProductPage = ({ onAdd }) => {
   const [value, setValue] = useState(1);
   const { classes } = useStyles();
   const dataVariants = Object.values(productDataBase.variant);
-  const arr = dataVariants.map((item, index) => {
+  const arrA = useSortData(dataVariants, "size");
+  const arr = arrA.map((item, index) => {
     if (item.size !== 0) {
       const obj = {
         label: `${item.size} ${productDataBase.unit}`,
@@ -42,7 +44,6 @@ const ProductPage = ({ onAdd }) => {
     }
     return false;
   });
-
   const filteredArr = arr.filter((item) => {
     return item !== false ? item : undefined;
   });

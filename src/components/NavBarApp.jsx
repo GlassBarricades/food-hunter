@@ -65,9 +65,9 @@ const NavBarApp = ({ links, opened, admin, setOpened }) => {
   return (
     <Navbar
       p="md"
-      hiddenBreakpoint="sm"
+      hiddenBreakpoint="md"
       hidden={!opened}
-      width={{ sm: 200, lg: 300 }}
+      width={{ md: 200 }}
     >
       {admin ? (
         <>

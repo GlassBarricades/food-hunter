@@ -8,7 +8,6 @@ import {
   Text,
   Group,
   Stack,
-  Divider,
   TextInput,
   SegmentedControl,
   Textarea,
@@ -33,6 +32,7 @@ const OrderPage = ({ order, productsArray, productsKolArr }) => {
   const { classes } = useStyles();
   const [variant, setVariant] = useState("2202");
   const [paymentType, setPaymentType] = useState("1");
+  const [table, setTable] = useState("4566");
 
   const form = useForm({
     initialValues: {
@@ -47,11 +47,11 @@ const OrderPage = ({ order, productsArray, productsKolArr }) => {
       tags: [],
     },
     validate: {
-      name: hasLength({ min: 2, max: 12 }, 'Имя должно быть 2-12 символов длинной'),
-      phone: isNotEmpty('Введите корректный номер телефона'),
-      // email: isEmail('Invalid email'),
-      // favoriteColor: matches(/^#([0-9a-f]{3}){1,2}$/, 'Enter a valid hex color'),
-      // age: isInRange({ min: 18, max: 99 }, 'You must be 18-99 years old to register'),
+      name: hasLength({ max: 50 }, "Имя должно быть до 50 символов длинной"),
+      phone:
+        isNotEmpty("Введите корректный номер телефона") &&
+        hasLength({ min: 7, max: 15 }, "Введите корректный номер телефона"),
+      descr: hasLength({ max: 100 }, "Длинна комментария до 100 символов"),
     },
   });
 
@@ -126,7 +126,7 @@ const OrderPage = ({ order, productsArray, productsKolArr }) => {
                         "application/x-www-form-urlencoded; application/json; charset=UTF-8",
                     },
                     body: "paramm=" + JSON.stringify(values),
-                  })
+                  });
                   open();
                 })}
                 onReset={form.onReset}
@@ -138,10 +138,31 @@ const OrderPage = ({ order, productsArray, productsKolArr }) => {
                     data={[
                       { label: "Доставка", value: "2202" },
                       { label: "Самовынос", value: "2294" },
+                      {
+                        label: "За столом",
+                        value: "234756345986459867459687495684",
+                      },
                     ]}
                   />
                   {variant === "2294" ? (
                     <Text>Адрес: проспект Ленина, 15Б</Text>
+                  ) : undefined}
+                  {variant === "234756345986459867459687495684" ? (
+                    <Stack spacing="xs">
+                      <Text>Выбор столика:</Text>
+                      <SegmentedControl
+                        mt="sm"
+                        value={table}
+                        onChange={setTable}
+                        data={[
+                          { label: "Стол №1", value: "4566" },
+                          { label: "Стол №2", value: "5052" },
+                          { label: "Стол №3", value: "5053" },
+                          { label: "Стол №4", value: "5054" },
+                          { label: "Стол №5", value: "5055" },
+                        ]}
+                      />
+                    </Stack>
                   ) : undefined}
                 </Group>
                 <SegmentedControl
@@ -166,24 +187,28 @@ const OrderPage = ({ order, productsArray, productsKolArr }) => {
                   {...form.getInputProps("phone")}
                   withAsterisk
                 />
-                <TextInput
-                  placeholder="Улица"
-                  label="Улица"
-                  name="street"
-                  {...form.getInputProps("street")}
-                />
-                <TextInput
-                  placeholder="Дом"
-                  label="Дом"
-                  name="house"
-                  {...form.getInputProps("house")}
-                />
-                <TextInput
-                  placeholder="Квартира"
-                  label="Квартира"
-                  name="apart"
-                  {...form.getInputProps("apart")}
-                />
+                {variant === "2202" ? (
+                  <>
+                    <TextInput
+                      placeholder="Улица"
+                      label="Улица"
+                      name="street"
+                      {...form.getInputProps("street")}
+                    />
+                    <TextInput
+                      placeholder="Дом"
+                      label="Дом"
+                      name="house"
+                      {...form.getInputProps("house")}
+                    />
+                    <TextInput
+                      placeholder="Квартира"
+                      label="Квартира"
+                      name="apart"
+                      {...form.getInputProps("apart")}
+                    />
+                  </>
+                ) : undefined}
                 <Textarea
                   label="Комментарий к заказу"
                   placeholder="Комментарий к заказу"
@@ -196,7 +221,7 @@ const OrderPage = ({ order, productsArray, productsKolArr }) => {
                 <Button
                   mt="md"
                   type="submit"
-                  onClick={() => 
+                  onClick={() =>
                     form.setValues({
                       product: productsArray,
                       product_kol: productsKolArr,
