@@ -29,11 +29,11 @@ const useStyles = createStyles(() => ({
 
 const ProductPage = ({ onAdd }) => {
   const { productDataBase, category } = useLoaderData();
-  const [variantValue, setVarianValue] = useState("0");
   const [value, setValue] = useState(1);
   const { classes } = useStyles();
   const dataVariants = Object.values(productDataBase.variant);
   const arrA = useSortData(dataVariants, "size");
+  const [variantValue, setVarianValue] = useState(createVariants(arrA));
   const arr = arrA.map((item, index) => {
     if (item.size !== 0) {
       const obj = {
@@ -42,11 +42,28 @@ const ProductPage = ({ onAdd }) => {
       };
       return obj;
     }
-    return false;
+    return false
   });
   const filteredArr = arr.filter((item) => {
     return item !== false ? item : undefined;
   });
+
+  function createVariants(arr) {
+    const arrData = arr.map((item, index) => {
+      if (item.size !== 0) {
+        const obj = {
+          label: `${item.size} ${productDataBase.unit}`,
+          value: `${index}`,
+        };
+        return obj;
+      }
+      return false
+    });
+    const filteredArr = arrData.filter((item) => {
+      return item !== false ? item : undefined;
+    });
+    return filteredArr[0].value
+  }
 
   return (
     <>

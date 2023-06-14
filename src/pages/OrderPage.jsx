@@ -76,7 +76,7 @@ const OrderPage = ({ order, productsArray, productsKolArr }) => {
     form.setValues({
       product: productsArray,
       product_kol: productsKolArr,
-      tags: [variant],
+      tags: variant === "234756345986459867459687495684" ? [table] : [variant],
       pay: paymentType,
     });
     form.reset();
@@ -117,19 +117,19 @@ const OrderPage = ({ order, productsArray, productsKolArr }) => {
             <Card.Section p="sm">
               <form
                 id="formOrder"
-                onSubmit={form.onSubmit((values) => {
-                  fetch("sendOrder.php", {
-                    method: "POST",
-                    mode: "no-cors",
-                    headers: {
-                      "Content-type":
-                        "application/x-www-form-urlencoded; application/json; charset=UTF-8",
-                    },
-                    body: "paramm=" + JSON.stringify(values),
-                  });
-                  open();
-                })}
-                onReset={form.onReset}
+                 onSubmit={form.onSubmit((values) => {
+                   fetch("sendOrder.php", {
+                     method: "POST",
+                     mode: "no-cors",
+                     headers: {
+                       "Content-type":
+                         "application/x-www-form-urlencoded; application/json; charset=UTF-8",
+                     },
+                     body: "paramm=" + JSON.stringify(values),
+                   });
+                   open();
+                 })}
+                 onReset={form.onReset}
               >
                 <Group>
                   <SegmentedControl
@@ -225,7 +225,7 @@ const OrderPage = ({ order, productsArray, productsKolArr }) => {
                     form.setValues({
                       product: productsArray,
                       product_kol: productsKolArr,
-                      tags: [variant],
+                      tags: variant === "234756345986459867459687495684" ? [table] : [variant],
                       pay: paymentType,
                     })
                   }
