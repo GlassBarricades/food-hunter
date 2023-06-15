@@ -19,8 +19,10 @@ import { uid } from "uid";
 import { ref, update, remove } from "firebase/database";
 import { db } from "../../firebase";
 import { Pencil, Trash, Eye, EyeOff } from "tabler-icons-react";
+import { useParams } from "react-router-dom";
 
 const AdminCategory = ({ writeToDatabase }) => {
+  const { categoryElement } = useParams();
   const colorScheme = useMantineColorScheme();
   const [opened, handlers] = useDisclosure(false, {
     onClose: () => resetState(),
@@ -31,8 +33,12 @@ const AdminCategory = ({ writeToDatabase }) => {
   const [image, setImage] = useState("");
   const [visible, setVisible] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
-  const [categories] = useFetchData(`/categories/`);
+  const [categories] = useFetchData(`/${categoryElement}/`);
   const data = useSortData(categories, "position");
+
+  console.log(categories);
+
+  console.log(categoryElement);
 
   const resetState = () => {
     setName("");
@@ -97,7 +103,7 @@ const AdminCategory = ({ writeToDatabase }) => {
       >
         <form
           onSubmit={writeToDatabase(
-            `/categories/${link}`,
+            `/${categoryElement}/${link}`,
             {
               name: name,
               link: link,

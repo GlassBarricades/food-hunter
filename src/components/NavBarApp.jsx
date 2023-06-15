@@ -63,23 +63,29 @@ const NavBarApp = ({ links, opened, admin, setOpened }) => {
     );
   });
   return (
-    <Navbar
-      p="md"
-      hiddenBreakpoint="md"
-      hidden={!opened}
-      width={{ md: 200 }}
-    >
+    <Navbar p="md" hiddenBreakpoint="md" hidden={!opened} width={{ md: 200 }}>
       {admin ? (
         <>
-          <Anchor component={NavLink} to="category" className={classes.link}>
+          <Anchor
+            component={NavLink}
+            to="category/categories"
+            className={classes.link}
+          >
             Категории
           </Anchor>
           <Anchor
             component={NavLink}
-            to="category-alcohol"
+            to="category/categories-alcohol"
             className={classes.link}
           >
             Категории Алкоголь
+          </Anchor>
+          <Anchor
+            component={NavLink}
+            to="category/categories-napitki"
+            className={classes.link}
+          >
+            Категории Напитков
           </Anchor>
           <Anchor component={NavLink} to="units" className={classes.link}>
             Единицы измерения

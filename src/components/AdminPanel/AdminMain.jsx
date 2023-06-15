@@ -31,6 +31,8 @@ const AdminMain = ({ writeToDatabase }) => {
   const { adminElement } = useParams();
   const linkItem = useFetchDataOne(`/categories/${adminElement}`);
   const [units] = useFetchData("/units/");
+  const [alcoholCategories] = useFetchData("/categories-alcohol/");
+  const [napitkiCategories] = useFetchData("/categories-napitki/");
   const colorScheme = useMantineColorScheme();
   const [opened, handlers] = useDisclosure(false, {
     onClose: () => resetState(),
@@ -43,6 +45,7 @@ const AdminMain = ({ writeToDatabase }) => {
   const [image, setImage] = useState("");
   const [unit, setUnit] = useState("");
   const [visible, setVisible] = useState(false);
+  const [category, setCategory] = useState("");
   const [compound, setCompound] = useState("");
   const [size1, setSize1] = useState(0);
   const [price1, setPrice1] = useState(0);
@@ -57,6 +60,14 @@ const AdminMain = ({ writeToDatabase }) => {
   const [categories] = useFetchData(`/menu/${adminElement}`);
   const data = useSortData(categories, "position");
 
+  const dataCateroriesAlcohol = alcoholCategories.map((item) => {
+    return item.name;
+  });
+
+  const dataCateroriesNapitki = napitkiCategories.map((item) => {
+    return item.name;
+  });
+
   const dataUnits = units.map((item) => {
     return item.name;
   });
@@ -66,6 +77,7 @@ const AdminMain = ({ writeToDatabase }) => {
     setLink("");
     setPosition(0);
     setImage("");
+    setCategory("");
     setUnit("");
     setVisible(false);
     setCompound("");
@@ -94,6 +106,7 @@ const AdminMain = ({ writeToDatabase }) => {
     setImage(item.image);
     setUnit(item.unit);
     setVisible(item.visible);
+    setCategory(item.category);
     setCompound(item.compound);
     setSize1(item.variant.one.size);
     setPrice1(item.variant.one.price);
@@ -127,6 +140,7 @@ const AdminMain = ({ writeToDatabase }) => {
         </Group>
       </td>
       <td>{`/${element.link}`}</td>
+      <td>{element.category}</td>
       <td>{element.compound}</td>
       <td>
         <Group>
@@ -143,11 +157,25 @@ const AdminMain = ({ writeToDatabase }) => {
       </td>
       <td>
         <Group>
-          <Modal opened={openedDelete} onClose={close} title="Удаление" centered>
-            <Text align="center" mb="md">Вы действительно хотите удалить этот объект?</Text>
+          <Modal
+            opened={openedDelete}
+            onClose={close}
+            title="Удаление"
+            centered
+          >
+            <Text align="center" mb="md">
+              Вы действительно хотите удалить этот объект?
+            </Text>
             <Group position="center">
-            <Button color="green" onClick={() => handleDelete(element, adminElement)}>Удалить</Button>
-            <Button color="red" onClick={() => close()}>Отмена</Button>
+              <Button
+                color="green"
+                onClick={() => handleDelete(element, adminElement)}
+              >
+                Удалить
+              </Button>
+              <Button color="red" onClick={() => close()}>
+                Отмена
+              </Button>
             </Group>
           </Modal>
           <ActionIcon
@@ -186,6 +214,7 @@ const AdminMain = ({ writeToDatabase }) => {
               image: image,
               unit: unit,
               visible: visible,
+              category: category,
               compound: compound,
               variant: {
                 one: {
@@ -236,6 +265,22 @@ const AdminMain = ({ writeToDatabase }) => {
             value={image}
             onChange={(e) => setImage(e.target.value)}
           />
+          {adminElement === "alcohol" ? (
+            <NativeSelect
+              value={category}
+              onChange={(event) => setCategory(event.currentTarget.value)}
+              data={["Выберите категорию", ...dataCateroriesAlcohol]}
+              label="Установите категорию"
+            />
+          ) : undefined}
+          {adminElement === "napitki" ? (
+            <NativeSelect
+              value={category}
+              onChange={(event) => setCategory(event.currentTarget.value)}
+              data={["Выберите категорию", ...dataCateroriesNapitki]}
+              label="Установите категорию"
+            />
+          ) : undefined}
           <NativeSelect
             value={unit}
             onChange={(event) => setUnit(event.currentTarget.value)}

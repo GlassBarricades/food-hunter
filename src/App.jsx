@@ -102,7 +102,7 @@ const App = () => {
             }
           />
           <Route
-            path="category"
+            path="category/:categoryElement"
             element={
               <AdminCategory
                 writeToDatabase={writeToDatabase}
@@ -110,14 +110,14 @@ const App = () => {
               />
             }
           />
-          <Route
+          {/* <Route
             path="category-alcohol"
             element={<AdminCategoryAlcohol writeToDatabase={writeToDatabase} />}
           />
           <Route
             path="alcohol"
             element={<AdminMainAlcohol writeToDatabase={writeToDatabase} />}
-          />
+          /> */}
           <Route
             path="units"
             element={<AdminUnits writeToDatabase={writeToDatabase} />}
