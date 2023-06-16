@@ -17,7 +17,7 @@ import {
 import { useLoaderData } from "react-router-dom";
 import { getDatabase, ref, child, get } from "firebase/database";
 import useSortData from "../hooks/useSortData";
-// import AddList from "../components/AddList";
+import AddList from "../components/AddList";
 
 const useStyles = createStyles(() => ({
   wrapper: {
@@ -42,7 +42,7 @@ const ProductPage = ({ onAdd }) => {
       };
       return obj;
     }
-    return false
+    return false;
   });
   const filteredArr = arr.filter((item) => {
     return item !== false ? item : undefined;
@@ -57,12 +57,12 @@ const ProductPage = ({ onAdd }) => {
         };
         return obj;
       }
-      return false
+      return false;
     });
     const filteredArr = arrData.filter((item) => {
       return item !== false ? item : undefined;
     });
-    return filteredArr[0].value
+    return filteredArr[0].value;
   }
 
   return (

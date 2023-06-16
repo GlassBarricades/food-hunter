@@ -158,6 +158,13 @@ const OrderPage = ({ order, productsArray, productsKolArr }) => {
                           { label: "Стол №1", value: "4566" },
                           { label: "Стол №2", value: "5052" },
                           { label: "Стол №3", value: "5053" },
+                        ]}
+                      />
+                      <SegmentedControl
+                        mt="sm"
+                        value={table}
+                        onChange={setTable}
+                        data={[
                           { label: "Стол №4", value: "5054" },
                           { label: "Стол №5", value: "5055" },
                         ]}
