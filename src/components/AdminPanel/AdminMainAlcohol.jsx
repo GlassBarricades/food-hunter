@@ -63,7 +63,7 @@ const AdminMainAlcohol = ({ writeToDatabase }) => {
     return item.name;
   });
 
-  console.log(dataCaterories)
+  console.log(dataCaterories);
 
   const resetState = () => {
     setName("");
@@ -229,7 +229,7 @@ const AdminMainAlcohol = ({ writeToDatabase }) => {
           <NativeSelect
             value={alcoholeCategory}
             onChange={(event) => setAlcoholeCategory(event.currentTarget.value)}
-            data={["Выберите категорию", ... dataCaterories]}
+            data={["Выберите категорию", ...dataCaterories]}
             label="Установите категорию алкоголя"
           />
           <Group>

@@ -7,23 +7,25 @@ import useSortData from "../hooks/useSortData";
 
 const CategoryPage = () => {
   const { dataBase, category, dataCategories } = useLoaderData();
+  const sortedCategories = useSortData(dataCategories, "position");
   const [activeTab, setActiveTab] = useState(
     dataCategories ? dataCategories[0].name : undefined
   );
   const sortedData = useSortData(dataBase, "position");
-
 
   const filteredData = dataBase.filter((item) => {
     if (activeTab === item.category) {
       return item;
     }
   });
-
   const sortedDataA = useSortData(filteredData, "position");
+
+  console.log(dataBase);
+  console.log(sortedCategories);
 
   return (
     <>
-      {category === "alcohol" ? (
+      {category === "alcohol" || category === "napitki" ? (
         <Tabs
           color="yellow"
           variant="pills"
@@ -31,7 +33,7 @@ const CategoryPage = () => {
           onTabChange={setActiveTab}
         >
           <Tabs.List>
-            {dataCategories.map((item) => {
+            {sortedCategories.map((item) => {
               return (
                 <Tabs.Tab key={item.uuid} value={item.name}>
                   {item.name}
@@ -40,7 +42,7 @@ const CategoryPage = () => {
             })}
           </Tabs.List>
 
-          {dataCategories.map((item) => {
+          {sortedCategories.map((item) => {
             return (
               <Tabs.Panel key={item.uuid} value={item.name} pt="xs">
                 <SimpleGrid
@@ -165,8 +167,8 @@ const categoryLoader = async ({ params }) => {
     .catch((error) => {
       console.error(error);
     });
-  if (category === "alcohol") {
-    await get(child(dbRef, `/categories-alcohol/`))
+  if (category === "alcohol" || category === "napitki") {
+    await get(child(dbRef, `/categories-${category}/`))
       .then((snapshot) => {
         if (snapshot.exists()) {
           const data = Object.values(snapshot.val());

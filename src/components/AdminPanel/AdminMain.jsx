@@ -140,8 +140,8 @@ const AdminMain = ({ writeToDatabase }) => {
         </Group>
       </td>
       <td>{`/${element.link}`}</td>
-      <td>{element.category}</td>
       <td>{element.compound}</td>
+      <td>{element.category}</td>
       <td>
         <Group>
           {element.variant
@@ -393,6 +393,7 @@ const AdminMain = ({ writeToDatabase }) => {
             <th>id</th>
             <th>Ссылка</th>
             <th>Состав</th>
+            <th>Категория</th>
             <th>Варианты</th>
             <th>Настройки</th>
           </tr>
