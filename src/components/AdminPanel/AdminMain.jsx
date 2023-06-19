@@ -214,7 +214,7 @@ const AdminMain = ({ writeToDatabase }) => {
               image: image,
               unit: unit,
               visible: visible,
-              category: category,
+              category: adminElement === "alcohol" || adminElement === "napitki" ? category : "",
               compound: compound,
               variant: {
                 one: {
