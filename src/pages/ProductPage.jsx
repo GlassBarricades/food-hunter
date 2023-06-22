@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, memo } from "react";
 import {
   Grid,
   Image,
@@ -68,7 +68,7 @@ const ProductPage = ({ onAdd }) => {
   return (
     <>
       <Grid className={classes.wrapper}>
-        <Grid.Col md={6}>
+          <Grid.Col md={6}>
           <Image
             radius="md"
             height={500}
