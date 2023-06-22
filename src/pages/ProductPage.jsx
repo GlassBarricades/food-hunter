@@ -18,6 +18,7 @@ import { useLoaderData } from "react-router-dom";
 import { getDatabase, ref, child, get } from "firebase/database";
 import useSortData from "../hooks/useSortData";
 import AddList from "../components/AddList";
+import ProductTitle from "../components/ProductTitle";
 
 const useStyles = createStyles(() => ({
   wrapper: {
@@ -79,7 +80,8 @@ const ProductPage = ({ onAdd }) => {
         <Grid.Col md={6}>
           <Paper shadow="xs" p="md" withBorder>
             <Stack>
-              <Title order={3}>{productDataBase.name}</Title>
+              <ProductTitle title={productDataBase.name} />
+              {/* <Title order={3}>{productDataBase.name}</Title> */}
               <Text>Состав: </Text>
               <List>{productDataBase.compound}</List>
               {/* <AddList /> */}
