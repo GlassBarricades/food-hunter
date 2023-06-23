@@ -19,6 +19,7 @@ import { getDatabase, ref, child, get } from "firebase/database";
 import useSortData from "../hooks/useSortData";
 import AddList from "../components/AddList";
 import ProductTitle from "../components/ProductTitle";
+import Compound from "../components/Compound";
 
 const useStyles = createStyles(() => ({
   wrapper: {
@@ -69,7 +70,7 @@ const ProductPage = ({ onAdd }) => {
   return (
     <>
       <Grid className={classes.wrapper}>
-          <Grid.Col md={6}>
+        <Grid.Col md={6}>
           <Image
             radius="md"
             height={500}
@@ -81,9 +82,7 @@ const ProductPage = ({ onAdd }) => {
           <Paper shadow="xs" p="md" withBorder>
             <Stack>
               <ProductTitle title={productDataBase.name} />
-              {/* <Title order={3}>{productDataBase.name}</Title> */}
-              <Text>Состав: </Text>
-              <List>{productDataBase.compound}</List>
+              <Compound compound={productDataBase.compound} />
               {/* <AddList /> */}
               <Group>
                 <Text>Размер: </Text>
