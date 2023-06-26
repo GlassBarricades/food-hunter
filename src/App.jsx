@@ -71,6 +71,7 @@ const App = () => {
             element={
               <OrderPage
                 order={order}
+                orderHandler={setOrder}
                 productsArray={productsArray}
                 productsKolArr={productsKolArr}
               />

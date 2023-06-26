@@ -27,7 +27,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const OrderPage = ({ order, productsArray, productsKolArr }) => {
+const OrderPage = ({ order, orderHandler, productsArray, productsKolArr }) => {
   const [opened, { open, close }] = useDisclosure(false);
   const { classes } = useStyles();
   const [variant, setVariant] = useState("2202");
@@ -128,6 +128,7 @@ const OrderPage = ({ order, productsArray, productsKolArr }) => {
                      body: "paramm=" + JSON.stringify(values),
                    });
                    open();
+                  orderHandler([])
                  })}
                  onReset={form.onReset}
               >

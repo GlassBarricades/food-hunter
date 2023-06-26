@@ -24,16 +24,11 @@ const Basket = ({ order, deleteOrder }) => {
   const rows = order.map((element) => (
     <tr key={element.name}>
       <td>
-        <Image width={80} src={element.image} />
+        <Image width={40} src={element.image} />
       </td>
       <td>{element.name}</td>
       <td>{element.variantOrder}</td>
-      <td>
-        <NumberInput
-          value={element.quantity}
-          styles={{ input: { width: rem(64), height: rem(24) } }}
-        />
-      </td>
+      <td>{element.quantity}</td>
       <td>{element.quantity * element.priceOrder} руб</td>
       <td>
         <ActionIcon
@@ -48,7 +43,6 @@ const Basket = ({ order, deleteOrder }) => {
   ));
 
   return (
-    <MediaQuery largerThan="lg" styles={{maxWidth: "700px"}}>
       <HoverCard shadow="md">
         <HoverCard.Target>
           <Indicator
@@ -71,10 +65,11 @@ const Basket = ({ order, deleteOrder }) => {
             </ActionIcon>
           </Indicator>
         </HoverCard.Target>
+        <MediaQuery largerThan="md" styles={{ minWidth: "700px" }}>
         <HoverCard.Dropdown>
           {order.length > 0 ? (
             <>
-              <Table>
+              <Table horizontalSpacing={5}>
                 <tbody>{rows}</tbody>
               </Table>
               <Group mt="sm" position="center">
@@ -92,8 +87,8 @@ const Basket = ({ order, deleteOrder }) => {
             <Text>В вашей корзине пока нет товаров :(</Text>
           )}
         </HoverCard.Dropdown>
+        </MediaQuery>
       </HoverCard>
-    </MediaQuery>
   );
 };
 export default Basket;
