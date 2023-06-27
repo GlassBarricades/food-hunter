@@ -127,8 +127,7 @@ const OrderPage = ({ order, orderHandler, productsArray, productsKolArr }) => {
                      },
                      body: "paramm=" + JSON.stringify(values),
                    });
-                   open();
-                  orderHandler([])
+                  open();
                  })}
                  onReset={form.onReset}
               >

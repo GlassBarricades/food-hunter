@@ -4,6 +4,7 @@ import { Text, SimpleGrid, Card, Image, Button, Tabs } from "@mantine/core";
 import { Link } from "react-router-dom";
 import { getDatabase, ref, child, get } from "firebase/database";
 import useSortData from "../hooks/useSortData";
+import ScrollToTop from "../helpers/ScrollToTop";
 
 const CategoryPage = () => {
   const { dataBase, category, dataCategories } = useLoaderData();
@@ -25,7 +26,8 @@ const CategoryPage = () => {
 
   return (
     <>
-      {category === "alcohol" || category === "napitki" ? (
+    <ScrollToTop />
+      {category === "alcohol" || category === "napitki" || category === "gorjachie-napitki" ? (
         <Tabs
           color="yellow"
           variant="pills"
@@ -167,7 +169,7 @@ const categoryLoader = async ({ params }) => {
     .catch((error) => {
       console.error(error);
     });
-  if (category === "alcohol" || category === "napitki") {
+  if (category === "alcohol" || category === "napitki" || category === "gorjachie-napitki") {
     await get(child(dbRef, `/categories-${category}/`))
       .then((snapshot) => {
         if (snapshot.exists()) {

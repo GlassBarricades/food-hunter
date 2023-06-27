@@ -50,6 +50,8 @@ const AdminCategory = ({ writeToDatabase }) => {
   };
 
   const handleDelete = (item, base) => {
+    console.log(item)
+    console.log(base)
     remove(ref(db, `/${base}/${item.link}`));
   };
 
@@ -84,7 +86,7 @@ const AdminCategory = ({ writeToDatabase }) => {
           <ActionIcon
             mt="xs"
             variant={colorScheme.colorScheme === "dark" ? "outline" : "default"}
-            onClick={() => handleDelete(element, "categories")}
+            onClick={() => handleDelete(element, `${categoryElement}`)}
             color={colorScheme.colorScheme === "dark" ? "yellow.5" : undefined}
           >
             <Trash size="1rem" />

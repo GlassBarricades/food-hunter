@@ -4,6 +4,7 @@ import {
   useMantineTheme,
   createStyles,
   Navbar,
+  ScrollArea,
 } from "@mantine/core";
 import { NavLink } from "react-router-dom";
 
@@ -64,6 +65,7 @@ const NavBarApp = ({ links, opened, admin, setOpened }) => {
   });
   return (
     <Navbar p="md" hiddenBreakpoint="md" hidden={!opened} width={{ md: 200 }}>
+      <ScrollArea>
       {admin ? (
         <>
           <Anchor
@@ -87,12 +89,20 @@ const NavBarApp = ({ links, opened, admin, setOpened }) => {
           >
             Категории Напитков
           </Anchor>
+          <Anchor
+            component={NavLink}
+            to="category/categories-gorjachie-napitki"
+            className={classes.link}
+          >
+            Категории Горячих Напитков
+          </Anchor>
           <Anchor component={NavLink} to="units" className={classes.link}>
             Единицы измерения
           </Anchor>
         </>
       ) : undefined}
       {items}
+      </ScrollArea>
     </Navbar>
   );
 };
