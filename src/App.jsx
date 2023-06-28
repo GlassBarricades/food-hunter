@@ -84,11 +84,13 @@ const App = () => {
               element={<CategoryPage />}
               loader={categoryLoader}
             />
+            <Route path=":category/tabs/:tabValue" element={<CategoryPage />} loader={categoryLoader}/>
             <Route
               path=":category/:product"
               element={<ProductPage onAdd={addToOrder} />}
               loader={productLoader}
             />
+            <Route path=":category/tabs/:tabValue/:product" element={<ProductPage onAdd={addToOrder} />} loader={productLoader}/>
           </Route>
         </Route>
         <Route path="/admin" element={<AdminLayout links={links} />}>

@@ -5,24 +5,25 @@ import { Link } from "react-router-dom";
 import { getDatabase, ref, child, get } from "firebase/database";
 import useSortData from "../hooks/useSortData";
 import ScrollToTop from "../helpers/ScrollToTop";
+import { useNavigate, useParams } from 'react-router-dom';
 
 const CategoryPage = () => {
   const { dataBase, category, dataCategories } = useLoaderData();
+  const navigate = useNavigate();
+  const { tabValue } = useParams();
   const sortedCategories = useSortData(dataCategories, "position");
-  const [activeTab, setActiveTab] = useState(
-    dataCategories ? dataCategories[0].name : undefined
-  );
+   const [activeTab, setActiveTab] = useState(
+     dataCategories ? dataCategories[0].name : undefined
+   );
+  console.log(tabValue)
   const sortedData = useSortData(dataBase, "position");
 
-  const filteredData = dataBase.filter((item) => {
-    if (activeTab === item.category) {
-      return item;
-    }
-  });
+   const filteredData = dataBase.filter((item) => {
+     if (tabValue === item.category) {
+       return item;
+     }
+   });
   const sortedDataA = useSortData(filteredData, "position");
-
-  console.log(dataBase);
-  console.log(sortedCategories);
 
   return (
     <>
@@ -31,8 +32,9 @@ const CategoryPage = () => {
         <Tabs
           color="yellow"
           variant="pills"
-          value={activeTab}
-          onTabChange={setActiveTab}
+          defaultValue={activeTab}
+          value={tabValue}
+          onTabChange={(value) => navigate(`/menu/${category}/tabs/${value}`)}
         >
           <Tabs.List>
             {sortedCategories.map((item) => {
