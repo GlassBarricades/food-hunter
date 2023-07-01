@@ -17,6 +17,10 @@ const App = ({ order, deleteOrder }) => {
       link: "/menu",
       name: "Меню",
     },
+    {
+      link: "/contacts",
+      name: "Контакты"
+    },
     // {
     //   link: "/admin",
     //   name: "Панель администратора",

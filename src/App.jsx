@@ -22,6 +22,7 @@ import { db } from "./firebase";
 import useFetchData from "./hooks/useFetchData";
 import "./app.css";
 import AdminUnits from "./components/AdminPanel/AdminUnits";
+import ContactPage from "./pages/ContactPage";
 
 const App = () => {
   const [order, setOrder] = useState([]);
@@ -77,6 +78,7 @@ const App = () => {
               />
             }
           />
+          <Route path="/contacts" element={<ContactPage />} />
           <Route path="menu" element={<MenuPage />}>
             <Route index element={<MenuGridCategory categories={links} />} />
             <Route
