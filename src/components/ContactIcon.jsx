@@ -68,10 +68,10 @@ function ContactIcon({
 }
 
 const MOCKDATA = [
-  { title: 'Email', description: 'hello@mantine.dev', icon: At },
-  { title: 'Phone', description: '+49 (800) 335 35 35', icon: Phone },
-  { title: 'Address', description: '844 Morris Park avenue', icon: MapPin },
-  { title: 'Working hours', description: '8 a.m. – 11 p.m.', icon: Sun },
+  { title: 'Email', description: 'food-hunter.by@mail.ru', icon: At },
+  { title: 'Телефон', description: '+375(29)666-93-99', icon: Phone },
+  { title: 'Адрес', description: 'Проспект Ленина, д. 14Б', icon: MapPin },
+  { title: 'Время работы', description: 'Вс-Чт: 11:00-23:00 Пт-Сб: 11:00-00:00', icon: Sun },
 ];
 
 export function ContactIconsList({ data = MOCKDATA, variant }) {
