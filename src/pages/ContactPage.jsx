@@ -28,7 +28,10 @@ const useStyles = createStyles((theme) => ({
         : theme.colors.gray[1],
     borderRadius: theme.radius.md,
     padding: `calc(${theme.spacing.xl} * 2.5)`,
-
+    minHeight: "100%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-around",
     [theme.fn.smallerThan("sm")]: {
       padding: `calc(${theme.spacing.xl} * 1.5)`,
     },
@@ -42,8 +45,7 @@ const useStyles = createStyles((theme) => ({
 
   description: {
     color: theme.colorScheme === "dark" ? theme.white : theme.black,
-    maxWidth: rem(300),
-
+    maxWidth: rem(500),
     [theme.fn.smallerThan("sm")]: {
       maxWidth: "100%",
     },
