@@ -1,10 +1,4 @@
-import {
-  SimpleGrid,
-  Card,
-  Image,
-  Text,
-  ScrollArea,
-} from "@mantine/core";
+import { SimpleGrid, Card, Image, Text, ScrollArea } from "@mantine/core";
 import { Link } from "react-router-dom";
 
 const data = [
@@ -64,7 +58,7 @@ const data = [
   },
 ];
 
-const AddList = () => {
+const AddList = ({ addList }) => {
   return (
     <ScrollArea h={250}>
       <SimpleGrid
@@ -78,7 +72,7 @@ const AddList = () => {
           { maxWidth: "xs", cols: 2, spacing: "xs" },
         ]}
       >
-        {data.map((item, index) => {
+        {addList.map((item, index) => {
           return (
             <Card
               key={index}
@@ -96,7 +90,7 @@ const AddList = () => {
                 {item.name}
               </Text>
               <Text size="sm" mt="xs">
-                {item.price} руб
+                {item.variant.one.price} руб
               </Text>
               {/* <Button mt="sm" variant="default" fullWidth>
                 Выбрать

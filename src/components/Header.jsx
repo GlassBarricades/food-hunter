@@ -1,20 +1,14 @@
-import { useLocalStorage } from "@mantine/hooks";
 import {
   createStyles,
   Header,
   Container,
   Group,
   Burger,
-  Anchor,
   MediaQuery,
   Image,
-  Drawer,
   useMantineTheme,
-  Text,
-  Grid,
 } from "@mantine/core";
 import { ThemeChange } from "./Theme-change";
-import { Link } from "react-router-dom";
 import ContactsHeader from "./ContactsHeader";
 import Basket from "./Basket";
 

@@ -18,6 +18,10 @@ const App = ({ order, deleteOrder }) => {
       name: "Меню",
     },
     {
+      link: "/stock",
+      name: "Акции",
+    },
+    {
       link: "/contacts",
       name: "Контакты"
     },

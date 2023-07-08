@@ -23,6 +23,7 @@ import useFetchData from "./hooks/useFetchData";
 import "./app.css";
 import AdminUnits from "./components/AdminPanel/AdminUnits";
 import ContactPage from "./pages/ContactPage";
+import PromotionPage from "./pages/PromotionPage";
 
 const App = () => {
   const [order, setOrder] = useState([]);
@@ -79,6 +80,7 @@ const App = () => {
             }
           />
           <Route path="/contacts" element={<ContactPage />} />
+          <Route path="/stock" element={<PromotionPage />} />
           <Route path="menu" element={<MenuPage />}>
             <Route index element={<MenuGridCategory categories={links} />} />
             <Route

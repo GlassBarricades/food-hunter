@@ -30,12 +30,13 @@ const useStyles = createStyles(() => ({
 }));
 
 const ProductPage = ({ onAdd }) => {
-  const { productDataBase, category } = useLoaderData();
+  const { productDataBase, category, addList } = useLoaderData();
   const [value, setValue] = useState(1);
   const { classes } = useStyles();
   const dataVariants = Object.values(productDataBase.variant);
   const arrA = useSortData(dataVariants, "size");
   const [variantValue, setVarianValue] = useState(createVariants(arrA));
+  console.log(addList);
   const arr = arrA.map((item, index) => {
     if (item.size !== 0) {
       const obj = {
@@ -83,7 +84,16 @@ const ProductPage = ({ onAdd }) => {
             <Stack>
               <ProductTitle title={productDataBase.name} />
               <Compound compound={productDataBase.compound} />
-              {/* <AddList /> */}
+              {category === "sushi" ||
+              category === "nigiri" ||
+              category === "gynkan" ||
+              category === "sety-sushi" ||
+              category === "goryachie-sushi" ||
+              category === "friture" ||
+              category === "pizza" ||
+              category === "seti-pizza" ? (
+                <AddList addList={addList} />
+              ) : undefined}
               <Group>
                 <Text>Размер: </Text>
                 <SegmentedControl
@@ -135,6 +145,7 @@ const productLoader = async ({ params }) => {
   const product = params.product;
   const dbRef = ref(getDatabase());
   let productDataBase;
+  let addList;
   await get(child(dbRef, `menu/${category}/${product}`))
     .then((snapshot) => {
       if (snapshot.exists()) {
@@ -150,7 +161,48 @@ const productLoader = async ({ params }) => {
     .catch((error) => {
       console.error(error);
     });
-  return { productDataBase, category, product };
+  if (
+    category === "sushi" ||
+    category === "nigiri" ||
+    category === "gynkan" ||
+    category === "sety-sushi" ||
+    category === "goryachie-sushi" ||
+    category === "friture"
+  ) {
+    await get(child(dbRef, `menu/soysi`))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          const data = Object.values(snapshot.val());
+          return data;
+        } else {
+          console.log("No data available");
+        }
+      })
+      .then((data) => {
+        addList = data;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+  if (category === "pizza" || category === "seti-pizza") {
+    await get(child(dbRef, `menu/dobavki`))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          const data = Object.values(snapshot.val());
+          return data;
+        } else {
+          console.log("No data available");
+        }
+      })
+      .then((data) => {
+        addList = data;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+  return { productDataBase, category, product, addList };
 };
 
 export { ProductPage, productLoader };
