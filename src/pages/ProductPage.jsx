@@ -92,7 +92,7 @@ const ProductPage = ({ onAdd }) => {
               category === "friture" ||
               category === "pizza" ||
               category === "seti-pizza" ? (
-                <AddList addList={addList} />
+                <AddList addList={addList} onAdd={onAdd}/>
               ) : undefined}
               <Group>
                 <Text>Размер: </Text>

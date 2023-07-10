@@ -43,6 +43,9 @@ const App = () => {
     obj.variantOrder = variant;
     obj.priceOrder = price;
     setOrder([...order, obj]);
+    if (setValue === handlers) {
+      setValue.set(0)
+    }
     setValue(1);
   }
 
@@ -76,6 +79,7 @@ const App = () => {
                 orderHandler={setOrder}
                 productsArray={productsArray}
                 productsKolArr={productsKolArr}
+                deleteOrder={deleteOrder}
               />
             }
           />

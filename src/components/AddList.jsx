@@ -1,64 +1,20 @@
-import { SimpleGrid, Card, Image, Text, ScrollArea } from "@mantine/core";
-import { Link } from "react-router-dom";
+import {
+  SimpleGrid,
+  Card,
+  Image,
+  Text,
+  ScrollArea,
+  ActionIcon,
+  Group,
+  Button,
+  Badge,
+  Indicator
+} from "@mantine/core";
+import {CirclePlus} from "tabler-icons-react";
+import { useCounter } from '@mantine/hooks';
 
-const data = [
-  {
-    name: "Сырный борт 25",
-    price: 25,
-    id: "1232234254",
-    image: "https://just-eat.by/image/data/shops/102232/163239.jpg",
-  },
-  {
-    name: "Сырный борт 30",
-    price: 25,
-    id: "578",
-    image: "https://just-eat.by/image/data/shops/102232/163239.jpg",
-  },
-  {
-    name: "Сырный борт 25",
-    price: 25,
-    id: "1232234254",
-    image: "https://just-eat.by/image/data/shops/102232/163239.jpg",
-  },
-  {
-    name: "Сырный борт 25",
-    price: 25,
-    id: "1232234254",
-    image: "https://just-eat.by/image/data/shops/102232/163239.jpg",
-  },
-  {
-    name: "Сырный борт 25",
-    price: 25,
-    id: "1232234254",
-    image: "https://just-eat.by/image/data/shops/102232/163239.jpg",
-  },
-  {
-    name: "Сырный борт 25",
-    price: 25,
-    id: "1232234254",
-    image: "https://just-eat.by/image/data/shops/102232/163239.jpg",
-  },
-  {
-    name: "Сырный борт 25",
-    price: 25,
-    id: "1232234254",
-    image: "https://just-eat.by/image/data/shops/102232/163239.jpg",
-  },
-  {
-    name: "Сырный борт 25",
-    price: 25,
-    id: "1232234254",
-    image: "https://just-eat.by/image/data/shops/102232/163239.jpg",
-  },
-  {
-    name: "Сырный борт 25",
-    price: 25,
-    id: "1232234254",
-    image: "https://just-eat.by/image/data/shops/102232/163239.jpg",
-  },
-];
-
-const AddList = ({ addList }) => {
+const AddList = ({ addList, onAdd }) => {
+  const [count, handlers] = useCounter(0, { min: 0, max: 10 });
   return (
     <ScrollArea h={250}>
       <SimpleGrid
@@ -74,27 +30,40 @@ const AddList = ({ addList }) => {
       >
         {addList.map((item, index) => {
           return (
-            <Card
+              <Card
               key={index}
               shadow="sm"
               padding="sm"
               radius="lg"
-              component={Link}
-              to={`${item.link}`}
+              onClick={handlers.increment}
             >
+              <Indicator inline label={count} size={22} color="yellow" position="bottom-center">
               <Card.Section>
                 <Image src={item.image} height={110} alt={item.name} />
               </Card.Section>
-
+              </Indicator>
+              <Group position="apart">
               <Text size="sm" mt="xs">
                 {item.name}
               </Text>
-              <Text size="sm" mt="xs">
-                {item.variant.one.price} руб
-              </Text>
-              {/* <Button mt="sm" variant="default" fullWidth>
-                Выбрать
-              </Button> */}
+              </Group>
+              <Group position="apart">
+                <Text size="sm" mt="xs">
+                  {item.variant.one.price} руб
+                </Text>
+                <ActionIcon onClick={() =>
+                    onAdd(
+                      item,
+                      item.variant.one.label,
+                      item.variant.one.price,
+                      item.variant.one.id,
+                      count,
+                      handlers
+                    )
+                  }>
+                  <CirclePlus />
+                </ActionIcon>
+              </Group>
             </Card>
           );
         })}

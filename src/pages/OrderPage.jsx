@@ -17,9 +17,11 @@ import {
   Table,
   Button,
   Modal,
+  ActionIcon
 } from "@mantine/core";
 import { useForm, hasLength, isNotEmpty } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
+import { Trash } from "tabler-icons-react";
 
 const useStyles = createStyles((theme) => ({
   formWrapper: {
@@ -27,7 +29,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const OrderPage = ({ order, orderHandler, productsArray, productsKolArr }) => {
+const OrderPage = ({ order, orderHandler, productsArray, productsKolArr, deleteOrder }) => {
   const [opened, { open, close }] = useDisclosure(false);
   const { classes } = useStyles();
   const [variant, setVariant] = useState("2202");
@@ -117,19 +119,19 @@ const OrderPage = ({ order, orderHandler, productsArray, productsKolArr }) => {
             <Card.Section p="sm">
               <form
                 id="formOrder"
-                 onSubmit={form.onSubmit((values) => {
-                   fetch("sendOrder.php", {
-                     method: "POST",
-                     mode: "no-cors",
-                     headers: {
-                       "Content-type":
-                         "application/x-www-form-urlencoded; application/json; charset=UTF-8",
-                     },
-                     body: "paramm=" + JSON.stringify(values),
-                   });
+                onSubmit={form.onSubmit((values) => {
+                  fetch("sendOrder.php", {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: {
+                      "Content-type":
+                        "application/x-www-form-urlencoded; application/json; charset=UTF-8",
+                    },
+                    body: "paramm=" + JSON.stringify(values),
+                  });
                   open();
-                 })}
-                 onReset={form.onReset}
+                })}
+                onReset={form.onReset}
               >
                 <Group>
                   <SegmentedControl
@@ -232,7 +234,10 @@ const OrderPage = ({ order, orderHandler, productsArray, productsKolArr }) => {
                     form.setValues({
                       product: productsArray,
                       product_kol: productsKolArr,
-                      tags: variant === "234756345986459867459687495684" ? [table] : [variant],
+                      tags:
+                        variant === "234756345986459867459687495684"
+                          ? [table]
+                          : [variant],
                       pay: paymentType,
                     })
                   }
@@ -266,6 +271,9 @@ const OrderPage = ({ order, orderHandler, productsArray, productsKolArr }) => {
                             </Text>
                             <Text>{item.quantity} шт</Text>
                             <Text>{item.quantity * item.priceOrder} руб</Text>
+                            <ActionIcon size="xl" onClick={() => deleteOrder(item.uuid)}>
+                              <Trash size="1.5rem" color="yellow"/>
+                            </ActionIcon>
                           </Group>
                         );
                       })}
