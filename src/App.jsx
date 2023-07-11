@@ -43,10 +43,11 @@ const App = () => {
     obj.variantOrder = variant;
     obj.priceOrder = price;
     setOrder([...order, obj]);
-    if (setValue === handlers) {
+    if (typeof setValue === 'object') {
       setValue.set(0)
+    } else {
+      setValue(1);
     }
-    setValue(1);
   }
 
   const writeToDatabase = (link, data, reset, close) => (e) => {
