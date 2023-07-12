@@ -1,15 +1,14 @@
 import { Card, Image, Indicator, Group, Text, ActionIcon } from "@mantine/core";
-import {CirclePlus} from "tabler-icons-react";
+import {CirclePlus, CircleMinus, ShoppingBag} from "tabler-icons-react";
 import { useCounter } from '@mantine/hooks';
 
 const AddCard = ({ item, onAdd }) => {
-    const [count, handlers] = useCounter(0, { min: 0, max: 10 });
+    const [count, handlers] = useCounter(1, { min: 1, max: 10 });
     return (
         <Card
               shadow="sm"
               padding="sm"
               radius="lg"
-              onClick={handlers.increment}
             >
               <Card.Section>
                 <Image src={item.image} height={110} alt={item.name} />
@@ -21,10 +20,16 @@ const AddCard = ({ item, onAdd }) => {
               </Text>
               </Group>
               </Indicator>
-              <Group position="apart">
-                <Text size="sm" mt="xs">
-                  {item.variant.one.price} руб
+              <Text size="sm" mt="xs">
+                  {item.variant.one.price * count} руб
                 </Text>
+              <Group position="apart">
+                <ActionIcon onClick={handlers.decrement}>
+                  <CircleMinus />
+                </ActionIcon>
+                <ActionIcon onClick={handlers.increment}>
+                  <CirclePlus />
+                </ActionIcon>
                 <ActionIcon onClick={() =>
                     onAdd(
                       item,
@@ -35,7 +40,7 @@ const AddCard = ({ item, onAdd }) => {
                       handlers
                     )
                   }>
-                  <CirclePlus />
+                  <ShoppingBag />
                 </ActionIcon>
               </Group>
             </Card>

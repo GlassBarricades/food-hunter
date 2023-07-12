@@ -9,12 +9,12 @@ const AddList = ({ addList, onAdd }) => {
   return (
     <ScrollArea h={250}>
       <SimpleGrid
-        cols={5}
+        cols={4}
         spacing="xs"
         breakpoints={[
-          { maxWidth: "xl", cols: 4, spacing: "xs" },
-          { maxWidth: "lg", cols: 3, spacing: "xs" },
-          { maxWidth: "md", cols: 3, spacing: "xs" },
+          { maxWidth: "xl", cols: 3, spacing: "xs" },
+          { maxWidth: "lg", cols: 2, spacing: "xs" },
+          { maxWidth: "md", cols: 2, spacing: "xs" },
           { maxWidth: "sm", cols: 3, spacing: "xs" },
           { maxWidth: "xs", cols: 2, spacing: "xs" },
         ]}
