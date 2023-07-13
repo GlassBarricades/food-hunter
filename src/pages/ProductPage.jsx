@@ -2,7 +2,6 @@ import { useState, memo } from "react";
 import {
   Grid,
   Image,
-  Title,
   createStyles,
   Text,
   SegmentedControl,
@@ -10,7 +9,6 @@ import {
   Stack,
   rem,
   NumberInput,
-  List,
   Paper,
   Button,
 } from "@mantine/core";
@@ -20,6 +18,7 @@ import useSortData from "../hooks/useSortData";
 import AddList from "../components/AddList";
 import ProductTitle from "../components/ProductTitle";
 import Compound from "../components/Compound";
+import { useLocalStorage } from '@mantine/hooks';
 
 const useStyles = createStyles(() => ({
   wrapper: {
@@ -36,7 +35,6 @@ const ProductPage = ({ onAdd }) => {
   const dataVariants = Object.values(productDataBase.variant);
   const arrA = useSortData(dataVariants, "size");
   const [variantValue, setVarianValue] = useState(createVariants(arrA));
-  console.log(addList);
   const arr = arrA.map((item, index) => {
     if (item.size !== 0) {
       const obj = {
@@ -92,7 +90,7 @@ const ProductPage = ({ onAdd }) => {
               category === "friture" ||
               category === "pizza" ||
               category === "seti-pizza" ? (
-                <AddList addList={addList} onAdd={onAdd}/>
+                <AddList addList={addList} onAdd={onAdd} />
               ) : undefined}
               <Group>
                 <Text>Размер: </Text>
@@ -103,7 +101,17 @@ const ProductPage = ({ onAdd }) => {
                   data={filteredArr}
                 />
               </Group>
-              <Text>Цена: {dataVariants[variantValue].price} руб.</Text>
+              <Group position="left" spacing="xs" align="flex-end">
+                <Text size="sm" mt="xs">
+                Цена:
+                </Text>
+                <Text size="xl" mt="sm" fw={700}>
+                {dataVariants[variantValue].price}
+                </Text>
+                <Text size="sm" mt="xs">
+                  руб
+                </Text>
+              </Group>
               <Group position="apart">
                 <Group spacing={5}>
                   <Text>Количество: </Text>

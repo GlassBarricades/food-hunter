@@ -14,7 +14,6 @@ import {
   createStyles,
   Image,
   ScrollArea,
-  Table,
   Button,
   Modal,
   ActionIcon
@@ -260,7 +259,7 @@ const OrderPage = ({ order, orderHandler, productsArray, productsKolArr, deleteO
                   </Group>
                 </Card.Section>
                 <Card.Section p="md">
-                  <ScrollArea h={200}>
+                  <ScrollArea h={500}>
                     <Stack>
                       {order.map((item, index) => {
                         return (
@@ -280,23 +279,6 @@ const OrderPage = ({ order, orderHandler, productsArray, productsKolArr, deleteO
                     </Stack>
                   </ScrollArea>
                 </Card.Section>
-              </Card>
-            </Paper>
-          </Grid.Col>
-          <Grid.Col span={6}></Grid.Col>
-          <Grid.Col span={6}>
-            <Paper radius="md">
-              <Card withBorder shadow="sm" radius="md">
-                <Card.Section withBorder inheritPadding py="xs">
-                  <Group position="apart">
-                    <Title order={5} weight={500}>
-                      Информация о заказе:
-                    </Title>
-                  </Group>
-                </Card.Section>
-                <Table>
-                  <tbody>{rowsPrice}</tbody>
-                </Table>
                 <Card.Section withBorder inheritPadding py="xs" mt="sm">
                   <Group position="apart">
                     <Text weight={500}>Итого:</Text>

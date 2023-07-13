@@ -3,27 +3,27 @@ import { useState } from "react";
 import { Text, SimpleGrid, Card, Image, Button, Tabs } from "@mantine/core";
 import { Link } from "react-router-dom";
 import { getDatabase, ref, child, get } from "firebase/database";
-import useSortData from "../hooks/useSortData";
 import ScrollToTop from "../helpers/ScrollToTop";
 import { useNavigate, useParams } from 'react-router-dom';
+import useSortDataVisible from "../hooks/useSortDataVisible";
 
 const CategoryPage = () => {
   const { dataBase, category, dataCategories } = useLoaderData();
   const navigate = useNavigate();
   const { tabValue } = useParams();
-  const sortedCategories = useSortData(dataCategories, "position");
+  const sortedCategories = useSortDataVisible(dataCategories, "position");
    const [activeTab, setActiveTab] = useState(
      dataCategories ? dataCategories[0].name : undefined
    );
   console.log(tabValue)
-  const sortedData = useSortData(dataBase, "position");
+  const sortedData = useSortDataVisible(dataBase, "position");
 
    const filteredData = dataBase.filter((item) => {
      if (tabValue === item.category) {
        return item;
      }
    });
-  const sortedDataA = useSortData(filteredData, "position");
+  const sortedDataA = useSortDataVisible(filteredData, "position");
 
   return (
     <>

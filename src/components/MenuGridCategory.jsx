@@ -1,10 +1,10 @@
 import { Button, Card, Image, SimpleGrid, Text } from "@mantine/core";
 import { Link } from "react-router-dom";
-import useSortData from "../hooks/useSortData";
 import ScrollToTop from "../helpers/ScrollToTop";
+import useSortDataVisible from "../hooks/useSortDataVisible";
 
 const MenuGridCategory = ({ variant, categories }) => {
-  const dataCategories = useSortData(categories, "position");
+  const dataCategories = useSortDataVisible(categories, "position");
 
   return (
     <>

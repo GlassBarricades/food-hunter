@@ -26,6 +26,10 @@ import ContactPage from "./pages/ContactPage";
 import PromotionPage from "./pages/PromotionPage";
 
 const App = () => {
+  const [orderLocal, setOrderLocal] = useLocalStorage({
+    key: 'order',
+    defaultValue: [],
+  });
   const [order, setOrder] = useState([]);
   const [productsArray, setProductsArray] = useState([]);
   const [productsKolArr, setProductsKolArr] = useState([]);
