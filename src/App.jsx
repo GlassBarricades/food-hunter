@@ -14,29 +14,28 @@ import { useState } from "react";
 import OrderPage from "./pages/OrderPage";
 import AdminLayout from "./components/AdminLayout";
 import AdminMain from "./components/AdminPanel/AdminMain";
-import AdminMainAlcohol from "./components/AdminPanel/AdminMainAlcohol";
 import AdminCategory from "./components/AdminPanel/AdminCategory";
-import AdminCategoryAlcohol from "./components/AdminPanel/AdminCategorAlcohol";
 import { set, ref, remove } from "firebase/database";
 import { db } from "./firebase";
+import { uid } from "uid";
 import useFetchData from "./hooks/useFetchData";
 import "./app.css";
 import AdminUnits from "./components/AdminPanel/AdminUnits";
 import ContactPage from "./pages/ContactPage";
 import PromotionPage from "./pages/PromotionPage";
+import { useLocalStorage } from "@mantine/hooks";
 
 const App = () => {
   const [orderLocal, setOrderLocal] = useLocalStorage({
     key: 'order',
     defaultValue: [],
   });
-  const [order, setOrder] = useState([]);
   const [productsArray, setProductsArray] = useState([]);
   const [productsKolArr, setProductsKolArr] = useState([]);
   const [links, loading] = useFetchData("/categories/");
 
   function deleteOrder(id) {
-    setOrder(order.filter((el) => el.uuid !== id));
+    setOrderLocal(orderLocal.filter((el) => el.orderUuid !== id));
   }
 
   function addToOrder(item, variant, price, id, value, setValue) {
@@ -46,7 +45,8 @@ const App = () => {
     obj.quantity = value;
     obj.variantOrder = variant;
     obj.priceOrder = price;
-    setOrder([...order, obj]);
+    obj.orderUuid = uid();
+    setOrderLocal([...orderLocal, obj])
     if (typeof setValue === 'object') {
       setValue.set(0)
     } else {
@@ -73,15 +73,14 @@ const App = () => {
       <>
         <Route
           path="/"
-          element={<LayoutPage order={order} deleteOrder={deleteOrder} />}
+          element={<LayoutPage order={orderLocal} deleteOrder={deleteOrder} />}
         >
           <Route index element={<HomePage categories={links} />} />
           <Route
             path="/order"
             element={
               <OrderPage
-                order={order}
-                orderHandler={setOrder}
+                order={orderLocal}
                 productsArray={productsArray}
                 productsKolArr={productsKolArr}
                 deleteOrder={deleteOrder}
@@ -126,14 +125,6 @@ const App = () => {
               />
             }
           />
-          {/* <Route
-            path="category-alcohol"
-            element={<AdminCategoryAlcohol writeToDatabase={writeToDatabase} />}
-          />
-          <Route
-            path="alcohol"
-            element={<AdminMainAlcohol writeToDatabase={writeToDatabase} />}
-          /> */}
           <Route
             path="units"
             element={<AdminUnits writeToDatabase={writeToDatabase} />}

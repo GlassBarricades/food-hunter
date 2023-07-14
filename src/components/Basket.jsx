@@ -7,8 +7,6 @@ import {
   Group,
   Image,
   Button,
-  NumberInput,
-  rem,
   Table,
   useMantineColorScheme,
   MediaQuery,
@@ -26,15 +24,14 @@ const Basket = ({ order, deleteOrder }) => {
       <td>
         <Image width={40} src={element.image} />
       </td>
-      <td>{element.name}</td>
-      <td>{element.variantOrder}</td>
-      <td>{element.quantity}</td>
+      <td>{element.name} ({element.variantOrder})</td>
+      <td>{element.quantity} шт.</td>
       <td>{element.quantity * element.priceOrder} руб</td>
       <td>
         <ActionIcon
           variant="outline"
           color={colorScheme.colorScheme === "dark" ? "yellow.5" : undefined}
-          onClick={() => deleteOrder(element.uuid)}
+          onClick={() => deleteOrder(element.orderUuid)}
         >
           <Trash size="1rem" />
         </ActionIcon>

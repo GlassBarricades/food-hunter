@@ -28,7 +28,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const OrderPage = ({ order, orderHandler, productsArray, productsKolArr, deleteOrder }) => {
+const OrderPage = ({ order, productsArray, productsKolArr, deleteOrder }) => {
   const [opened, { open, close }] = useDisclosure(false);
   const { classes } = useStyles();
   const [variant, setVariant] = useState("2202");
@@ -56,15 +56,6 @@ const OrderPage = ({ order, orderHandler, productsArray, productsKolArr, deleteO
     },
   });
 
-  const rowsPrice = order.map((element) => (
-    <tr key={element.name}>
-      <td>
-        {element.name} ({element.quantity})
-      </td>
-      <td>{element.quantity * element.priceOrder} руб</td>
-    </tr>
-  ));
-
   const arrPrice = order.map((item) => {
     return item.priceOrder * item.quantity;
   });
@@ -72,18 +63,7 @@ const OrderPage = ({ order, orderHandler, productsArray, productsKolArr, deleteO
   const fullPrice = arrPrice.reduce(function (sum, elem) {
     return sum + elem;
   }, 0);
-
-  function sendOrder() {
-    form.setValues({
-      product: productsArray,
-      product_kol: productsKolArr,
-      tags: variant === "234756345986459867459687495684" ? [table] : [variant],
-      pay: paymentType,
-    });
-    form.reset();
-    open();
-  }
-
+  
   return (
     <>
       <Modal opened={opened} onClose={close} title=" " centered>
@@ -270,7 +250,7 @@ const OrderPage = ({ order, orderHandler, productsArray, productsKolArr, deleteO
                             </Text>
                             <Text>{item.quantity} шт</Text>
                             <Text>{item.quantity * item.priceOrder} руб</Text>
-                            <ActionIcon size="xl" onClick={() => deleteOrder(item.uuid)}>
+                            <ActionIcon size="xl" onClick={() => deleteOrder(item.orderUuid)}>
                               <Trash size="1.5rem" color="yellow"/>
                             </ActionIcon>
                           </Group>

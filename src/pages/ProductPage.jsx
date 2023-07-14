@@ -1,4 +1,4 @@
-import { useState, memo } from "react";
+import { useState } from "react";
 import {
   Grid,
   Image,
@@ -12,13 +12,13 @@ import {
   Paper,
   Button,
 } from "@mantine/core";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import { getDatabase, ref, child, get } from "firebase/database";
 import useSortData from "../hooks/useSortData";
 import AddList from "../components/AddList";
 import ProductTitle from "../components/ProductTitle";
 import Compound from "../components/Compound";
-import { useLocalStorage } from '@mantine/hooks';
+import { ChevronsLeft } from "tabler-icons-react";
 
 const useStyles = createStyles(() => ({
   wrapper: {
@@ -30,6 +30,7 @@ const useStyles = createStyles(() => ({
 
 const ProductPage = ({ onAdd }) => {
   const { productDataBase, category, addList } = useLoaderData();
+  const navigate = useNavigate();
   const [value, setValue] = useState(1);
   const { classes } = useStyles();
   const dataVariants = Object.values(productDataBase.variant);
@@ -70,6 +71,15 @@ const ProductPage = ({ onAdd }) => {
     <>
       <Grid className={classes.wrapper}>
         <Grid.Col md={6}>
+          <Button
+            variant="outline"
+            color="yellow"
+            mb="xl"
+            onClick={() => navigate(-1)}
+            leftIcon={<ChevronsLeft size="1rem" />}
+          >
+            Вернуться назад
+          </Button>
           <Image
             radius="md"
             height={500}
@@ -103,10 +113,10 @@ const ProductPage = ({ onAdd }) => {
               </Group>
               <Group position="left" spacing="xs" align="flex-end">
                 <Text size="sm" mt="xs">
-                Цена:
+                  Цена:
                 </Text>
                 <Text size="xl" mt="sm" fw={700}>
-                {dataVariants[variantValue].price}
+                  {dataVariants[variantValue].price}
                 </Text>
                 <Text size="sm" mt="xs">
                   руб
