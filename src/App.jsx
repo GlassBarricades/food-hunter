@@ -68,6 +68,42 @@ const App = () => {
     remove(ref(db, link));
   };
 
+  const dataPromotion = [
+    {
+      title: "Каждый вторник вторая пицца бесплатно",
+      description: "",
+      image: "https://i.ibb.co/w63F41f/two-kind-pizza-table.jpg",
+      visible: true,
+      day: "Вторник",
+    },
+    {
+      title: "Каждую среду cкидка 30% на вынос",
+      description: "",
+      image: "https://i.ibb.co/F3Vvc6Y/friends-eating-pizza-together-home.jpg",
+      visible: true,
+      day: "Среда",
+    },
+    {
+      title: "Именинникам 15% скидка за три дня и после",
+      description: "",
+      image: "https://i.ibb.co/Pt4FD0g/cute-friends-cafe-eatting-pizza.jpg",
+      visible: true,
+      day: "",
+    }
+  ]
+
+  const getWeekDay = (date) => {
+    const days = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
+  
+    return days[date.getDay()];
+  }
+
+  const promotionNow = dataPromotion.filter(item => {
+    return item.day === getWeekDay(new Date(2013, 8, 17))
+  })
+
+  console.log(promotionNow)
+
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
@@ -88,7 +124,7 @@ const App = () => {
             }
           />
           <Route path="/contacts" element={<ContactPage />} />
-          <Route path="/stock" element={<PromotionPage />} />
+          <Route path="/stock" element={<PromotionPage data={dataPromotion} getWeekDay={getWeekDay}/>} />
           <Route path="menu" element={<MenuPage />}>
             <Route index element={<MenuGridCategory categories={links} />} />
             <Route

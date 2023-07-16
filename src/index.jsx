@@ -1,6 +1,7 @@
 import { MantineProvider, ColorSchemeProvider } from "@mantine/core";
 import { useHotkeys, useLocalStorage } from "@mantine/hooks";
-import { BrowserRouter } from "react-router-dom";
+import 'dayjs/locale/ru';
+import { DatesProvider } from '@mantine/dates';
 import App from "./App";
 
 function Main() {
@@ -70,7 +71,11 @@ function Main() {
         withGlobalStyles
         withNormalizeCSS
       >
-        <App />
+        <DatesProvider
+          settings={{ locale: "ru", firstDayOfWeek: 0, weekendDays: [0] }}
+        >
+          <App />
+        </DatesProvider>
       </MantineProvider>
     </ColorSchemeProvider>
   );
