@@ -29,14 +29,14 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const PromotionCard = ({ image, title, category, day, getWeekDay }) => {
+const PromotionCard = ({ image, title, category, day, getWeekDay}) => {
   const { classes } = useStyles();
-  console.log(getWeekDay)
+ 
   return (
     <Paper
       shadow="md"
       p="xl"
-      radius={day === getWeekDay? "xl" : "xs"}
+      radius={day === getWeekDay ? "xl" : "xs"}
       sx={{ backgroundImage: `url(${image})` }}
       className={classes.card}
     >

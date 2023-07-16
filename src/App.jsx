@@ -111,7 +111,7 @@ const App = () => {
           path="/"
           element={<LayoutPage order={orderLocal} deleteOrder={deleteOrder} />}
         >
-          <Route index element={<HomePage categories={links} />} />
+          <Route index element={<HomePage categories={links} promotionNow={promotionNow}/>} />
           <Route
             path="/order"
             element={
