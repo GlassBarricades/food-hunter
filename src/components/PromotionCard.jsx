@@ -1,4 +1,5 @@
-import { createStyles, Paper, Text, Title, Button, rem } from '@mantine/core';
+import { createStyles, Paper, Text, Title, Button, rem, Modal } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -29,14 +30,19 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const PromotionCard = ({ image, title, category, day, getWeekDay}) => {
+const PromotionCard = ({ image, title, category, day, description}) => {
+  const [opened, { open, close }] = useDisclosure(false);
   const { classes } = useStyles();
  
   return (
+    <>
+    <Modal opened={opened} onClose={close} title={title} centered>
+      {description}
+    </Modal>
     <Paper
       shadow="md"
       p="xl"
-      radius={day === getWeekDay ? "xl" : "xs"}
+      mb="md"
       sx={{ backgroundImage: `url(${image})` }}
       className={classes.card}
     >
@@ -48,10 +54,11 @@ const PromotionCard = ({ image, title, category, day, getWeekDay}) => {
           {title}
         </Title>
       </div>
-      <Button variant="white" color="dark">
+      <Button variant="white" color="dark" onClick={open}>
         Подробнее
       </Button>
     </Paper>
+    </>
   );
 }
 export default PromotionCard;

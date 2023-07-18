@@ -78,7 +78,7 @@ const App = () => {
     },
     {
       title: "Каждую среду cкидка 30% на вынос",
-      description: "",
+      description: "Кафе Food Hunter приглашает всех насладиться вкуснейшей едой на вынос со скидкой 30%! Каждую среду вы можете выбрать любимые блюда из нашего меню и получить скидку на все заказы для выноса. Независимо от того, что вы выберете - пиццу, бургеры, салаты или закуски - вы сможете наслаждаться вкусом свежих и качественных продуктов по привлекательной цене. Так что не упустите свой шанс и приходите в Food Hunter в следующую среду, чтобы взять с собой любимые блюда со скидкой 30%!",
       image: "https://i.ibb.co/F3Vvc6Y/friends-eating-pizza-together-home.jpg",
       visible: true,
       day: "Среда",
@@ -88,18 +88,22 @@ const App = () => {
       description: "",
       image: "https://i.ibb.co/Pt4FD0g/cute-friends-cafe-eatting-pizza.jpg",
       visible: true,
-      day: "",
+      day: "Все",
     }
   ]
 
   const getWeekDay = (date) => {
     const days = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
-  
+
     return days[date.getDay()];
   }
 
   const promotionNow = dataPromotion.filter(item => {
-    return item.day === getWeekDay(new Date(2013, 8, 17))
+    if (item.day === getWeekDay(new Date())) {
+      return item
+    } else {
+      return item.day === "Все"
+    }
   })
 
   console.log(promotionNow)
@@ -111,7 +115,7 @@ const App = () => {
           path="/"
           element={<LayoutPage order={orderLocal} deleteOrder={deleteOrder} />}
         >
-          <Route index element={<HomePage categories={links} promotionNow={promotionNow}/>} />
+          <Route index element={<HomePage categories={links} promotionNow={promotionNow} />} />
           <Route
             path="/order"
             element={
@@ -124,7 +128,7 @@ const App = () => {
             }
           />
           <Route path="/contacts" element={<ContactPage />} />
-          <Route path="/stock" element={<PromotionPage data={dataPromotion} getWeekDay={getWeekDay}/>} />
+          <Route path="/stock" element={<PromotionPage data={dataPromotion} getWeekDay={getWeekDay} />} />
           <Route path="menu" element={<MenuPage />}>
             <Route index element={<MenuGridCategory categories={links} />} />
             <Route
@@ -132,13 +136,13 @@ const App = () => {
               element={<CategoryPage />}
               loader={categoryLoader}
             />
-            <Route path=":category/tabs/:tabValue" element={<CategoryPage />} loader={categoryLoader}/>
+            <Route path=":category/tabs/:tabValue" element={<CategoryPage />} loader={categoryLoader} />
             <Route
               path=":category/:product"
               element={<ProductPage onAdd={addToOrder} />}
               loader={productLoader}
             />
-            <Route path=":category/tabs/:tabValue/:product" element={<ProductPage onAdd={addToOrder} />} loader={productLoader}/>
+            <Route path=":category/tabs/:tabValue/:product" element={<ProductPage onAdd={addToOrder} />} loader={productLoader} />
           </Route>
         </Route>
         <Route path="/admin" element={<AdminLayout links={links} />}>
