@@ -70,6 +70,13 @@ const NavBarApp = ({ links, opened, admin, setOpened }) => {
         <>
           <Anchor
             component={NavLink}
+            to="promo"
+            className={classes.link}
+          >
+            Акции
+          </Anchor>
+          <Anchor
+            component={NavLink}
             to="category/categories"
             className={classes.link}
           >

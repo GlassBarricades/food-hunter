@@ -28,8 +28,11 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const OrderPage = ({ order, productsArray, productsKolArr, deleteOrder }) => {
-  const [opened, { open, close }] = useDisclosure(false);
+const OrderPage = ({ order, setOrder, productsArray, setProductArray, productsKolArr, setProductsKolArr, deleteOrder }) => {
+  const [opened, { open, close }] = useDisclosure(false, {
+    onOpen: () => form.reset(),
+    onClose: () => resetOrder(),
+  });
   const { classes } = useStyles();
   const [variant, setVariant] = useState("2202");
   const [paymentType, setPaymentType] = useState("1");
@@ -55,6 +58,12 @@ const OrderPage = ({ order, productsArray, productsKolArr, deleteOrder }) => {
       descr: hasLength({ max: 100 }, "Длинна комментария до 100 символов"),
     },
   });
+
+  function resetOrder() {
+    setProductArray([]);
+    setProductsKolArr([]);
+    setOrder([])
+  }
 
   const arrPrice = order.map((item) => {
     return item.priceOrder * item.quantity;
@@ -110,7 +119,6 @@ const OrderPage = ({ order, productsArray, productsKolArr, deleteOrder }) => {
                   });
                   open();
                 })}
-                onReset={form.onReset}
               >
                 <Group>
                   <SegmentedControl

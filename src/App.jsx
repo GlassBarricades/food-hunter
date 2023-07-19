@@ -22,8 +22,9 @@ import useFetchData from "./hooks/useFetchData";
 import "./app.css";
 import AdminUnits from "./components/AdminPanel/AdminUnits";
 import ContactPage from "./pages/ContactPage";
-import PromotionPage from "./pages/PromotionPage";
+import {PromotionPage, promoLoader} from "./pages/PromotionPage";
 import { useLocalStorage } from "@mantine/hooks";
+import PromotionAdmin from "./components/AdminPanel/PromotionAdmin";
 
 const App = () => {
   const [orderLocal, setOrderLocal] = useLocalStorage({
@@ -68,45 +69,11 @@ const App = () => {
     remove(ref(db, link));
   };
 
-  const dataPromotion = [
-    {
-      title: "Каждый вторник вторая пицца бесплатно",
-      description: "",
-      image: "https://i.ibb.co/w63F41f/two-kind-pizza-table.jpg",
-      visible: true,
-      day: "Вторник",
-    },
-    {
-      title: "Каждую среду cкидка 30% на вынос",
-      description: "Кафе Food Hunter приглашает всех насладиться вкуснейшей едой на вынос со скидкой 30%! Каждую среду вы можете выбрать любимые блюда из нашего меню и получить скидку на все заказы для выноса. Независимо от того, что вы выберете - пиццу, бургеры, салаты или закуски - вы сможете наслаждаться вкусом свежих и качественных продуктов по привлекательной цене. Так что не упустите свой шанс и приходите в Food Hunter в следующую среду, чтобы взять с собой любимые блюда со скидкой 30%!",
-      image: "https://i.ibb.co/F3Vvc6Y/friends-eating-pizza-together-home.jpg",
-      visible: true,
-      day: "Среда",
-    },
-    {
-      title: "Именинникам 15% скидка за три дня и после",
-      description: "",
-      image: "https://i.ibb.co/Pt4FD0g/cute-friends-cafe-eatting-pizza.jpg",
-      visible: true,
-      day: "Все",
-    }
-  ]
+  // const getWeekDay = (date) => {
+  //   const days = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
 
-  const getWeekDay = (date) => {
-    const days = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
-
-    return days[date.getDay()];
-  }
-
-  const promotionNow = dataPromotion.filter(item => {
-    if (item.day === getWeekDay(new Date())) {
-      return item
-    } else {
-      return item.day === "Все"
-    }
-  })
-
-  console.log(promotionNow)
+  //   return days[date.getDay()];
+  // }
 
   const router = createBrowserRouter(
     createRoutesFromElements(
@@ -115,20 +82,23 @@ const App = () => {
           path="/"
           element={<LayoutPage order={orderLocal} deleteOrder={deleteOrder} />}
         >
-          <Route index element={<HomePage categories={links} promotionNow={promotionNow} />} />
+          <Route index element={<HomePage categories={links} />} />
           <Route
             path="/order"
             element={
               <OrderPage
                 order={orderLocal}
+                setOrder={setOrderLocal}
                 productsArray={productsArray}
+                setProductArray={setProductsArray}
                 productsKolArr={productsKolArr}
+                setProductsKolArr={setProductsKolArr}
                 deleteOrder={deleteOrder}
               />
             }
           />
           <Route path="/contacts" element={<ContactPage />} />
-          <Route path="/stock" element={<PromotionPage data={dataPromotion} getWeekDay={getWeekDay} />} />
+          <Route path="/stock" element={<PromotionPage />} loader={promoLoader} />
           <Route path="menu" element={<MenuPage />}>
             <Route index element={<MenuGridCategory categories={links} />} />
             <Route
@@ -168,6 +138,10 @@ const App = () => {
           <Route
             path="units"
             element={<AdminUnits writeToDatabase={writeToDatabase} />}
+          />
+          <Route
+            path="promo"
+            element={<PromotionAdmin writeToDatabase={writeToDatabase} />}
           />
         </Route>
       </>

@@ -3,16 +3,14 @@ import MenuGridCategory from "../components/MenuGridCategory";
 import PromotionCard from "../components/PromotionCard";
 import { Carousel } from '@mantine/carousel';
 
-const HomePage = ({ categories, promotionNow }) => {
-  console.log(promotionNow)
+const HomePage = ({ categories }) => {
   return (
     <>
-    <Carousel mx="auto">
+    {/* <Carousel mx="auto">
     {promotionNow.map((item, index) => {
         return <Carousel.Slide key={index}><PromotionCard image={item.image} title={item.title} day={item.day} description={item.description}/></Carousel.Slide>
       })}
-    </Carousel>
-      
+    </Carousel> */}
       <MenuGridCategory variant="home" categories={categories} />
     </>
   );

@@ -11,7 +11,7 @@ import { CirclePlus, CircleMinus } from "tabler-icons-react";
 import { useCounter } from "@mantine/hooks";
 
 const AddCard = ({ item, onAdd }) => {
-  const [count, handlers] = useCounter(1, { min: 1, max: 10 });
+  const [count, handlers] = useCounter(0, { min: 0, max: 10 });
   return (
     <Card shadow="sm" padding="sm" radius="lg">
       <Card.Section>
@@ -24,7 +24,7 @@ const AddCard = ({ item, onAdd }) => {
       </Group>
       <Group position="left" spacing="xs" align="flex-end">
       <Text size="xl" fw={700}>
-        {(item.variant.one.price * count).toFixed(1)}
+        {count === 0 ? item.variant.one.price : (item.variant.one.price * count).toFixed(1)}
       </Text>
       <Text size="sm" mt="xs">
       руб
@@ -40,7 +40,15 @@ const AddCard = ({ item, onAdd }) => {
           <ActionIcon onClick={handlers.increment}>
             <CirclePlus />
           </ActionIcon>
-          <Button
+          {count === 0 ? <Button
+            data-disabled
+            variant="outline"
+            color="yellow"
+            size="xs"
+            compact
+          >
+            Добавить
+          </Button> : <Button
             variant="outline"
             color="yellow"
             size="xs"
@@ -57,7 +65,7 @@ const AddCard = ({ item, onAdd }) => {
             }
           >
             Добавить
-          </Button>
+          </Button>}
         </Group>
     </Card>
   );
