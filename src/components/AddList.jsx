@@ -4,7 +4,7 @@ import {
 } from "@mantine/core";
 import AddCard from "./AddCard";
 
-const AddList = ({ addList, onAdd }) => {
+const AddList = ({ addList }) => {
 
   return (
     <ScrollArea h={250}>
@@ -21,7 +21,7 @@ const AddList = ({ addList, onAdd }) => {
       >
         {addList.map((item) => {
           return (
-            <AddCard key={item.uuid} item={item} onAdd={onAdd} />
+            <AddCard key={item.uuid} item={item} />
           );
         })}
       </SimpleGrid>

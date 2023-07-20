@@ -66,7 +66,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export function HeaderSimple({ opened, setOpened, order, admin, deleteOrder }) {
+export function HeaderSimple({ opened, setOpened, admin }) {
   const theme = useMantineTheme();
   const { classes, cx } = useStyles();
 
@@ -91,7 +91,7 @@ export function HeaderSimple({ opened, setOpened, order, admin, deleteOrder }) {
           <Group spacing="md" align="center">
             <ThemeChange />
             {!admin ? (
-              <Basket order={order} deleteOrder={deleteOrder} />
+              <Basket />
             ) : undefined}
           </Group>
         </Container>

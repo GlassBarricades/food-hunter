@@ -4,7 +4,7 @@ import { Outlet } from "react-router-dom";
 import { HeaderSimple } from "./Header";
 import NavBarApp from "./NavBarApp";
 
-const App = ({ order, deleteOrder }) => {
+const App = () => {
   const theme = useMantineTheme();
   const [opened, setOpened] = useState(false);
 
@@ -25,10 +25,6 @@ const App = ({ order, deleteOrder }) => {
       link: "/contacts",
       name: "Контакты"
     },
-    // {
-    //   link: "/admin",
-    //   name: "Панель администратора",
-    // },
   ];
   return (
     <AppShell
@@ -52,8 +48,6 @@ const App = ({ order, deleteOrder }) => {
         <HeaderSimple
           opened={opened}
           setOpened={setOpened}
-          order={order}
-          deleteOrder={deleteOrder}
         />
       }
     >

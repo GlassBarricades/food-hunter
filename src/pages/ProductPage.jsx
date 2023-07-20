@@ -19,6 +19,8 @@ import AddList from "../components/AddList";
 import ProductTitle from "../components/ProductTitle";
 import Compound from "../components/Compound";
 import { ChevronsLeft } from "tabler-icons-react";
+import { useContext } from "react";
+import ContextOrder from "../helpers/ContextOrder";
 
 const useStyles = createStyles(() => ({
   wrapper: {
@@ -28,7 +30,8 @@ const useStyles = createStyles(() => ({
   },
 }));
 
-const ProductPage = ({ onAdd }) => {
+const ProductPage = () => {
+  const valueContext = useContext(ContextOrder);
   const { productDataBase, category, addList } = useLoaderData();
   const navigate = useNavigate();
   const [value, setValue] = useState(1);
@@ -36,6 +39,7 @@ const ProductPage = ({ onAdd }) => {
   const dataVariants = Object.values(productDataBase.variant);
   const arrA = useSortData(dataVariants, "size");
   const [variantValue, setVarianValue] = useState(createVariants(arrA));
+
   const arr = arrA.map((item, index) => {
     if (item.size !== 0) {
       const obj = {
@@ -100,7 +104,7 @@ const ProductPage = ({ onAdd }) => {
               category === "friture" ||
               category === "pizza" ||
               category === "seti-pizza" ? (
-                <AddList addList={addList} onAdd={onAdd} />
+                <AddList addList={addList} />
               ) : undefined}
               <Group>
                 <Text>Размер: </Text>
@@ -137,7 +141,7 @@ const ProductPage = ({ onAdd }) => {
                   variant="outline"
                   color="yellow"
                   onClick={() =>
-                    onAdd(
+                    valueContext.addToOrder(
                       productDataBase,
                       arr[variantValue].label,
                       dataVariants[variantValue].price,

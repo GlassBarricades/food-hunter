@@ -21,6 +21,8 @@ import {
 import { useForm, hasLength, isNotEmpty } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
 import { Trash } from "tabler-icons-react";
+import { useContext } from "react";
+import ContextOrder from "../helpers/ContextOrder";
 
 const useStyles = createStyles((theme) => ({
   formWrapper: {
@@ -28,7 +30,8 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const OrderPage = ({ order, setOrder, productsArray, setProductArray, productsKolArr, setProductsKolArr, deleteOrder }) => {
+const OrderPage = ({ productsArray, setProductArray, productsKolArr, setProductsKolArr }) => {
+  const {orderLocal, setOrderLocal, deleteOrder} = useContext(ContextOrder);
   const [opened, { open, close }] = useDisclosure(false, {
     onOpen: () => form.reset(),
     onClose: () => resetOrder(),
@@ -62,10 +65,10 @@ const OrderPage = ({ order, setOrder, productsArray, setProductArray, productsKo
   function resetOrder() {
     setProductArray([]);
     setProductsKolArr([]);
-    setOrder([])
+    setOrderLocal([])
   }
 
-  const arrPrice = order.map((item) => {
+  const arrPrice = orderLocal.map((item) => {
     return item.priceOrder * item.quantity;
   });
 
@@ -249,7 +252,7 @@ const OrderPage = ({ order, setOrder, productsArray, setProductArray, productsKo
                 <Card.Section p="md">
                   <ScrollArea h={500}>
                     <Stack>
-                      {order.map((item, index) => {
+                      {orderLocal.map((item, index) => {
                         return (
                           <Group key={index} position="apart">
                             <Image width={80} src={item.image} />

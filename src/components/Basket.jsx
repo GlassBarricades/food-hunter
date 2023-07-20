@@ -14,12 +14,15 @@ import {
 import { ShoppingBag } from "tabler-icons-react";
 import { Link } from "react-router-dom";
 import { Trash } from "tabler-icons-react";
+import { useContext } from "react";
+import ContextOrder from "../helpers/ContextOrder";
 
-const Basket = ({ order, deleteOrder }) => {
+const Basket = () => {
+  const {orderLocal, deleteOrder} = useContext(ContextOrder);
   const theme = useMantineTheme();
   const colorScheme = useMantineColorScheme();
 
-  const rows = order.map((element) => (
+  const rows = orderLocal.map((element) => (
     <tr key={element.name}>
       <td>
         <Image width={40} src={element.image} />
@@ -47,7 +50,7 @@ const Basket = ({ order, deleteOrder }) => {
               theme.colorScheme === "dark" ? theme.colors.gray[6] : theme.black
             }
             inline
-            label={order.length}
+            label={orderLocal.length}
             size={16}
           >
             <ActionIcon variant="default">
@@ -64,7 +67,7 @@ const Basket = ({ order, deleteOrder }) => {
         </HoverCard.Target>
         <MediaQuery largerThan="md" styles={{ minWidth: "700px" }}>
         <HoverCard.Dropdown>
-          {order.length > 0 ? (
+          {orderLocal.length > 0 ? (
             <>
               <Table horizontalSpacing={5}>
                 <tbody>{rows}</tbody>

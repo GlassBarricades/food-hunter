@@ -9,8 +9,11 @@ import {
 } from "@mantine/core";
 import { CirclePlus, CircleMinus } from "tabler-icons-react";
 import { useCounter } from "@mantine/hooks";
+import { useContext } from "react";
+import ContextOrder from "../helpers/ContextOrder";
 
-const AddCard = ({ item, onAdd }) => {
+const AddCard = ({ item }) => {
+  const {orderLocal, setOrderLocal, addToOrder, deleteOrder} = useContext(ContextOrder);
   const [count, handlers] = useCounter(0, { min: 0, max: 10 });
   return (
     <Card shadow="sm" padding="sm" radius="lg">
@@ -54,7 +57,7 @@ const AddCard = ({ item, onAdd }) => {
             size="xs"
             compact
             onClick={() =>
-              onAdd(
+              addToOrder(
                 item,
                 item.variant.one.label,
                 item.variant.one.price,
