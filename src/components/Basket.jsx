@@ -14,20 +14,28 @@ import {
 import { ShoppingBag } from "tabler-icons-react";
 import { Link } from "react-router-dom";
 import { Trash } from "tabler-icons-react";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import ContextOrder from "../helpers/ContextOrder";
 
 const Basket = () => {
-  const {orderLocal, deleteOrder} = useContext(ContextOrder);
+  const { orderLocal, deleteOrder } = useContext(ContextOrder);
+  const [orderLocalS, setOrderLocalS] = useState([]);
   const theme = useMantineTheme();
   const colorScheme = useMantineColorScheme();
 
-  const rows = orderLocal.map((element) => (
-    <tr key={element.name}>
+  useEffect(() => {
+    const arrR = localStorage.orderLocalTest === undefined ? [] : JSON.parse(localStorage.orderLocalTest);
+    setOrderLocalS(arrR)
+  }, []);
+
+  const rows = orderLocalS.map((element) => (
+    <tr key={element.orderUuid}>
       <td>
         <Image width={40} src={element.image} />
       </td>
-      <td>{element.name} ({element.variantOrder})</td>
+      <td>
+        {element.name} ({element.variantOrder})
+      </td>
       <td>{element.quantity} шт.</td>
       <td>{element.quantity * element.priceOrder} руб</td>
       <td>
@@ -43,31 +51,31 @@ const Basket = () => {
   ));
 
   return (
-      <HoverCard shadow="md">
-        <HoverCard.Target>
-          <Indicator
-            color={
-              theme.colorScheme === "dark" ? theme.colors.gray[6] : theme.black
-            }
-            inline
-            label={orderLocal.length}
-            size={16}
-          >
-            <ActionIcon variant="default">
-              <ShoppingBag
-                color={
-                  theme.colorScheme === "dark"
-                    ? theme.colors.yellow[5]
-                    : theme.black
-                }
-                size={35}
-              />
-            </ActionIcon>
-          </Indicator>
-        </HoverCard.Target>
-        <MediaQuery largerThan="md" styles={{ minWidth: "700px" }}>
+    <HoverCard shadow="md">
+      <HoverCard.Target>
+        <Indicator
+          color={
+            theme.colorScheme === "dark" ? theme.colors.gray[6] : theme.black
+          }
+          inline
+          label={orderLocalS.length}
+          size={16}
+        >
+          <ActionIcon variant="default">
+            <ShoppingBag
+              color={
+                theme.colorScheme === "dark"
+                  ? theme.colors.yellow[5]
+                  : theme.black
+              }
+              size={35}
+            />
+          </ActionIcon>
+        </Indicator>
+      </HoverCard.Target>
+      <MediaQuery largerThan="md" styles={{ minWidth: "700px" }}>
         <HoverCard.Dropdown>
-          {orderLocal.length > 0 ? (
+          {orderLocalS.length > 0 ? (
             <>
               <Table horizontalSpacing={5}>
                 <tbody>{rows}</tbody>
@@ -87,8 +95,8 @@ const Basket = () => {
             <Text>В вашей корзине пока нет товаров :(</Text>
           )}
         </HoverCard.Dropdown>
-        </MediaQuery>
-      </HoverCard>
+      </MediaQuery>
+    </HoverCard>
   );
 };
 export default Basket;

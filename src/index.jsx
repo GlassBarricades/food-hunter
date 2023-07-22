@@ -32,9 +32,13 @@ function Main() {
     obj.priceOrder = price;
     obj.orderUuid = uid();
     // setOrderValue([...orderValue, obj])
-    localStorage.user = JSON.stringify();
-    let user = JSON.parse( localStorage.user );
-    console.log( user );
+    // localStorage.orderLocalTest = JSON.stringify([]);
+    if (localStorage.getItem('orderLocalTest') === null) {
+      localStorage.orderLocalTest = JSON.stringify([])
+    }
+    localStorage.orderLocalTest = JSON.stringify([...JSON.parse( localStorage.orderLocalTest ), obj]);
+    let orderLocalTest = JSON.parse( localStorage.orderLocalTest );
+    console.log( orderLocalTest );
     // setOrderLocal([...orderLocal, obj]);
     // console.log(obj)
     // setOrderLocal((current) => [...current, obj])
