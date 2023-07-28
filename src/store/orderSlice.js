@@ -17,11 +17,11 @@ const orderSlice = createSlice({
       obj.priceOrder = action.payload.price;
       obj.orderUuid = uid();
       state.order.push(obj);
-         if (typeof action.payload.handler === "object") {
-            action.payload.handler.set(0);
-         } else {
-            action.payload.handler(1);
-         }
+        //  if (typeof action.payload.handler === "object") {
+        //     action.payload.handler.set(0);
+        //  } else {
+        //     action.payload.handler(1);
+        //  }
     },
     removeOrder(state, action) {
       state.order = state.order.filter(order => order.orderUuid !== action.payload.id);

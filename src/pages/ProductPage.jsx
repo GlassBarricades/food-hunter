@@ -142,21 +142,14 @@ const ProductPage = () => {
                   color="yellow"
                   onClick={() =>
                     dispatch(
-                      addOrder(
-                        {
-                          item: productDataBase,
-                          quantity: value,
-                          label: arr[variantValue].label,
-                          price: dataVariants[variantValue].price,
-                          id: dataVariants[variantValue].id,
-                          handler: setValue
-                        }
-                        // arr[variantValue].label,
-                        // dataVariants[variantValue].price,
-                        // dataVariants[variantValue].id,
-                        // value,
-                        // setValue
-                      )
+                      addOrder({
+                        item: productDataBase,
+                        quantity: value,
+                        label: arr[variantValue].label,
+                        price: dataVariants[variantValue].price,
+                        id: dataVariants[variantValue].id,
+                        handler: setValue,
+                      })
                     )
                   }
                 >
