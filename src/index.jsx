@@ -3,8 +3,8 @@ import { useHotkeys, useLocalStorage } from "@mantine/hooks";
 import "dayjs/locale/ru";
 import { DatesProvider } from "@mantine/dates";
 import App from "./App";
-import ContextOrder from "./helpers/ContextOrder";
-import { uid } from "uid";
+import { Provider } from "react-redux";
+import store from './store';
 
 function Main() {
   const [orderLocal, setOrderLocal] = useLocalStorage({
@@ -22,43 +22,9 @@ function Main() {
 
   useHotkeys([["mod+J", () => toggleColorScheme()]]);
 
-  function addToOrder(item, variant, price, id, value, setValue) {
-    // setProductsArray([...productsArray, id]);
-    // setProductsKolArr([...productsKolArr, String(value)]);
-    let obj = { ...item };
-    obj.quantity = value;
-    obj.variantOrder = variant;
-    obj.orderId = id;
-    obj.priceOrder = price;
-    obj.orderUuid = uid();
-    // setOrderValue([...orderValue, obj])
-    // localStorage.orderLocalTest = JSON.stringify([]);
-    if (localStorage.getItem('orderLocalTest') === null) {
-      localStorage.orderLocalTest = JSON.stringify([])
-    }
-    localStorage.orderLocalTest = JSON.stringify([...JSON.parse( localStorage.orderLocalTest ), obj]);
-    let orderLocalTest = JSON.parse( localStorage.orderLocalTest );
-    console.log( orderLocalTest );
-    // setOrderLocal([...orderLocal, obj]);
-    // console.log(obj)
-    // setOrderLocal((current) => [...current, obj])
-    if (typeof setValue === "object") {
-      setValue.set(0);
-    } else {
-      setValue(1);
-    }
-  }
-
   function deleteOrder(id) {
     setOrderLocal(orderLocal.filter((el) => el.orderUuid !== id));
   }
-
-  const valueContext = {
-    orderLocal,
-    setOrderLocal,
-    addToOrder,
-    deleteOrder
-  };
 
   return (
     <ColorSchemeProvider
@@ -118,9 +84,9 @@ function Main() {
         <DatesProvider
           settings={{ locale: "ru", firstDayOfWeek: 0, weekendDays: [0] }}
         >
-          <ContextOrder.Provider value={valueContext}>
-            <App />
-          </ContextOrder.Provider>
+            <Provider store={store}>
+              <App />
+            </Provider>
         </DatesProvider>
       </MantineProvider>
     </ColorSchemeProvider>

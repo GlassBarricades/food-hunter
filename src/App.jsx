@@ -24,35 +24,9 @@ import { PromotionPage, promoLoader } from "./pages/PromotionPage";
 import PromotionAdmin from "./components/AdminPanel/PromotionAdmin";
 
 const App = () => {
-  // const [orderLocal, setOrderLocal] = useLocalStorage({
-  //   key: "order",
-  //   defaultValue: [],
-  // });
   // const [productsArray, setProductsArray] = useState([]);
   // const [productsKolArr, setProductsKolArr] = useState([]);
   const [links, loading] = useFetchData("/categories/");
-
-  // function deleteOrder(id) {
-  //   setOrderLocal(orderLocal.filter((el) => el.orderUuid !== id));
-  // }
-
-  // function addToOrder(item, variant, price, id, value, setValue) {
-  //   // setProductsArray([...productsArray, id]);
-  //   // setProductsKolArr([...productsKolArr, String(value)]);
-  //   let obj = { ...item };
-  //   obj.quantity = value;
-  //   obj.variantOrder = variant;
-  //   obj.orderId = id;
-  //   obj.priceOrder = price;
-  //   obj.orderUuid = uid();
-  //   // setOrderValue([...orderValue, obj])
-  //   setOrderLocal([...orderLocal, obj]);
-  //   if (typeof setValue === "object") {
-  //     setValue.set(0);
-  //   } else {
-  //     setValue(1);
-  //   }
-  // }
 
   const writeToDatabase = (link, data, reset, close) => (e) => {
     e.preventDefault();

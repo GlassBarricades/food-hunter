@@ -19,8 +19,8 @@ import AddList from "../components/AddList";
 import ProductTitle from "../components/ProductTitle";
 import Compound from "../components/Compound";
 import { ChevronsLeft } from "tabler-icons-react";
-import { useContext } from "react";
-import ContextOrder from "../helpers/ContextOrder";
+import { useDispatch } from "react-redux";
+import { addOrder } from "../store/orderSlice";
 
 const useStyles = createStyles(() => ({
   wrapper: {
@@ -31,7 +31,6 @@ const useStyles = createStyles(() => ({
 }));
 
 const ProductPage = () => {
-  const valueContext = useContext(ContextOrder);
   const { productDataBase, category, addList } = useLoaderData();
   const navigate = useNavigate();
   const [value, setValue] = useState(1);
@@ -39,6 +38,7 @@ const ProductPage = () => {
   const dataVariants = Object.values(productDataBase.variant);
   const arrA = useSortData(dataVariants, "size");
   const [variantValue, setVarianValue] = useState(createVariants(arrA));
+  const dispatch = useDispatch();
 
   const arr = arrA.map((item, index) => {
     if (item.size !== 0) {
@@ -141,13 +141,22 @@ const ProductPage = () => {
                   variant="outline"
                   color="yellow"
                   onClick={() =>
-                    valueContext.addToOrder(
-                      productDataBase,
-                      arr[variantValue].label,
-                      dataVariants[variantValue].price,
-                      dataVariants[variantValue].id,
-                      value,
-                      setValue
+                    dispatch(
+                      addOrder(
+                        {
+                          item: productDataBase,
+                          quantity: value,
+                          label: arr[variantValue].label,
+                          price: dataVariants[variantValue].price,
+                          id: dataVariants[variantValue].id,
+                          handler: setValue
+                        }
+                        // arr[variantValue].label,
+                        // dataVariants[variantValue].price,
+                        // dataVariants[variantValue].id,
+                        // value,
+                        // setValue
+                      )
                     )
                   }
                 >

@@ -21,8 +21,9 @@ import {
 import { useForm, hasLength, isNotEmpty } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
 import { Trash } from "tabler-icons-react";
-import { useContext } from "react";
-import ContextOrder from "../helpers/ContextOrder";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { removeOrder } from "../store/orderSlice";
 
 const useStyles = createStyles((theme) => ({
   formWrapper: {
@@ -31,7 +32,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 const OrderPage = ({ productsArray, setProductArray, productsKolArr, setProductsKolArr }) => {
-  const {orderLocal, setOrderLocal, deleteOrder} = useContext(ContextOrder);
+  const order = useSelector(state => state.order.order);
   const [opened, { open, close }] = useDisclosure(false, {
     onOpen: () => form.reset(),
     onClose: () => resetOrder(),
@@ -40,6 +41,7 @@ const OrderPage = ({ productsArray, setProductArray, productsKolArr, setProducts
   const [variant, setVariant] = useState("2202");
   const [paymentType, setPaymentType] = useState("1");
   const [table, setTable] = useState("4566");
+  const dispatch = useDispatch()
 
   const form = useForm({
     initialValues: {
@@ -68,7 +70,7 @@ const OrderPage = ({ productsArray, setProductArray, productsKolArr, setProducts
     setOrderLocal([])
   }
 
-  const arrPrice = orderLocal.map((item) => {
+  const arrPrice = order.map((item) => {
     return item.priceOrder * item.quantity;
   });
 
@@ -252,7 +254,7 @@ const OrderPage = ({ productsArray, setProductArray, productsKolArr, setProducts
                 <Card.Section p="md">
                   <ScrollArea h={500}>
                     <Stack>
-                      {orderLocal.map((item, index) => {
+                      {order.map((item, index) => {
                         return (
                           <Group key={index} position="apart">
                             <Image width={80} src={item.image} />
@@ -261,7 +263,7 @@ const OrderPage = ({ productsArray, setProductArray, productsKolArr, setProducts
                             </Text>
                             <Text>{item.quantity} шт</Text>
                             <Text>{item.quantity * item.priceOrder} руб</Text>
-                            <ActionIcon size="xl" onClick={() => deleteOrder(item.orderUuid)}>
+                            <ActionIcon size="xl" onClick={() => dispatch(removeOrder({id: item.orderUuid}))}>
                               <Trash size="1.5rem" color="yellow"/>
                             </ActionIcon>
                           </Group>

@@ -14,21 +14,18 @@ import {
 import { ShoppingBag } from "tabler-icons-react";
 import { Link } from "react-router-dom";
 import { Trash } from "tabler-icons-react";
-import { useContext, useEffect, useState } from "react";
-import ContextOrder from "../helpers/ContextOrder";
+import { useSelector } from 'react-redux';
+import { removeOrder } from '../store/orderSlice';
+import { useDispatch } from 'react-redux';
 
 const Basket = () => {
-  const { orderLocal, deleteOrder } = useContext(ContextOrder);
-  const [orderLocalS, setOrderLocalS] = useState([]);
+  const order = useSelector(state => state.order.order);
   const theme = useMantineTheme();
   const colorScheme = useMantineColorScheme();
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    const arrR = localStorage.orderLocalTest === undefined ? [] : JSON.parse(localStorage.orderLocalTest);
-    setOrderLocalS(arrR)
-  }, []);
 
-  const rows = orderLocalS.map((element) => (
+  const rows = order.map((element) => (
     <tr key={element.orderUuid}>
       <td>
         <Image width={40} src={element.image} />
@@ -42,7 +39,7 @@ const Basket = () => {
         <ActionIcon
           variant="outline"
           color={colorScheme.colorScheme === "dark" ? "yellow.5" : undefined}
-          onClick={() => deleteOrder(element.orderUuid)}
+          onClick={() => dispatch(removeOrder({id: element.orderUuid}))}
         >
           <Trash size="1rem" />
         </ActionIcon>
@@ -58,7 +55,7 @@ const Basket = () => {
             theme.colorScheme === "dark" ? theme.colors.gray[6] : theme.black
           }
           inline
-          label={orderLocalS.length}
+          label={order.length}
           size={16}
         >
           <ActionIcon variant="default">
@@ -75,7 +72,7 @@ const Basket = () => {
       </HoverCard.Target>
       <MediaQuery largerThan="md" styles={{ minWidth: "700px" }}>
         <HoverCard.Dropdown>
-          {orderLocalS.length > 0 ? (
+          {order.length > 0 ? (
             <>
               <Table horizontalSpacing={5}>
                 <tbody>{rows}</tbody>

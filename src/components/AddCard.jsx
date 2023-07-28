@@ -9,12 +9,13 @@ import {
 } from "@mantine/core";
 import { CirclePlus, CircleMinus } from "tabler-icons-react";
 import { useCounter } from "@mantine/hooks";
-import { useContext } from "react";
-import ContextOrder from "../helpers/ContextOrder";
+import { useDispatch } from 'react-redux';
+import { addOrder } from '../store/orderSlice';
 
 const AddCard = ({ item }) => {
-  const {orderLocal, setOrderLocal, addToOrder, deleteOrder} = useContext(ContextOrder);
   const [count, handlers] = useCounter(0, { min: 0, max: 10 });
+  const dispatch = useDispatch();
+
   return (
     <Card shadow="sm" padding="sm" radius="lg">
       <Card.Section>
@@ -57,15 +58,29 @@ const AddCard = ({ item }) => {
             size="xs"
             compact
             onClick={() =>
-              addToOrder(
-                item,
-                item.variant.one.label,
-                item.variant.one.price,
-                item.variant.one.id,
-                count,
-                handlers
+              dispatch(
+                addOrder(
+                  {
+                    item: item,
+                    quantity: count,
+                    label: item.variant.one.label,
+                    price: item.variant.one.price,
+                    id: item.variant.one.id,
+                    handler: handlers
+                  }
+                )
               )
             }
+            // onClick={() =>
+            //   addToOrder(
+            //     item,
+            //     item.variant.one.label,
+            //     item.variant.one.price,
+            //     item.variant.one.id,
+            //     count,
+            //     handlers
+            //   )
+            // }
           >
             Добавить
           </Button>}
