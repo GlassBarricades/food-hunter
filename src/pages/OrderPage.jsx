@@ -33,6 +33,8 @@ const useStyles = createStyles((theme) => ({
 
 const OrderPage = ({ productsArray, setProductArray, productsKolArr, setProductsKolArr }) => {
   const order = useSelector(state => state.order.order);
+  const productsArr = useSelector(state => state.productsArr.productsArr);
+  const productQuantity = useSelector(state => state.productQuantity.productQuantity);
   const [opened, { open, close }] = useDisclosure(false, {
     onOpen: () => form.reset(),
     onClose: () => resetOrder(),
@@ -42,6 +44,9 @@ const OrderPage = ({ productsArray, setProductArray, productsKolArr, setProducts
   const [paymentType, setPaymentType] = useState("1");
   const [table, setTable] = useState("4566");
   const dispatch = useDispatch()
+  console.log(productsArr);
+  console.log(productQuantity);
+
 
   const form = useForm({
     initialValues: {

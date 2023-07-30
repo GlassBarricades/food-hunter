@@ -11,9 +11,12 @@ import { CirclePlus, CircleMinus } from "tabler-icons-react";
 import { useCounter } from "@mantine/hooks";
 import { useDispatch } from 'react-redux';
 import { addOrder } from '../store/orderSlice';
+import { useSelector } from "react-redux";
+import { uid } from "uid";
 
 const AddCard = ({ item }) => {
   const [count, handlers] = useCounter(0, { min: 0, max: 10 });
+  const quantityAdd = useSelector(state => state.quantity.quantityAdd);
   const dispatch = useDispatch();
 
   return (
@@ -66,21 +69,12 @@ const AddCard = ({ item }) => {
                     label: item.variant.one.label,
                     price: item.variant.one.price,
                     id: item.variant.one.id,
-                    handler: handlers
+                    handlers: handlers,
+                    orderUuid: uid(),
                   }
                 )
               )
             }
-            // onClick={() =>
-            //   addToOrder(
-            //     item,
-            //     item.variant.one.label,
-            //     item.variant.one.price,
-            //     item.variant.one.id,
-            //     count,
-            //     handlers
-            //   )
-            // }
           >
             Добавить
           </Button>}

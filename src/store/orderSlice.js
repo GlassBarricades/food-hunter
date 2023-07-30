@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { uid } from "uid";
 
 const orderSlice = createSlice({
   name: "order",
@@ -8,10 +7,11 @@ const orderSlice = createSlice({
   },
   reducers: {
     addOrder(state, action) {
-      const {quantity, label, item, id, price} = action.payload
-      // setProductsArray([...productsArray, id]);
-      // setProductsKolArr([...productsKolArr, String(value)]);
-      state.order.push({...item, quantity: quantity, variantOrder: label, orderId: id, priceOrder: price, orderUuid: uid()});
+      const {quantity, label, item, id, price, handlers, orderUuid} = action.payload
+      state.order.push({...item, quantity: quantity, variantOrder: label, orderId: id, priceOrder: price, orderUuid: orderUuid});
+      if (typeof handlers === 'object') {
+        handlers.set(0)
+      }
     },
     removeOrder(state, action) {
       state.order = state.order.filter(order => order.orderUuid !== action.payload.id);

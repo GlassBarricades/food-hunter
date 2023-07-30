@@ -22,8 +22,9 @@ import Compound from "../components/Compound";
 import { ChevronsLeft } from "tabler-icons-react";
 import { useDispatch } from "react-redux";
 import { addOrder } from "../store/orderSlice";
-import {incrementQuantity, decrementQuantity, resetQuantity} from "../store/quantitySlice";
+import {incrementQuantity, decrementQuantity} from "../store/quantitySlice";
 import { useSelector } from "react-redux";
+import { uid } from "uid";
 
 const useStyles = createStyles(() => ({
   wrapper: {
@@ -37,13 +38,11 @@ const ProductPage = () => {
   const { productDataBase, category, addList } = useLoaderData();
   const quantity = useSelector(state => state.quantity.quantity);
   const navigate = useNavigate();
-  // const [value, setValue] = useState(1);
   const { classes } = useStyles();
   const dataVariants = Object.values(productDataBase.variant);
   const arrA = useSortData(dataVariants, "size");
   const [variantValue, setVarianValue] = useState(createVariants(arrA));
   const dispatch = useDispatch();
-  console.log(quantity)
 
   const arr = arrA.map((item, index) => {
     if (item.size !== 0) {
@@ -134,15 +133,8 @@ const ProductPage = () => {
               <Group position="apart">
                 <Group spacing={5}>
                   <Text>Количество: </Text>
-                  {/* <NumberInput
-                    value={value}
-                    onChange={setValue}
-                    max={10}
-                    min={0}
-                    styles={{ input: { width: rem(64), height: rem(24) } }}
-                  /> */}
                   <Group spacing={5}>
-                    <ActionIcon size={42} variant="default" onClick={() => dispatch(decrementQuantity())} >
+                    <ActionIcon size={35} variant="default" onClick={() => dispatch(decrementQuantity())} >
                       –
                     </ActionIcon>
 
@@ -156,7 +148,7 @@ const ProductPage = () => {
                       styles={{ input: { width: rem(54), textAlign: 'center' } }}
                     />
 
-                    <ActionIcon size={42} variant="default" onClick={() => dispatch(incrementQuantity())}>
+                    <ActionIcon size={35} variant="default" onClick={() => dispatch(incrementQuantity())}>
                       +
                     </ActionIcon>
                   </Group>
@@ -172,7 +164,8 @@ const ProductPage = () => {
                         label: arr[variantValue].label,
                         price: dataVariants[variantValue].price,
                         id: dataVariants[variantValue].id,
-                        // handler: setValue,
+                        handlers: [],
+                        orderUuid: uid(),
                       })
                     )
                   }
