@@ -145,7 +145,6 @@ const ProductPage = () => {
 										<NumberInput
 											hideControls
 											value={quantity}
-											// handlersRef={handlers}
 											max={10}
 											min={0}
 											step={2}
