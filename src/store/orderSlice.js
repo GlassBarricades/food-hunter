@@ -7,7 +7,7 @@ const orderSlice = createSlice({
 	},
 	reducers: {
 		addOrder(state, action) {
-			const { quantity, label, item, id, price, handlers, orderUuid } =
+			const { quantity, label, item, id, price, handlers, orderUuid, delive } =
 				action.payload
 			state.order.push({
 				...item,
@@ -16,6 +16,7 @@ const orderSlice = createSlice({
 				orderId: id,
 				priceOrder: price,
 				orderUuid: orderUuid,
+				delive: delive,
 			})
 			if (typeof handlers === 'object') {
 				handlers.set(0)

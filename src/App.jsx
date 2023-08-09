@@ -25,6 +25,7 @@ import { PromotionPage, promoLoader } from './pages/PromotionPage'
 import PromotionAdmin from './components/AdminPanel/PromotionAdmin'
 import LoginPage from './pages/LoginPage'
 import RequireAuth from './hoc/RequireAuth'
+import AdminStats from './components/AdminPanel/AdminStats'
 
 const App = () => {
 	const [links, loading] = useFetchData('/categories/')
@@ -129,6 +130,14 @@ const App = () => {
 						element={
 							<RequireAuth>
 								<PromotionAdmin writeToDatabase={writeToDatabase} />
+							</RequireAuth>
+						}
+					/>
+					<Route
+						path='stats'
+						element={
+							<RequireAuth>
+								<AdminStats />
 							</RequireAuth>
 						}
 					/>

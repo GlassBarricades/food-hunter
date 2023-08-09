@@ -62,61 +62,56 @@ const NavBarApp = ({ links, opened, admin, setOpened }) => {
 			</Anchor>
 		)
 	})
+
+	const dataAdminLinks = [
+		{
+			label: 'Статистика',
+			link: 'stats',
+		},
+		{
+			label: 'Акции',
+			link: 'promo',
+		},
+		{
+			label: 'Категории',
+			link: 'category/categories',
+		},
+		{
+			label: 'Категории алкоголь',
+			link: 'category/categories-alcohol',
+		},
+		{
+			label: 'Категории напитки',
+			link: 'category/categories-napitki',
+		},
+		{
+			label: 'Категории горячие напитки',
+			link: 'category/categories-gorjachie-napitki',
+		},
+		{
+			label: 'Единицы измерения',
+			link: 'units',
+		},
+	]
+
+	const adminLinks = dataAdminLinks.map((item, indx) => {
+		return (
+			<Anchor
+				key={indx}
+				component={NavLink}
+				to={item.link}
+				className={classes.link}
+				onClick={() => setOpened(false)}
+			>
+				{item.label}
+			</Anchor>
+		)
+	})
+
 	return (
 		<Navbar p='md' hiddenBreakpoint='md' hidden={!opened} width={{ md: 200 }}>
 			<ScrollArea>
-				{admin ? (
-					<>
-						<Anchor
-							component={NavLink}
-							to='promo'
-							className={classes.link}
-							onClick={() => setOpened(false)}
-						>
-							Акции
-						</Anchor>
-						<Anchor
-							component={NavLink}
-							to='category/categories'
-							className={classes.link}
-							onClick={() => setOpened(false)}
-						>
-							Категории
-						</Anchor>
-						<Anchor
-							component={NavLink}
-							to='category/categories-alcohol'
-							className={classes.link}
-							onClick={() => setOpened(false)}
-						>
-							Категории Алкоголь
-						</Anchor>
-						<Anchor
-							component={NavLink}
-							to='category/categories-napitki'
-							className={classes.link}
-							onClick={() => setOpened(false)}
-						>
-							Категории Напитков
-						</Anchor>
-						<Anchor
-							component={NavLink}
-							to='category/categories-gorjachie-napitki'
-							className={classes.link}
-							onClick={() => setOpened(false)}
-						>
-							Категории Горячих Напитков
-						</Anchor>
-						<Anchor
-							component={NavLink}
-							to='units'
-							className={classes.link}
-							onClick={() => setOpened(false)}
-						>
-							Единицы измерения
-						</Anchor>
-					</>
-				) : undefined}
+				{admin ? <>{adminLinks}</> : undefined}
 				{items}
 			</ScrollArea>
 		</Navbar>

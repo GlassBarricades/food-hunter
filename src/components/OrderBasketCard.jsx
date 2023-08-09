@@ -32,6 +32,7 @@ const OrderBasketCard = ({ fullPrice }) => {
 				>
 					<Trash size='1.5rem' color='yellow' />
 				</ActionIcon>
+				{item.delive ? <Text>-</Text> : undefined}
 			</Group>
 		)
 	})

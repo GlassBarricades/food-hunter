@@ -35,7 +35,7 @@ const useStyles = createStyles(() => ({
 }))
 
 const ProductPage = () => {
-	const { productDataBase, category, addList } = useLoaderData()
+	const { productDataBase, dataCategories, category, addList } = useLoaderData()
 	const quantity = useSelector(state => state.quantity.quantity)
 	const navigate = useNavigate()
 	const { classes } = useStyles()
@@ -98,7 +98,12 @@ const ProductPage = () => {
 				<Grid.Col md={6}>
 					<Paper shadow='xs' p='md' withBorder>
 						<Stack>
-							<ProductTitle title={productDataBase.name} />
+							<Group position='apart'>
+								<ProductTitle title={productDataBase.name} />
+								{dataCategories.delivery ? (
+									<Text>(Доставка не осуществляется)</Text>
+								) : undefined}
+							</Group>
 							<Compound compound={productDataBase.compound} />
 							{category === 'sushi' ||
 							category === 'nigiri' ||
@@ -175,6 +180,7 @@ const ProductPage = () => {
 												id: dataVariants[variantValue].id,
 												handlers: undefined,
 												orderUuid: uid(),
+												delive: dataCategories.delivery,
 											})
 										)
 									}
@@ -195,6 +201,7 @@ const productLoader = async ({ params }) => {
 	const product = params.product
 	const dbRef = ref(getDatabase())
 	let productDataBase
+	let dataCategories
 	let addList
 	await get(child(dbRef, `menu/${category}/${product}`))
 		.then(snapshot => {
@@ -207,6 +214,21 @@ const productLoader = async ({ params }) => {
 		})
 		.then(data => {
 			productDataBase = data
+		})
+		.catch(error => {
+			console.error(error)
+		})
+	await get(child(dbRef, `/categories/${category}`))
+		.then(snapshot => {
+			if (snapshot.exists()) {
+				const data = snapshot.val()
+				return data
+			} else {
+				console.log('No data available')
+			}
+		})
+		.then(data => {
+			dataCategories = data
 		})
 		.catch(error => {
 			console.error(error)
@@ -252,7 +274,7 @@ const productLoader = async ({ params }) => {
 				console.error(error)
 			})
 	}
-	return { productDataBase, category, product, addList }
+	return { productDataBase, dataCategories, category, product, addList }
 }
 
 export { ProductPage, productLoader }
