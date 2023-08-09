@@ -28,8 +28,11 @@ const orderSlice = createSlice({
 				order => order.orderUuid !== action.payload.id
 			)
 		},
+		resetOrder(state) {
+			state.order = []
+		},
 	},
 })
 
-export const { addOrder, removeOrder } = orderSlice.actions
+export const { addOrder, removeOrder, resetOrder } = orderSlice.actions
 export default orderSlice.reducer

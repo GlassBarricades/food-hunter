@@ -18,12 +18,14 @@ import {
 	Modal,
 	ActionIcon,
 } from '@mantine/core'
+import { DateTimePicker } from '@mantine/dates'
 import { useForm, hasLength, isNotEmpty } from '@mantine/form'
 import { useDisclosure } from '@mantine/hooks'
 import { Trash } from 'tabler-icons-react'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
-import { removeOrder } from '../store/orderSlice'
+import { removeOrder, resetOrder } from '../store/orderSlice'
+import OrderBasketCard from '../components/OrderBasketCard'
 
 const useStyles = createStyles(theme => ({
 	formWrapper: {
@@ -38,7 +40,8 @@ const OrderPage = () => {
 		state => state.productQuantity.productQuantity
 	)
 	const [opened, { open, close }] = useDisclosure(false, {
-		onOpen: () => form.reset(),
+		onOpen: () => dispatch(resetOrder()),
+		onClose: () => form.reset(),
 	})
 	const { classes } = useStyles()
 	const [variant, setVariant] = useState('2202')
@@ -65,6 +68,7 @@ const OrderPage = () => {
 			apart: '',
 			descr: '',
 			tags: [],
+			datetime: '',
 		},
 		validate: {
 			name: hasLength({ max: 50 }, 'Имя должно быть до 50 символов длинной'),
@@ -215,6 +219,13 @@ const OrderPage = () => {
 										/>
 									</>
 								) : undefined}
+								<DateTimePicker
+									withSeconds
+									valueFormat='YYYY-MM-DD HH:mm:ss'
+									label='Выберите дату и время предзаказа'
+									placeholder='Дата и время предзаказа'
+									{...form.getInputProps('datetime')}
+								/>
 								<Textarea
 									label='Комментарий к заказу'
 									placeholder='Комментарий к заказу'
@@ -247,49 +258,7 @@ const OrderPage = () => {
 				</Paper>
 				<Grid gutter='md'>
 					<Grid.Col>
-						<Paper radius='md'>
-							<Card withBorder shadow='sm' radius='md'>
-								<Card.Section withBorder inheritPadding py='xs'>
-									<Group position='apart'>
-										<Title order={5} weight={500}>
-											Корзина:
-										</Title>
-									</Group>
-								</Card.Section>
-								<Card.Section p='md'>
-									<ScrollArea h={500}>
-										<Stack>
-											{order.map((item, index) => {
-												return (
-													<Group key={index} position='apart'>
-														<Image width={80} src={item.image} />
-														<Text>
-															{item.name} ({item.variantOrder})
-														</Text>
-														<Text>{item.quantity} шт</Text>
-														<Text>{item.quantity * item.priceOrder} руб</Text>
-														<ActionIcon
-															size='xl'
-															onClick={() =>
-																dispatch(removeOrder({ id: item.orderUuid }))
-															}
-														>
-															<Trash size='1.5rem' color='yellow' />
-														</ActionIcon>
-													</Group>
-												)
-											})}
-										</Stack>
-									</ScrollArea>
-								</Card.Section>
-								<Card.Section withBorder inheritPadding py='xs' mt='sm'>
-									<Group position='apart'>
-										<Text weight={500}>Итого:</Text>
-										<Text weight={500}>{fullPrice} руб</Text>
-									</Group>
-								</Card.Section>
-							</Card>
-						</Paper>
+						<OrderBasketCard fullPrice={fullPrice} />
 					</Grid.Col>
 				</Grid>
 			</SimpleGrid>

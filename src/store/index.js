@@ -14,12 +14,14 @@ import orderReducer from './orderSlice'
 import productQuantitySlice from './productQuantitySlice'
 import productsArrSlice from './productsArrSlice'
 import quantitySlice from './quantitySlice'
+import authSlice from './authSlice'
 
 const rootReducer = combineReducers({
 	order: orderReducer,
 	quantity: quantitySlice,
 	productsArr: productsArrSlice,
 	productQuantity: productQuantitySlice,
+	auth: authSlice,
 })
 
 const persistConfig = {

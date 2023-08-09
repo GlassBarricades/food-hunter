@@ -1,5 +1,6 @@
 import {
 	Route,
+	Routes,
 	RouterProvider,
 	createBrowserRouter,
 	createRoutesFromElements,
@@ -22,6 +23,8 @@ import AdminUnits from './components/AdminPanel/AdminUnits'
 import ContactPage from './pages/ContactPage'
 import { PromotionPage, promoLoader } from './pages/PromotionPage'
 import PromotionAdmin from './components/AdminPanel/PromotionAdmin'
+import LoginPage from './pages/LoginPage'
+import RequireAuth from './hoc/RequireAuth'
 
 const App = () => {
 	const [links, loading] = useFetchData('/categories/')
@@ -82,35 +85,55 @@ const App = () => {
 						/>
 					</Route>
 				</Route>
-				<Route path='/admin' element={<AdminLayout links={links} />}>
+				<Route
+					path='/admin'
+					element={
+						<RequireAuth>
+							<AdminLayout links={links} />
+						</RequireAuth>
+					}
+				>
 					<Route
 						path=':adminElement'
 						element={
-							<AdminMain
-								links={links}
-								writeToDatabase={writeToDatabase}
-								handleDelete={handleDelete}
-							/>
+							<RequireAuth>
+								<AdminMain
+									links={links}
+									writeToDatabase={writeToDatabase}
+									handleDelete={handleDelete}
+								/>
+							</RequireAuth>
 						}
 					/>
 					<Route
 						path='category/:categoryElement'
 						element={
-							<AdminCategory
-								writeToDatabase={writeToDatabase}
-								handleDelete={handleDelete}
-							/>
+							<RequireAuth>
+								<AdminCategory
+									writeToDatabase={writeToDatabase}
+									handleDelete={handleDelete}
+								/>
+							</RequireAuth>
 						}
 					/>
 					<Route
 						path='units'
-						element={<AdminUnits writeToDatabase={writeToDatabase} />}
+						element={
+							<RequireAuth>
+								<AdminUnits writeToDatabase={writeToDatabase} />
+							</RequireAuth>
+						}
 					/>
 					<Route
 						path='promo'
-						element={<PromotionAdmin writeToDatabase={writeToDatabase} />}
+						element={
+							<RequireAuth>
+								<PromotionAdmin writeToDatabase={writeToDatabase} />
+							</RequireAuth>
+						}
 					/>
 				</Route>
+				<Route path={'/login'} element={<LoginPage />} />
 			</>
 		)
 	)
