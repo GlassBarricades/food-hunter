@@ -5,36 +5,16 @@ import {
 	Title,
 	ScrollArea,
 	Text,
-	Image,
-	ActionIcon,
 	Stack,
 } from '@mantine/core'
-import { Trash } from 'tabler-icons-react'
-import { removeOrder } from '../store/orderSlice'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
+import OrderBasketCardItem from './Order/OrderBasketCardItem'
 
 const OrderBasketCard = ({ fullPrice }) => {
-	const dispatch = useDispatch()
 	const order = useSelector(state => state.order.order)
 
-	const orderItems = order.map((item, index) => {
-		return (
-			<Group key={index} position='apart'>
-				<Image width={80} src={item.image} />
-				<Text>
-					{item.name} ({item.variantOrder})
-				</Text>
-				<Text>{item.quantity} шт</Text>
-				<Text>{item.quantity * item.priceOrder} руб</Text>
-				<ActionIcon
-					size='xl'
-					onClick={() => dispatch(removeOrder({ id: item.orderUuid }))}
-				>
-					<Trash size='1.5rem' color='yellow' />
-				</ActionIcon>
-				{item.delive ? <Text>-</Text> : undefined}
-			</Group>
-		)
+	const orderItems = order.map(item => {
+		return <OrderBasketCardItem key={item.orderUuid} item={item} />
 	})
 	return (
 		<Paper radius='md'>

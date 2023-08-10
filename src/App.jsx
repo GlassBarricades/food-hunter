@@ -1,6 +1,6 @@
+import { useEffect } from 'react'
 import {
 	Route,
-	Routes,
 	RouterProvider,
 	createBrowserRouter,
 	createRoutesFromElements,
@@ -22,39 +22,34 @@ import './app.css'
 import AdminUnits from './components/AdminPanel/AdminUnits'
 import ContactPage from './pages/ContactPage'
 import { PromotionPage, promoLoader } from './pages/PromotionPage'
-import PromotionAdmin from './components/AdminPanel/PromotionAdmin'
+import {
+	promoLoaderAdmin,
+	PromotionAdmin,
+} from './components/AdminPanel/PromotionAdmin'
 import LoginPage from './pages/LoginPage'
 import RequireAuth from './hoc/RequireAuth'
 import AdminStats from './components/AdminPanel/AdminStats'
+import { fetchCategories } from './store/categoriesSlice'
+import { useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 const App = () => {
-	const [links, loading] = useFetchData('/categories/')
+	const categories = useSelector(state => state.categories.categories)
+	const dispatch = useDispatch()
 
-	const writeToDatabase = (link, data, reset, close) => e => {
-		e.preventDefault()
-		set(ref(db, link), {
-			...data,
-		})
-
-		reset()
-		close()
-	}
+	useEffect(() => {
+		dispatch(fetchCategories())
+	}, [dispatch])
 
 	const handleDelete = link => {
 		remove(ref(db, link))
 	}
 
-	// const getWeekDay = (date) => {
-	//   const days = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
-
-	//   return days[date.getDay()];
-	// }
-
 	const router = createBrowserRouter(
 		createRoutesFromElements(
 			<>
 				<Route path='/' element={<LayoutPage />}>
-					<Route index element={<HomePage categories={links} />} />
+					<Route index element={<HomePage />} />
 					<Route path='/order' element={<OrderPage />} />
 					<Route path='/contacts' element={<ContactPage />} />
 					<Route
@@ -63,7 +58,10 @@ const App = () => {
 						loader={promoLoader}
 					/>
 					<Route path='menu' element={<MenuPage />}>
-						<Route index element={<MenuGridCategory categories={links} />} />
+						<Route
+							index
+							element={<MenuGridCategory categories={categories} />}
+						/>
 						<Route
 							path=':category'
 							element={<CategoryPage />}
@@ -87,22 +85,26 @@ const App = () => {
 					</Route>
 				</Route>
 				<Route
-					path='/admin'
+					path='admin'
 					element={
 						<RequireAuth>
-							<AdminLayout links={links} />
+							<AdminLayout />
 						</RequireAuth>
 					}
 				>
 					<Route
+						index
+						element={
+							<RequireAuth>
+								<AdminStats />
+							</RequireAuth>
+						}
+					/>
+					<Route
 						path=':adminElement'
 						element={
 							<RequireAuth>
-								<AdminMain
-									links={links}
-									writeToDatabase={writeToDatabase}
-									handleDelete={handleDelete}
-								/>
+								<AdminMain />
 							</RequireAuth>
 						}
 					/>
@@ -110,10 +112,7 @@ const App = () => {
 						path='category/:categoryElement'
 						element={
 							<RequireAuth>
-								<AdminCategory
-									writeToDatabase={writeToDatabase}
-									handleDelete={handleDelete}
-								/>
+								<AdminCategory />
 							</RequireAuth>
 						}
 					/>
@@ -121,7 +120,7 @@ const App = () => {
 						path='units'
 						element={
 							<RequireAuth>
-								<AdminUnits writeToDatabase={writeToDatabase} />
+								<AdminUnits />
 							</RequireAuth>
 						}
 					/>
@@ -129,17 +128,10 @@ const App = () => {
 						path='promo'
 						element={
 							<RequireAuth>
-								<PromotionAdmin writeToDatabase={writeToDatabase} />
+								<PromotionAdmin />
 							</RequireAuth>
 						}
-					/>
-					<Route
-						path='stats'
-						element={
-							<RequireAuth>
-								<AdminStats />
-							</RequireAuth>
-						}
+						loader={promoLoaderAdmin}
 					/>
 				</Route>
 				<Route path={'/login'} element={<LoginPage />} />

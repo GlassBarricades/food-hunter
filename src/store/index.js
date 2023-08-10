@@ -15,6 +15,8 @@ import productQuantitySlice from './productQuantitySlice'
 import productsArrSlice from './productsArrSlice'
 import quantitySlice from './quantitySlice'
 import authSlice from './authSlice'
+import categoriesSlice from './categoriesSlice'
+import navBarSlice from './navBarSlice'
 
 const rootReducer = combineReducers({
 	order: orderReducer,
@@ -22,11 +24,14 @@ const rootReducer = combineReducers({
 	productsArr: productsArrSlice,
 	productQuantity: productQuantitySlice,
 	auth: authSlice,
+	categories: categoriesSlice,
+	navBar: navBarSlice,
 })
 
 const persistConfig = {
 	key: 'root',
 	storage,
+	blacklist: ['categories', 'navBar'],
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

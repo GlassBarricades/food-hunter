@@ -1,18 +1,12 @@
-import { Title } from "@mantine/core";
-import MenuGridCategory from "../components/MenuGridCategory";
-import PromotionCard from "../components/PromotionCard";
-import { Carousel } from '@mantine/carousel';
+import MenuGridCategory from '../components/MenuGridCategory'
+import { useSelector } from 'react-redux'
 
-const HomePage = ({ categories }) => {
-  return (
-    <>
-    {/* <Carousel mx="auto">
-    {promotionNow.map((item, index) => {
-        return <Carousel.Slide key={index}><PromotionCard image={item.image} title={item.title} day={item.day} description={item.description}/></Carousel.Slide>
-      })}
-    </Carousel> */}
-      <MenuGridCategory variant="home" categories={categories} />
-    </>
-  );
-};
-export default HomePage;
+const HomePage = () => {
+	const categories = useSelector(state => state.categories.categories)
+	return (
+		<>
+			<MenuGridCategory variant='home' categories={categories} />
+		</>
+	)
+}
+export default HomePage

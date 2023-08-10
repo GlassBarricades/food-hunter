@@ -20,8 +20,9 @@ import { ref, update, remove } from 'firebase/database'
 import { db } from '../../firebase'
 import { Pencil, Trash, Eye, EyeOff } from 'tabler-icons-react'
 import { useParams } from 'react-router-dom'
+import writeToDatabase from '../../helpers/writeToDataBase'
 
-const AdminCategory = ({ writeToDatabase }) => {
+const AdminCategory = () => {
 	const { categoryElement } = useParams()
 	const colorScheme = useMantineColorScheme()
 	const [opened, handlers] = useDisclosure(false, {

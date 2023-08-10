@@ -1,11 +1,15 @@
 import {
 	Anchor,
-	useMantineTheme,
+	Button,
 	createStyles,
 	Navbar,
 	ScrollArea,
+	Collapse,
 } from '@mantine/core'
 import { NavLink } from 'react-router-dom'
+import { useDisclosure } from '@mantine/hooks'
+import { useSelector, useDispatch } from 'react-redux'
+import { closeNavBar } from '../store/navBarSlice'
 
 const useStyles = createStyles(theme => ({
 	links: {
@@ -45,18 +49,54 @@ const useStyles = createStyles(theme => ({
 	},
 }))
 
-const NavBarApp = ({ links, opened, admin, setOpened }) => {
-	const theme = useMantineTheme()
-	const { classes, cx } = useStyles()
+const NavBarApp = ({ admin }) => {
+	const adminLinksCategories = useSelector(state => state.categories.categories)
+	const opened = useSelector(state => state.navBar.navBar)
+	const dispatch = useDispatch()
+	const { classes } = useStyles()
+	const [open, { toggle }] = useDisclosure(false)
 
-	const items = links.map((link, indx) => {
+	const linksMain = [
+		{
+			link: '/',
+			name: 'Главная',
+		},
+		{
+			link: '/menu',
+			name: 'Меню',
+		},
+		{
+			link: '/stock',
+			name: 'Акции',
+		},
+		{
+			link: '/contacts',
+			name: 'Контакты',
+		},
+	]
+
+	const items = linksMain.map((link, indx) => {
 		return (
 			<Anchor
 				component={NavLink}
 				to={link.link}
 				key={indx}
 				className={classes.link}
-				onClick={() => setOpened(false)}
+				onClick={() => dispatch(closeNavBar())}
+			>
+				{link.name}
+			</Anchor>
+		)
+	})
+
+	const adminItems = adminLinksCategories.map((link, indx) => {
+		return (
+			<Anchor
+				component={NavLink}
+				to={link.link}
+				key={indx}
+				className={classes.link}
+				onClick={() => dispatch(closeNavBar())}
 			>
 				{link.name}
 			</Anchor>
@@ -101,7 +141,7 @@ const NavBarApp = ({ links, opened, admin, setOpened }) => {
 				component={NavLink}
 				to={item.link}
 				className={classes.link}
-				onClick={() => setOpened(false)}
+				onClick={() => dispatch(closeNavBar())}
 			>
 				{item.label}
 			</Anchor>
@@ -112,7 +152,20 @@ const NavBarApp = ({ links, opened, admin, setOpened }) => {
 		<Navbar p='md' hiddenBreakpoint='md' hidden={!opened} width={{ md: 200 }}>
 			<ScrollArea>
 				{admin ? <>{adminLinks}</> : undefined}
-				{items}
+				{admin ? (
+					<>
+						<Anchor
+							component={Button}
+							className={classes.link}
+							onClick={toggle}
+						>
+							Категории меню
+						</Anchor>
+						<Collapse in={open}>{adminItems}</Collapse>
+					</>
+				) : (
+					<>{items}</>
+				)}
 			</ScrollArea>
 		</Navbar>
 	)

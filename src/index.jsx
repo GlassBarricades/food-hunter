@@ -8,10 +8,6 @@ import store, { persistor } from './store'
 import { PersistGate } from 'redux-persist/integration/react'
 
 function Main() {
-	const [orderLocal, setOrderLocal] = useLocalStorage({
-		key: 'order',
-		defaultValue: [],
-	})
 	const [colorScheme, setColorScheme] = useLocalStorage({
 		key: 'mantine-color-scheme',
 		defaultValue: 'dark',
@@ -22,10 +18,6 @@ function Main() {
 		setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'))
 
 	useHotkeys([['mod+J', () => toggleColorScheme()]])
-
-	function deleteOrder(id) {
-		setOrderLocal(orderLocal.filter(el => el.orderUuid !== id))
-	}
 
 	return (
 		<ColorSchemeProvider
