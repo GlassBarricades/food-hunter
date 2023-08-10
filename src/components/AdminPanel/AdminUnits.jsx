@@ -17,6 +17,7 @@ import { ref, remove } from 'firebase/database'
 import { db } from '../../firebase'
 import { Pencil, Trash } from 'tabler-icons-react'
 import writeToDatabase from '../../helpers/writeToDataBase'
+import deleteDataBase from '../../helpers/deleteDataBase'
 
 const AdminCategoryAlcohol = () => {
 	const colorScheme = useMantineColorScheme()
@@ -59,7 +60,7 @@ const AdminCategoryAlcohol = () => {
 					<ActionIcon
 						mt='xs'
 						variant={colorScheme.colorScheme === 'dark' ? 'outline' : 'default'}
-						onClick={() => handleDelete(element, 'units')}
+						onClick={() => deleteDataBase(`units/${element.name}`)}
 						color={colorScheme.colorScheme === 'dark' ? 'yellow.5' : undefined}
 					>
 						<Trash size='1rem' />
@@ -78,7 +79,7 @@ const AdminCategoryAlcohol = () => {
 			>
 				<form
 					onSubmit={writeToDatabase(
-						`/units/${uid()}`,
+						`/units/${name}`,
 						{
 							name: name,
 							uuid: uid(),

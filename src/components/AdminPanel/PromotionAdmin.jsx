@@ -16,15 +16,12 @@ import { useDisclosure } from '@mantine/hooks'
 import { useState } from 'react'
 import useSortData from '../../hooks/useSortData'
 import { uid } from 'uid'
-import { ref, remove } from 'firebase/database'
-import { db } from '../../firebase'
 import { Pencil, Trash } from 'tabler-icons-react'
 import writeToDatabase from '../../helpers/writeToDataBase'
-import { getDatabase, child, get } from 'firebase/database'
-import { useLoaderData } from 'react-router-dom'
+import deleteDataBase from '../../helpers/deleteDataBase'
+import useFetchData from '../../hooks/useFetchData'
 
 const PromotionAdmin = () => {
-	const { dataPromAdmin } = useLoaderData()
 	const colorScheme = useMantineColorScheme()
 	const [opened, handlers] = useDisclosure(false, {
 		onClose: () => resetState(),
@@ -36,8 +33,8 @@ const PromotionAdmin = () => {
 	const [day, setDay] = useState('')
 	const [visible, setVisible] = useState(false)
 	const [isEdit, setIsEdit] = useState(false)
-	// const [categories] = useFetchData(`/promo/`)
-	const data = useSortData(dataPromAdmin, 'position')
+	const [categories] = useFetchData(`/promo/`)
+	const data = useSortData(categories, 'position')
 
 	const resetState = () => {
 		setName('')
@@ -46,10 +43,6 @@ const PromotionAdmin = () => {
 		setDescr('')
 		setDay('')
 		setVisible(false)
-	}
-
-	const handleDelete = (item, base) => {
-		remove(ref(db, `/${base}/${item.name}`))
 	}
 
 	const handleEdit = item => {
@@ -84,7 +77,7 @@ const PromotionAdmin = () => {
 					<ActionIcon
 						mt='xs'
 						variant={colorScheme.colorScheme === 'dark' ? 'outline' : 'default'}
-						onClick={() => handleDelete(element, 'units')}
+						onClick={() => deleteDataBase(`/promo/${element.name}`)}
 						color={colorScheme.colorScheme === 'dark' ? 'yellow.5' : undefined}
 					>
 						<Trash size='1rem' />
@@ -103,7 +96,7 @@ const PromotionAdmin = () => {
 			>
 				<form
 					onSubmit={writeToDatabase(
-						`/promo/${uid()}`,
+						`/promo/${name}`,
 						{
 							name: name,
 							position: position,
@@ -190,25 +183,4 @@ const PromotionAdmin = () => {
 	)
 }
 
-const promoLoaderAdmin = async () => {
-	const dbRef = ref(getDatabase())
-	let dataPromAdmin
-	await get(child(dbRef, `/promo/`))
-		.then(snapshot => {
-			if (snapshot.exists()) {
-				const data = Object.values(snapshot.val())
-				return data
-			} else {
-				console.log('No data available')
-			}
-		})
-		.then(data => {
-			dataPromAdmin = data
-		})
-		.catch(error => {
-			console.error(error)
-		})
-	return { dataPromAdmin }
-}
-
-export { PromotionAdmin, promoLoaderAdmin }
+export { PromotionAdmin }

@@ -23,10 +23,9 @@ import { useState } from 'react'
 import useFetchData from '../../hooks/useFetchData'
 import useSortData from '../../hooks/useSortData'
 import { uid } from 'uid'
-import { ref, remove } from 'firebase/database'
-import { db } from '../../firebase'
 import { Pencil, Trash } from 'tabler-icons-react'
 import writeToDatabase from '../../helpers/writeToDataBase'
+import deleteDataBase from '../../helpers/deleteDataBase'
 
 const AdminMain = () => {
 	const { adminElement } = useParams()
@@ -102,10 +101,6 @@ const AdminMain = () => {
 		setIsEdit(false)
 	}
 
-	const handleDelete = (item, base) => {
-		remove(ref(db, `/menu/${base}/${item.link}`))
-	}
-
 	const handleEdit = item => {
 		setIsEdit(true)
 		setName(item.name)
@@ -174,7 +169,9 @@ const AdminMain = () => {
 					</ActionIcon>
 					<ActionIcon
 						variant={colorScheme.colorScheme === 'dark' ? 'outline' : 'default'}
-						onClick={() => handleDelete(element, adminElement)}
+						onClick={() =>
+							deleteDataBase(`/menu/${adminElement}/${element.link}`)
+						}
 						color={colorScheme.colorScheme === 'dark' ? 'yellow.5' : undefined}
 					>
 						<Trash size='1rem' />

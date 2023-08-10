@@ -21,6 +21,7 @@ import { db } from '../../firebase'
 import { Pencil, Trash, Eye, EyeOff } from 'tabler-icons-react'
 import { useParams } from 'react-router-dom'
 import writeToDatabase from '../../helpers/writeToDataBase'
+import deleteDataBase from '../../helpers/deleteDataBase'
 
 const AdminCategory = () => {
 	const { categoryElement } = useParams()
@@ -38,10 +39,6 @@ const AdminCategory = () => {
 	const [categories] = useFetchData(`/${categoryElement}/`)
 	const data = useSortData(categories, 'position')
 
-	console.log(categories)
-
-	console.log(categoryElement)
-
 	const resetState = () => {
 		setName('')
 		setLink('')
@@ -50,10 +47,6 @@ const AdminCategory = () => {
 		setVisible(false)
 		setDelivery(false)
 		setIsEdit(false)
-	}
-
-	const handleDelete = (item, base) => {
-		remove(ref(db, `/${base}/${item.link}`))
 	}
 
 	const handleEdit = item => {
@@ -88,7 +81,9 @@ const AdminCategory = () => {
 					<ActionIcon
 						mt='xs'
 						variant={colorScheme.colorScheme === 'dark' ? 'outline' : 'default'}
-						onClick={() => handleDelete(element, `${categoryElement}`)}
+						onClick={() =>
+							deleteDataBase(`/${categoryElement}/${element.link}`)
+						}
 						color={colorScheme.colorScheme === 'dark' ? 'yellow.5' : undefined}
 					>
 						<Trash size='1rem' />

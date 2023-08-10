@@ -15,17 +15,11 @@ import OrderPage from './pages/OrderPage'
 import AdminLayout from './components/AdminLayout'
 import AdminMain from './components/AdminPanel/AdminMain'
 import AdminCategory from './components/AdminPanel/AdminCategory'
-import { set, ref, remove } from 'firebase/database'
-import { db } from './firebase'
-import useFetchData from './hooks/useFetchData'
 import './app.css'
 import AdminUnits from './components/AdminPanel/AdminUnits'
 import ContactPage from './pages/ContactPage'
 import { PromotionPage, promoLoader } from './pages/PromotionPage'
-import {
-	promoLoaderAdmin,
-	PromotionAdmin,
-} from './components/AdminPanel/PromotionAdmin'
+import { PromotionAdmin } from './components/AdminPanel/PromotionAdmin'
 import LoginPage from './pages/LoginPage'
 import RequireAuth from './hoc/RequireAuth'
 import AdminStats from './components/AdminPanel/AdminStats'
@@ -40,10 +34,6 @@ const App = () => {
 	useEffect(() => {
 		dispatch(fetchCategories())
 	}, [dispatch])
-
-	const handleDelete = link => {
-		remove(ref(db, link))
-	}
 
 	const router = createBrowserRouter(
 		createRoutesFromElements(
@@ -131,7 +121,6 @@ const App = () => {
 								<PromotionAdmin />
 							</RequireAuth>
 						}
-						loader={promoLoaderAdmin}
 					/>
 				</Route>
 				<Route path={'/login'} element={<LoginPage />} />
