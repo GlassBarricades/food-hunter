@@ -12,19 +12,15 @@ import {
 	SegmentedControl,
 	Textarea,
 	createStyles,
-	Image,
-	ScrollArea,
 	Button,
 	Modal,
-	ActionIcon,
 } from '@mantine/core'
 import { DateTimePicker } from '@mantine/dates'
 import { useForm, hasLength, isNotEmpty } from '@mantine/form'
 import { useDisclosure } from '@mantine/hooks'
-import { Trash } from 'tabler-icons-react'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
-import { removeOrder, resetOrder } from '../store/orderSlice'
+import { resetOrder } from '../store/orderSlice'
 import OrderBasketCard from '../components/OrderBasketCard'
 
 const useStyles = createStyles(theme => ({
