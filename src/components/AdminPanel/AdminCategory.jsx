@@ -15,50 +15,57 @@ import { useDisclosure } from '@mantine/hooks'
 import { useState } from 'react'
 import useFetchData from '../../hooks/useFetchData'
 import useSortData from '../../hooks/useSortData'
-import { uid } from 'uid'
-import { ref, update, remove } from 'firebase/database'
-import { db } from '../../firebase'
 import { Pencil, Trash, Eye, EyeOff } from 'tabler-icons-react'
 import { useParams } from 'react-router-dom'
 import writeToDatabase from '../../helpers/writeToDataBase'
 import deleteDataBase from '../../helpers/deleteDataBase'
+import submitChangeDataBase from '../../helpers/submitChangeDataBase'
+import { isNotEmpty, useForm } from '@mantine/form'
 
 const AdminCategory = () => {
 	const { categoryElement } = useParams()
 	const colorScheme = useMantineColorScheme()
 	const [opened, handlers] = useDisclosure(false, {
-		onClose: () => resetState(),
+		onClose: () => resetEdit(),
 	})
-	const [name, setName] = useState('')
-	const [link, setLink] = useState('')
-	const [position, setPosition] = useState(0)
-	const [image, setImage] = useState('')
-	const [visible, setVisible] = useState(false)
-	const [delivery, setDelivery] = useState(false)
+	const [tempUuid, setTempUuid] = useState('')
 	const [isEdit, setIsEdit] = useState(false)
 	const [categories] = useFetchData(`/${categoryElement}/`)
 	const data = useSortData(categories, 'position')
 
-	const resetState = () => {
-		setName('')
-		setLink('')
-		setPosition(0)
-		setImage('')
-		setVisible(false)
-		setDelivery(false)
+	function resetEdit() {
+		setTempUuid('')
+		form.reset()
 		setIsEdit(false)
 	}
 
 	const handleEdit = item => {
 		setIsEdit(true)
-		setName(item.name)
-		setLink(item.link)
-		setPosition(item.position)
-		setImage(item.image)
-		setVisible(item.visible)
-		setDelivery(item.delivery)
+		form.setValues({
+			name: item.name,
+			link: item.link,
+			position: item.position,
+			image: item.image,
+			visible: item.visible,
+			delivery: item.delivery,
+		})
+		setTempUuid(item.uuid)
 		handlers.open()
 	}
+
+	const form = useForm({
+		initialValues: {
+			name: '',
+			link: '',
+			position: 0,
+			image: '',
+			visible: false,
+			delivery: false,
+		},
+		validate: {
+			link: isNotEmpty('Поле не должно быть пустым'),
+		},
+	})
 
 	const rows = data.map(element => (
 		<tr key={element.link}>
@@ -101,61 +108,62 @@ const AdminCategory = () => {
 				title={isEdit ? 'Редактирование категории' : 'Добавление категории'}
 			>
 				<form
-					onSubmit={writeToDatabase(
-						`/${categoryElement}/${link}`,
-						{
-							name: name,
-							link: link,
-							position: position,
-							image: image,
-							visible: visible,
-							delivery: delivery,
-							uuid: uid(),
-						},
-						resetState,
-						handlers.close
-					)}
+					onSubmit={
+						!isEdit
+							? form.onSubmit(values =>
+									writeToDatabase(
+										`/${categoryElement}/${values.link}`,
+										{ ...values },
+										form.reset,
+										handlers.close,
+										false
+									)
+							  )
+							: form.onSubmit(values => {
+									submitChangeDataBase(
+										values,
+										`/${categoryElement}/${values.link}`,
+										tempUuid,
+										resetEdit,
+										handlers.close
+									)
+							  })
+					}
 				>
 					<TextInput
 						placeholder='Название катерогии'
 						label='Название категории'
 						withAsterisk
-						value={name}
-						onChange={e => setName(e.target.value)}
+						{...form.getInputProps('name')}
 					/>
 					<TextInput
 						placeholder='Ссылка для меню'
 						label='Ссылка для меню'
 						withAsterisk
-						value={link}
-						onChange={e => setLink(e.target.value)}
+						{...form.getInputProps('link')}
 					/>
 					<NumberInput
 						placeholder='Позиция для сортировки'
 						label='Позиция для сортировки'
-						value={position}
-						onChange={setPosition}
+						{...form.getInputProps('position')}
 					/>
 					<TextInput
 						label='Картинка'
 						placeholder='Картинка'
-						value={image}
-						onChange={e => setImage(e.target.value)}
+						{...form.getInputProps('image')}
 					/>
 					<Group>
 						<Checkbox
 							mt='xs'
 							size='md'
 							label='Скрыть'
-							checked={visible}
-							onChange={event => setVisible(event.currentTarget.checked)}
+							{...form.getInputProps('visible', { type: 'checkbox' })}
 						/>
 						<Checkbox
 							mt='xs'
 							size='md'
 							label='Без доставки'
-							checked={delivery}
-							onChange={event => setDelivery(event.currentTarget.checked)}
+							{...form.getInputProps('delivery', { type: 'checkbox' })}
 						/>
 					</Group>
 					<Button mt='md' type='submit'>

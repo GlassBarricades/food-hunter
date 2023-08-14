@@ -10,6 +10,7 @@ import { NavLink } from 'react-router-dom'
 import { useDisclosure } from '@mantine/hooks'
 import { useSelector, useDispatch } from 'react-redux'
 import { closeNavBar } from '../store/navBarSlice'
+import { CaretDown, CaretUp } from 'tabler-icons-react'
 
 const useStyles = createStyles(theme => ({
 	links: {
@@ -106,7 +107,7 @@ const NavBarApp = ({ admin }) => {
 	const dataAdminLinks = [
 		{
 			label: 'Статистика',
-			link: 'stats',
+			link: '/admin',
 		},
 		{
 			label: 'Акции',
@@ -149,7 +150,7 @@ const NavBarApp = ({ admin }) => {
 	})
 
 	return (
-		<Navbar p='md' hiddenBreakpoint='md' hidden={!opened} width={{ md: 200 }}>
+		<Navbar p='md' hiddenBreakpoint='md' hidden={!opened} width={{ md: 220 }}>
 			<ScrollArea>
 				{admin ? <>{adminLinks}</> : undefined}
 				{admin ? (
@@ -158,6 +159,7 @@ const NavBarApp = ({ admin }) => {
 							component={Button}
 							className={classes.link}
 							onClick={toggle}
+							rightIcon={!open ? <CaretDown /> : <CaretUp />}
 						>
 							Категории меню
 						</Anchor>

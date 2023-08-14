@@ -13,48 +13,56 @@ import {
 	Image,
 } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
+import { isNotEmpty, useForm } from '@mantine/form'
 import { useState } from 'react'
 import useSortData from '../../hooks/useSortData'
-import { uid } from 'uid'
 import { Pencil, Trash } from 'tabler-icons-react'
 import writeToDatabase from '../../helpers/writeToDataBase'
+import submitChangeDataBase from '../../helpers/submitChangeDataBase'
 import deleteDataBase from '../../helpers/deleteDataBase'
 import useFetchData from '../../hooks/useFetchData'
 
 const PromotionAdmin = () => {
 	const colorScheme = useMantineColorScheme()
 	const [opened, handlers] = useDisclosure(false, {
-		onClose: () => resetState(),
+		onClose: () => resetEdit(),
 	})
-	const [name, setName] = useState('')
-	const [position, setPosition] = useState(0)
-	const [image, setImage] = useState('')
-	const [descr, setDescr] = useState('')
-	const [day, setDay] = useState('')
-	const [visible, setVisible] = useState(false)
+	const [tempUuid, setTempUuid] = useState('')
 	const [isEdit, setIsEdit] = useState(false)
 	const [categories] = useFetchData(`/promo/`)
 	const data = useSortData(categories, 'position')
 
-	const resetState = () => {
-		setName('')
-		setPosition('')
-		setImage('')
-		setDescr('')
-		setDay('')
-		setVisible(false)
+	function resetEdit() {
+		setTempUuid('')
+		form.reset()
+		setIsEdit(false)
 	}
 
 	const handleEdit = item => {
 		setIsEdit(true)
-		setName(item.name)
-		setPosition(item.position)
-		setImage(item.image)
-		setDescr(item.descr)
-		setDay(item.day)
-		setVisible(item.visible)
+		form.setFieldValue('name', item.name)
+		form.setFieldValue('position', item.position)
+		form.setFieldValue('image', item.image)
+		form.setFieldValue('descr', item.descr)
+		form.setFieldValue('day', item.day)
+		form.setFieldValue('visible', item.visible)
+		setTempUuid(item.uuid)
 		handlers.open()
 	}
+
+	const form = useForm({
+		initialValues: {
+			name: '',
+			position: 0,
+			image: '',
+			descr: '',
+			day: '',
+			visible: false,
+		},
+		validate: {
+			link: isNotEmpty('Поле не должно быть пустым'),
+		},
+	})
 
 	const rows = data.map(element => (
 		<tr key={element.uuid}>
@@ -77,7 +85,7 @@ const PromotionAdmin = () => {
 					<ActionIcon
 						mt='xs'
 						variant={colorScheme.colorScheme === 'dark' ? 'outline' : 'default'}
-						onClick={() => deleteDataBase(`/promo/${element.name}`)}
+						onClick={() => deleteDataBase(`/promo/${element.uuid}`)}
 						color={colorScheme.colorScheme === 'dark' ? 'yellow.5' : undefined}
 					>
 						<Trash size='1rem' />
@@ -95,53 +103,55 @@ const PromotionAdmin = () => {
 				title={isEdit ? 'Редактирование категории' : 'Добавление категории'}
 			>
 				<form
-					onSubmit={writeToDatabase(
-						`/promo/${name}`,
-						{
-							name: name,
-							position: position,
-							image: image,
-							day: day,
-							visible: visible,
-							descr: descr,
-							uuid: uid(),
-						},
-						resetState,
-						handlers.close
-					)}
+					onSubmit={
+						!isEdit
+							? form.onSubmit(values =>
+									writeToDatabase(
+										`/promo/`,
+										{ ...values },
+										form.reset,
+										handlers.close,
+										true
+									)
+							  )
+							: form.onSubmit(values => {
+									submitChangeDataBase(
+										values,
+										`/promo/${tempUuid}`,
+										tempUuid,
+										resetEdit,
+										handlers.close
+									)
+							  })
+					}
 				>
 					<TextInput
 						placeholder='Название акции'
 						label='Название акции'
 						withAsterisk
-						value={name}
-						onChange={e => setName(e.target.value)}
+						{...form.getInputProps('name')}
 					/>
 					<NumberInput
 						placeholder='Позиция для сортировки'
 						label='Позиция для сортировки'
-						value={position}
-						onChange={setPosition}
+						{...form.getInputProps('position')}
 					/>
 					<TextInput
 						label='Картинка'
 						placeholder='Картинка'
-						value={image}
-						onChange={e => setImage(e.target.value)}
+						{...form.getInputProps('image')}
 					/>
 					<TextInput
 						label='День недели'
 						placeholder='День недели'
-						value={day}
-						onChange={e => setDay(e.target.value)}
+						{...form.getInputProps('day')}
 					/>
 					<Group>
 						<Checkbox
 							mt='xs'
 							size='md'
 							label='Скрыть'
-							checked={visible}
-							onChange={event => setVisible(event.currentTarget.checked)}
+							{...form.getInputProps('visible', { type: 'checkbox' })}
 						/>
 					</Group>
 					<Textarea
@@ -149,8 +159,7 @@ const PromotionAdmin = () => {
 						label='Описание'
 						autosize
 						minRows={3}
-						value={descr}
-						onChange={e => setDescr(e.target.value)}
+						{...form.getInputProps('descr')}
 					/>
 					<Button mt='md' type='submit'>
 						{isEdit ? 'Сохранить' : 'Отправить'}
@@ -183,4 +192,4 @@ const PromotionAdmin = () => {
 	)
 }
 
-export { PromotionAdmin }
+export default PromotionAdmin

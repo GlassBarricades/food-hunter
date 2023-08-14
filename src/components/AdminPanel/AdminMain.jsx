@@ -22,10 +22,11 @@ import { useDisclosure } from '@mantine/hooks'
 import { useState } from 'react'
 import useFetchData from '../../hooks/useFetchData'
 import useSortData from '../../hooks/useSortData'
-import { uid } from 'uid'
 import { Pencil, Trash } from 'tabler-icons-react'
 import writeToDatabase from '../../helpers/writeToDataBase'
 import deleteDataBase from '../../helpers/deleteDataBase'
+import submitChangeDataBase from '../../helpers/submitChangeDataBase'
+import { isNotEmpty, useForm } from '@mantine/form'
 
 const AdminMain = () => {
 	const { adminElement } = useParams()
@@ -38,26 +39,10 @@ const AdminMain = () => {
 	)
 	const colorScheme = useMantineColorScheme()
 	const [opened, handlers] = useDisclosure(false, {
-		onClose: () => resetState(),
+		onClose: () => resetEdit(),
 	})
 	const [openedCollapse, { toggle }] = useDisclosure(false)
-	const [name, setName] = useState('')
-	const [link, setLink] = useState('')
-	const [position, setPosition] = useState(0)
-	const [image, setImage] = useState('')
-	const [unit, setUnit] = useState('')
-	const [visible, setVisible] = useState(false)
-	const [category, setCategory] = useState('')
-	const [compound, setCompound] = useState('')
-	const [size1, setSize1] = useState(0)
-	const [price1, setPrice1] = useState(0)
-	const [id1, setId1] = useState('')
-	const [size2, setSize2] = useState(0)
-	const [price2, setPrice2] = useState(0)
-	const [id2, setId2] = useState('')
-	const [size3, setSize3] = useState(0)
-	const [price3, setPrice3] = useState(0)
-	const [id3, setId3] = useState('')
+	const [tempUuid, setTempUuid] = useState('')
 	const [isEdit, setIsEdit] = useState(false)
 	const [categories] = useFetchData(`/menu/${adminElement}`)
 	const data = useSortData(categories, 'position')
@@ -80,48 +65,61 @@ const AdminMain = () => {
 		return item.name
 	})
 
-	const resetState = () => {
-		setName('')
-		setLink('')
-		setPosition(0)
-		setImage('')
-		setCategory('')
-		setUnit('')
-		setVisible(false)
-		setCompound('')
-		setSize1(0)
-		setPrice1(0)
-		setId1('')
-		setSize2(0)
-		setPrice2(0)
-		setId2('')
-		setSize3(0)
-		setPrice3(0)
-		setId3('')
+	function resetEdit() {
+		setTempUuid('')
+		form.reset()
 		setIsEdit(false)
 	}
 
 	const handleEdit = item => {
 		setIsEdit(true)
-		setName(item.name)
-		setLink(item.link)
-		setPosition(item.position)
-		setImage(item.image)
-		setUnit(item.unit)
-		setVisible(item.visible)
-		setCategory(item.category)
-		setCompound(item.compound)
-		setSize1(item.variant.one.size)
-		setPrice1(item.variant.one.price)
-		setId1(item.variant.one.id)
-		setSize2(item.variant.two.size)
-		setPrice2(item.variant.two.price)
-		setId2(item.variant.two.id)
-		setSize3(item.variant.three.size)
-		setPrice3(item.variant.three.price)
-		setId3(item.variant.three.id)
+		form.setValues({
+			name: item.name,
+			link: item.link,
+			position: item.position,
+			image: item.image,
+			unit: item.unit,
+			visible: item.visible,
+			category: item.category,
+			compound: item.compound,
+			size1: item.variant.one.size,
+			price1: item.variant.one.price,
+			id1: item.variant.one.id,
+			size2: item.variant.two.size,
+			price2: item.variant.two.price,
+			id2: item.variant.two.id,
+			size3: item.variant.three.size,
+			price3: item.variant.three.price,
+			id3: item.variant.three.id,
+		})
+		setTempUuid(item.uuid)
 		handlers.open()
 	}
+
+	const form = useForm({
+		initialValues: {
+			name: '',
+			link: '',
+			position: 0,
+			image: '',
+			unit: '',
+			visible: false,
+			category: '',
+			compound: '',
+			size1: 0,
+			price1: 0,
+			id1: '',
+			size2: 0,
+			price2: 0,
+			id2: '',
+			size3: 0,
+			price3: 0,
+			id3: '',
+		},
+		validate: {
+			link: isNotEmpty('Поле не должно быть пустым'),
+		},
+	})
 
 	const rows = data.map(element => (
 		<tr key={element.link}>
@@ -189,108 +187,144 @@ const AdminMain = () => {
 				title={isEdit ? 'Редактирование категории' : 'Добавление категории'}
 			>
 				<form
-					onSubmit={writeToDatabase(
-						`/menu/${adminElement}/${link}`,
-						{
-							name: name,
-							link: link,
-							position: position,
-							image: image,
-							unit: unit,
-							visible: visible,
-							category:
-								adminElement === 'alcohol' ||
-								adminElement === 'napitki' ||
-								adminElement === 'gorjachie-napitki'
-									? category
-									: ' ',
-							compound: compound,
-							variant: {
-								one: {
-									size: size1,
-									price: price1,
-									id: id1,
-								},
-								two: {
-									size: size2,
-									price: price2,
-									id: id2,
-								},
-								three: {
-									size: size3,
-									price: price3,
-									id: id3,
-								},
-							},
-							uuid: uid(),
-						},
-						resetState,
-						handlers.close
-					)}
+					onSubmit={
+						!isEdit
+							? form.onSubmit(values =>
+									writeToDatabase(
+										`/menu/${adminElement}/${values.link}`,
+										{
+											name: values.name,
+											link: values.link,
+											position: values.position,
+											image: values.image,
+											unit: values.unit,
+											visible: values.visible,
+											category:
+												adminElement === 'alcohol' ||
+												adminElement === 'napitki' ||
+												adminElement === 'gorjachie-napitki'
+													? values.category
+													: ' ',
+											compound: values.compound,
+											variant: {
+												one: {
+													size: values.size1,
+													price: values.price1,
+													id: values.id1,
+												},
+												two: {
+													size: values.size2,
+													price: values.price2,
+													id: values.id2,
+												},
+												three: {
+													size: values.size3,
+													price: values.price3,
+													id: values.id3,
+												},
+											},
+										},
+										form.reset,
+										handlers.close,
+										false
+									)
+							  )
+							: form.onSubmit(values => {
+									submitChangeDataBase(
+										{
+											name: values.name,
+											link: values.link,
+											position: values.position,
+											image: values.image,
+											unit: values.unit,
+											visible: values.visible,
+											category:
+												adminElement === 'alcohol' ||
+												adminElement === 'napitki' ||
+												adminElement === 'gorjachie-napitki'
+													? values.category
+													: ' ',
+											compound: values.compound,
+											variant: {
+												one: {
+													size: values.size1,
+													price: values.price1,
+													id: values.id1,
+												},
+												two: {
+													size: values.size2,
+													price: values.price2,
+													id: values.id2,
+												},
+												three: {
+													size: values.size3,
+													price: values.price3,
+													id: values.id3,
+												},
+											},
+										},
+										`/menu/${adminElement}/${values.link}`,
+										tempUuid,
+										resetEdit,
+										handlers.close
+									)
+							  })
+					}
 				>
 					<TextInput
 						placeholder='Название катерогии'
 						label='Название категории'
 						withAsterisk
-						value={name}
-						onChange={e => setName(e.target.value)}
+						{...form.getInputProps('name')}
 					/>
 					<TextInput
 						placeholder='Ссылка для меню'
 						label='Ссылка для меню'
 						withAsterisk
-						value={link}
-						onChange={e => setLink(e.target.value)}
+						{...form.getInputProps('link')}
 					/>
 					<NumberInput
 						placeholder='Позиция для сортировки'
 						label='Позиция для сортировки'
-						value={position}
-						onChange={setPosition}
+						{...form.getInputProps('position')}
 					/>
 					<TextInput
 						label='Картинка'
 						placeholder='Картинка'
-						value={image}
-						onChange={e => setImage(e.target.value)}
+						{...form.getInputProps('image')}
 					/>
 					{adminElement === 'alcohol' ? (
 						<NativeSelect
-							value={category}
-							onChange={event => setCategory(event.currentTarget.value)}
 							data={['Выберите категорию', ...dataCateroriesAlcohol]}
 							label='Установите категорию'
+							{...form.getInputProps('category')}
 						/>
 					) : undefined}
 					{adminElement === 'napitki' ? (
 						<NativeSelect
-							value={category}
-							onChange={event => setCategory(event.currentTarget.value)}
 							data={['Выберите категорию', ...dataCateroriesNapitki]}
 							label='Установите категорию'
+							{...form.getInputProps('category')}
 						/>
 					) : undefined}
 					{adminElement === 'gorjachie-napitki' ? (
 						<NativeSelect
-							value={category}
-							onChange={event => setCategory(event.currentTarget.value)}
 							data={['Выберите категорию', ...dataCateroriesGoryachieNapitki]}
 							label='Установите категорию'
+							{...form.getInputProps('category')}
 						/>
 					) : undefined}
 					<NativeSelect
-						value={unit}
-						onChange={event => setUnit(event.currentTarget.value)}
 						data={['Выберите единицу измерения', ...dataUnits]}
 						label='Установите единицу измерения'
+						{...form.getInputProps('unit')}
 					/>
 					<Group>
 						<Checkbox
 							mt='xs'
 							size='md'
 							label='Скрыть'
-							checked={visible}
-							onChange={event => setVisible(event.currentTarget.checked)}
+							{...form.getInputProps('visible', { type: 'checkbox' })}
 						/>
 					</Group>
 					<Textarea
@@ -298,28 +332,24 @@ const AdminMain = () => {
 						label='Состав'
 						autosize
 						minRows={3}
-						value={compound}
-						onChange={e => setCompound(e.target.value)}
+						{...form.getInputProps('compound')}
 					/>
 					<Text>Варианты блюда</Text>
 					<NumberInput
 						placeholder='Размер'
 						label='Размер'
-						value={size1}
-						onChange={setSize1}
+						{...form.getInputProps('size1')}
 					/>
 					<NumberInput
 						placeholder='Цена'
 						label='Цена'
 						precision={2}
-						value={price1}
-						onChange={setPrice1}
+						{...form.getInputProps('price1')}
 					/>
 					<TextInput
 						label='id'
 						placeholder='id'
-						value={id1}
-						onChange={e => setId1(e.target.value)}
+						{...form.getInputProps('id1')}
 					/>
 					<Group position='center' mb={5}>
 						<Anchor onClick={toggle}>Еще варианты</Anchor>
@@ -329,40 +359,34 @@ const AdminMain = () => {
 						<NumberInput
 							placeholder='Размер'
 							label='Размер'
-							value={size2}
-							onChange={setSize2}
+							{...form.getInputProps('size2')}
 						/>
 						<NumberInput
 							placeholder='Цена'
 							label='Цена'
 							precision={2}
-							value={price2}
-							onChange={setPrice2}
+							{...form.getInputProps('price2')}
 						/>
 						<TextInput
 							label='id'
 							placeholder='id'
-							value={id2}
-							onChange={e => setId2(e.target.value)}
+							{...form.getInputProps('id2')}
 						/>
 						<NumberInput
 							placeholder='Размер'
 							label='Размер'
-							value={size3}
-							onChange={setSize3}
+							{...form.getInputProps('size3')}
 						/>
 						<NumberInput
 							placeholder='Цена'
 							label='Цена'
 							precision={2}
-							value={price3}
-							onChange={setPrice3}
+							{...form.getInputProps('price3')}
 						/>
 						<TextInput
 							label='id'
 							placeholder='id'
-							value={id3}
-							onChange={e => setId3(e.target.value)}
+							{...form.getInputProps('id3')}
 						/>
 					</Collapse>
 					<Button mt='md' type='submit'>
