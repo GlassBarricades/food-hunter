@@ -26,6 +26,7 @@ import AdminStats from './components/AdminPanel/AdminStats'
 import { fetchCategories } from './store/categoriesSlice'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
+import { Notifications } from '@mantine/notifications'
 
 const App = () => {
 	const categories = useSelector(state => state.categories.categories)

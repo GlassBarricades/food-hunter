@@ -1,4 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { notifications } from '@mantine/notifications'
+import { Check } from 'tabler-icons-react'
 
 const orderSlice = createSlice({
 	name: 'order',
@@ -17,6 +19,12 @@ const orderSlice = createSlice({
 				priceOrder: price,
 				orderUuid: orderUuid,
 				delive: delive,
+			})
+			notifications.show({
+				title: 'Добавление в корзину',
+				message: `${item.name} успешно добавлен в корзину!`,
+				color: 'yellow',
+				position: 'top-right',
 			})
 			if (typeof handlers === 'object') {
 				handlers.set(0)

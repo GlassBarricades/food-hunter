@@ -6,6 +6,7 @@ import App from './App'
 import { Provider } from 'react-redux'
 import store, { persistor } from './store'
 import { PersistGate } from 'redux-persist/integration/react'
+import { Notifications } from '@mantine/notifications'
 
 function Main() {
 	const [colorScheme, setColorScheme] = useLocalStorage({
@@ -79,6 +80,7 @@ function Main() {
 				>
 					<Provider store={store}>
 						<PersistGate loading={null} persistor={persistor}>
+							<Notifications position='top-right' />
 							<App />
 						</PersistGate>
 					</Provider>

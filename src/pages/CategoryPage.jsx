@@ -15,7 +15,6 @@ const CategoryPage = () => {
 	const [activeTab, setActiveTab] = useState(
 		dataCategories ? dataCategories[0].name : undefined
 	)
-	console.log(tabValue)
 	const sortedData = useSortDataVisible(dataBase, 'position')
 
 	const filteredData = dataBase.filter(item => {
@@ -28,9 +27,9 @@ const CategoryPage = () => {
 	return (
 		<>
 			<ScrollToTop />
-			{category === 'alcohol' ||
+			{category === 'alcohole' ||
 			category === 'napitki' ||
-			category === 'gorjachie-napitki' ? (
+			category === 'goryachie-napitki' ? (
 				<Tabs
 					color='yellow'
 					variant='pills'
@@ -132,11 +131,18 @@ const categoryLoader = async ({ params }) => {
 			console.error(error)
 		})
 	if (
-		category === 'alcohol' ||
+		category === 'alcohole' ||
 		category === 'napitki' ||
-		category === 'gorjachie-napitki'
+		category === 'goryachie-napitki'
 	) {
-		await get(child(dbRef, `/categories-${category}/`))
+		await get(
+			child(
+				dbRef,
+				category === 'alcohole'
+					? `/categories-alcohol/`
+					: `/categories-${category}/`
+			)
+		)
 			.then(snapshot => {
 				if (snapshot.exists()) {
 					const data = Object.values(snapshot.val())

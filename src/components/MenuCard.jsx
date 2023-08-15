@@ -14,7 +14,7 @@ const MenuCard = ({ dataItem, category, itemVariants }) => {
 				<Image
 					src={dataItem.image}
 					height={160}
-					fit={category === 'alcohol' ? 'contain' : 'cover'}
+					fit={category === 'alcohole' || 'napitki' ? 'contain' : 'cover'}
 					alt={dataItem.name}
 				/>
 			</Card.Section>

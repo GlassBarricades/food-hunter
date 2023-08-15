@@ -200,9 +200,9 @@ const AdminMain = () => {
 											unit: values.unit,
 											visible: values.visible,
 											category:
-												adminElement === 'alcohol' ||
+												adminElement === 'alcohole' ||
 												adminElement === 'napitki' ||
-												adminElement === 'gorjachie-napitki'
+												adminElement === 'goryachie-napitki'
 													? values.category
 													: ' ',
 											compound: values.compound,
@@ -239,9 +239,9 @@ const AdminMain = () => {
 											unit: values.unit,
 											visible: values.visible,
 											category:
-												adminElement === 'alcohol' ||
+												adminElement === 'alcohole' ||
 												adminElement === 'napitki' ||
-												adminElement === 'gorjachie-napitki'
+												adminElement === 'goryachie-napitki'
 													? values.category
 													: ' ',
 											compound: values.compound,
@@ -293,7 +293,7 @@ const AdminMain = () => {
 						placeholder='Картинка'
 						{...form.getInputProps('image')}
 					/>
-					{adminElement === 'alcohol' ? (
+					{adminElement === 'alcohole' ? (
 						<NativeSelect
 							data={['Выберите категорию', ...dataCateroriesAlcohol]}
 							label='Установите категорию'
@@ -307,7 +307,7 @@ const AdminMain = () => {
 							{...form.getInputProps('category')}
 						/>
 					) : undefined}
-					{adminElement === 'gorjachie-napitki' ? (
+					{adminElement === 'goryachie-napitki' ? (
 						<NativeSelect
 							data={['Выберите категорию', ...dataCateroriesGoryachieNapitki]}
 							label='Установите категорию'

@@ -237,7 +237,7 @@ const productLoader = async ({ params }) => {
 		category === 'sushi' ||
 		category === 'nigiri' ||
 		category === 'gynkan' ||
-		category === 'sety-sushi' ||
+		category === 'seti-sushi' ||
 		category === 'goryachie-sushi' ||
 		category === 'friture'
 	) {

@@ -21,6 +21,7 @@ import writeToDatabase from '../../helpers/writeToDataBase'
 import deleteDataBase from '../../helpers/deleteDataBase'
 import submitChangeDataBase from '../../helpers/submitChangeDataBase'
 import { isNotEmpty, useForm } from '@mantine/form'
+import AdminPanelSettings from './AdminPanelSettings'
 
 const AdminCategory = () => {
 	const { categoryElement } = useParams()
@@ -76,7 +77,12 @@ const AdminCategory = () => {
 			</td>
 			<td>{`/${element.link}`}</td>
 			<td>
-				<Group>
+				<AdminPanelSettings
+					element={element}
+					deleteLink={`/${categoryElement}/${element.link}`}
+					handleEdit={handleEdit}
+				/>
+				{/* <Group>
 					<ActionIcon
 						mt='xs'
 						variant={colorScheme.colorScheme === 'dark' ? 'outline' : 'default'}
@@ -95,7 +101,7 @@ const AdminCategory = () => {
 					>
 						<Trash size='1rem' />
 					</ActionIcon>
-				</Group>
+				</Group> */}
 			</td>
 		</tr>
 	))

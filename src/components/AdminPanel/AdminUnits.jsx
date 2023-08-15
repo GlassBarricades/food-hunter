@@ -8,7 +8,7 @@ import {
 	ActionIcon,
 	useMantineColorScheme,
 } from '@mantine/core'
-import { isNotEmpty, useForm } from '@mantine/form'
+import { useForm } from '@mantine/form'
 import { useDisclosure } from '@mantine/hooks'
 import { useState } from 'react'
 import useFetchData from '../../hooks/useFetchData'
@@ -42,9 +42,6 @@ const AdminCategoryAlcohol = () => {
 	const form = useForm({
 		initialValues: {
 			name: '',
-		},
-		validate: {
-			link: isNotEmpty('Поле не должно быть пустым'),
 		},
 	})
 
