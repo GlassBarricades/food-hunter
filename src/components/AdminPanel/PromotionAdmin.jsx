@@ -21,6 +21,7 @@ import writeToDatabase from '../../helpers/writeToDataBase'
 import submitChangeDataBase from '../../helpers/submitChangeDataBase'
 import deleteDataBase from '../../helpers/deleteDataBase'
 import useFetchData from '../../hooks/useFetchData'
+import AdminPanelSettings from './AdminPanelSettings'
 
 const PromotionAdmin = () => {
 	const colorScheme = useMantineColorScheme()
@@ -73,24 +74,11 @@ const PromotionAdmin = () => {
 			</td>
 			<td>{element.descr}</td>
 			<td>
-				<Group>
-					<ActionIcon
-						mt='xs'
-						variant={colorScheme.colorScheme === 'dark' ? 'outline' : 'default'}
-						onClick={() => handleEdit(element)}
-						color={colorScheme.colorScheme === 'dark' ? 'yellow.5' : undefined}
-					>
-						<Pencil size='1rem' />
-					</ActionIcon>
-					<ActionIcon
-						mt='xs'
-						variant={colorScheme.colorScheme === 'dark' ? 'outline' : 'default'}
-						onClick={() => deleteDataBase(`/promo/${element.uuid}`)}
-						color={colorScheme.colorScheme === 'dark' ? 'yellow.5' : undefined}
-					>
-						<Trash size='1rem' />
-					</ActionIcon>
-				</Group>
+				<AdminPanelSettings
+					element={element}
+					deleteLink={`/promo/${element.uuid}`}
+					handleEdit={handleEdit}
+				/>
 			</td>
 		</tr>
 	))

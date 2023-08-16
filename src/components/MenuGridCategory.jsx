@@ -34,12 +34,12 @@ const MenuGridCategory = ({ variant, categories }) => {
 							to={
 								variant === 'home'
 									? `menu/${item.link}`
-									: item.link === 'alcohol'
-									? `alcohol/tabs/Вино`
+									: item.link === 'alcohole'
+									? `alcohole/tabs/Вино`
 									: item.link === 'napitki'
 									? `napitki/tabs/Напитки`
-									: item.link === 'gorjachie-napitki'
-									? `gorjachie-napitki/tabs/Чайные%20напитки`
+									: item.link === 'goryachie-napitki'
+									? `goryachie-napitki/tabs/Чайные%20напитки`
 									: item.link
 							}
 						>

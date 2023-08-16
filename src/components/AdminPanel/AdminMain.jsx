@@ -9,9 +9,7 @@ import {
 	NumberInput,
 	Table,
 	Image,
-	ActionIcon,
 	Checkbox,
-	useMantineColorScheme,
 	Textarea,
 	Text,
 	Collapse,
@@ -22,11 +20,11 @@ import { useDisclosure } from '@mantine/hooks'
 import { useState } from 'react'
 import useFetchData from '../../hooks/useFetchData'
 import useSortData from '../../hooks/useSortData'
-import { Pencil, Trash } from 'tabler-icons-react'
 import writeToDatabase from '../../helpers/writeToDataBase'
-import deleteDataBase from '../../helpers/deleteDataBase'
 import submitChangeDataBase from '../../helpers/submitChangeDataBase'
 import { isNotEmpty, useForm } from '@mantine/form'
+import AdminPanelSettings from './AdminPanelSettings'
+import { edited } from '../../store/editSlice'
 
 const AdminMain = () => {
 	const { adminElement } = useParams()
@@ -37,7 +35,6 @@ const AdminMain = () => {
 	const [goryachieNapitkiCategories] = useFetchData(
 		'/categories-gorjachie-napitki/'
 	)
-	const colorScheme = useMantineColorScheme()
 	const [opened, handlers] = useDisclosure(false, {
 		onClose: () => resetEdit(),
 	})
@@ -157,24 +154,11 @@ const AdminMain = () => {
 				</Group>
 			</td>
 			<td>
-				<Group>
-					<ActionIcon
-						variant={colorScheme.colorScheme === 'dark' ? 'outline' : 'default'}
-						onClick={() => handleEdit(element)}
-						color={colorScheme.colorScheme === 'dark' ? 'yellow.5' : undefined}
-					>
-						<Pencil size='1rem' />
-					</ActionIcon>
-					<ActionIcon
-						variant={colorScheme.colorScheme === 'dark' ? 'outline' : 'default'}
-						onClick={() =>
-							deleteDataBase(`/menu/${adminElement}/${element.link}`)
-						}
-						color={colorScheme.colorScheme === 'dark' ? 'yellow.5' : undefined}
-					>
-						<Trash size='1rem' />
-					</ActionIcon>
-				</Group>
+				<AdminPanelSettings
+					element={element}
+					deleteLink={`/menu/${adminElement}/${element.link}`}
+					handleEdit={handleEdit}
+				/>
 			</td>
 		</tr>
 	))

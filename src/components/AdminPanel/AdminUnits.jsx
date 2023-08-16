@@ -1,33 +1,28 @@
-import {
-	Button,
-	Group,
-	Title,
-	Modal,
-	TextInput,
-	Table,
-	ActionIcon,
-	useMantineColorScheme,
-} from '@mantine/core'
+import { Button, Group, Title, Modal, TextInput, Table } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { useDisclosure } from '@mantine/hooks'
 import { useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import useFetchData from '../../hooks/useFetchData'
-import { Pencil, Trash } from 'tabler-icons-react'
 import writeToDatabase from '../../helpers/writeToDataBase'
-import deleteDataBase from '../../helpers/deleteDataBase'
 import submitChangeDataBase from '../../helpers/submitChangeDataBase'
+import AdminPanelSettings from './AdminPanelSettings'
+import { edited, endEditing } from '../../store/editSlice'
 
 const AdminCategoryAlcohol = () => {
-	const colorScheme = useMantineColorScheme()
+	const edit = useSelector(state => state.edit.edit)
+	const dispatch = useDispatch()
 	const [opened, handlers] = useDisclosure(false, {
 		onClose: () => resetEdit(),
 	})
 	const [tempUuid, setTempUuid] = useState('')
-	const [isEdit, setIsEdit] = useState(false)
+	// const [isEdit, setIsEdit] = useState(false)
 	const [categories] = useFetchData(`/units/`)
+	console.log(edit)
 
 	const handleEdit = item => {
-		setIsEdit(true)
+		dispatch(edited())
+		// setIsEdit(true)
 		form.setFieldValue('name', item.name)
 		setTempUuid(item.uuid)
 		handlers.open()
@@ -36,7 +31,8 @@ const AdminCategoryAlcohol = () => {
 	function resetEdit() {
 		setTempUuid('')
 		form.reset()
-		setIsEdit(false)
+		dispatch(endEditing())
+		//setIsEdit(false)
 	}
 
 	const form = useForm({
@@ -50,24 +46,11 @@ const AdminCategoryAlcohol = () => {
 			<td>{element.uuid}</td>
 			<td>{element.name}</td>
 			<td>
-				<Group>
-					<ActionIcon
-						mt='xs'
-						variant={colorScheme.colorScheme === 'dark' ? 'outline' : 'default'}
-						onClick={() => handleEdit(element)}
-						color={colorScheme.colorScheme === 'dark' ? 'yellow.5' : undefined}
-					>
-						<Pencil size='1rem' />
-					</ActionIcon>
-					<ActionIcon
-						mt='xs'
-						variant={colorScheme.colorScheme === 'dark' ? 'outline' : 'default'}
-						onClick={() => deleteDataBase(`units/${element.uuid}`)}
-						color={colorScheme.colorScheme === 'dark' ? 'yellow.5' : undefined}
-					>
-						<Trash size='1rem' />
-					</ActionIcon>
-				</Group>
+				<AdminPanelSettings
+					element={element}
+					deleteLink={`units/${element.uuid}`}
+					handleEdit={handleEdit}
+				/>
 			</td>
 		</tr>
 	))
@@ -77,11 +60,11 @@ const AdminCategoryAlcohol = () => {
 			<Modal
 				opened={opened}
 				onClose={handlers.close}
-				title={isEdit ? 'Редактирование категории' : 'Добавление категории'}
+				title={edit ? 'Редактирование категории' : 'Добавление категории'}
 			>
 				<form
 					onSubmit={
-						!isEdit
+						!edit
 							? form.onSubmit(values =>
 									writeToDatabase(
 										`/units/`,
@@ -109,7 +92,7 @@ const AdminCategoryAlcohol = () => {
 						{...form.getInputProps('name')}
 					/>
 					<Button mt='md' type='submit'>
-						{isEdit ? 'Сохранить' : 'Отправить'}
+						{edit ? 'Сохранить' : 'Отправить'}
 					</Button>
 				</form>
 			</Modal>

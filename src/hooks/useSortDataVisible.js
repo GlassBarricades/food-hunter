@@ -1,10 +1,10 @@
 const useSortDataVisible = (arr, field) => {
 	if (arr) {
-		arr.slice().sort((a, b) => (a[field] - b[field] ? 1 : -1))
-		// arr.sort((a, b) => (a[field] > b[field] ? 1 : -1));
-		return arr.filter(item => {
+		const arrVisible = arr.filter(item => {
 			return item.visible === false
 		})
+		const arrSort = arrVisible.slice().sort((x, y) => x[field] - y[field])
+		return arrSort
 	}
 }
 export default useSortDataVisible
