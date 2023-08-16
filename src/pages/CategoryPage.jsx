@@ -140,6 +140,8 @@ const categoryLoader = async ({ params }) => {
 				dbRef,
 				category === 'alcohole'
 					? `/categories-alcohol/`
+					: category === 'goryachie-napitki'
+					? `/categories-gorjachie-napitki/`
 					: `/categories-${category}/`
 			)
 		)
