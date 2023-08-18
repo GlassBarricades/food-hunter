@@ -16,7 +16,7 @@ import writeToDatabase from '../../helpers/writeToDataBase'
 import submitChangeDataBase from '../../helpers/submitChangeDataBase'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
-import { closeModal } from '@mantine/modals'
+import { closeModal } from '../../store/editSlice'
 
 const AdminMainForm = ({
 	adminElement,

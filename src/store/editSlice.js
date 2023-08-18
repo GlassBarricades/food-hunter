@@ -32,6 +32,7 @@ const editSlice = createSlice({
 			state.editModal = false
 			state.editData = {}
 			state.edit = false
+			state.editUuid = ''
 		},
 	},
 })
