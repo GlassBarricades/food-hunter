@@ -16,7 +16,7 @@ import {
 	Anchor,
 	NativeSelect,
 	ScrollArea,
-	createStyles
+	createStyles,
 } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import { useState } from 'react'
@@ -26,16 +26,23 @@ import writeToDatabase from '../../helpers/writeToDataBase'
 import submitChangeDataBase from '../../helpers/submitChangeDataBase'
 import { isNotEmpty, useForm } from '@mantine/form'
 import AdminPanelSettings from './AdminPanelSettings'
-import { edited } from '../../store/editSlice'
+import { edited, openModal } from '../../store/editSlice'
+import AdminTable from './AdminTable'
+import AdminMainForm from './AdminMainForm'
+import { useSelector, useDispatch } from 'react-redux'
+import { closeModal } from '../../store/editSlice'
 
 const useStyles = createStyles({
 	tableWrap: {
-		minWidth: "100%",
-	}
+		minWidth: '100%',
+	},
 })
 
 const AdminMain = () => {
 	const { adminElement } = useParams()
+	const edit = useSelector(state => state.edit.edit)
+	const open = useSelector(state => state.edit.editModal)
+	const dispatch = useDispatch()
 	const linkItem = useFetchDataOne(`/categories/${adminElement}`)
 	const [units] = useFetchData('/units/')
 	const [alcoholCategories] = useFetchData('/categories-alcohol/')
@@ -49,7 +56,7 @@ const AdminMain = () => {
 	const [openedCollapse, { toggle }] = useDisclosure(false)
 	const [tempUuid, setTempUuid] = useState('')
 	const [isEdit, setIsEdit] = useState(false)
-	const [categories] = useFetchData(`/menu/${adminElement}`)
+	const [categories, loading] = useFetchData(`/menu/${adminElement}`)
 	const data = useSortData(categories, 'position')
 	const { classes } = useStyles()
 
@@ -71,61 +78,61 @@ const AdminMain = () => {
 		return item.name
 	})
 
-	function resetEdit() {
-		setTempUuid('')
-		form.reset()
-		setIsEdit(false)
-	}
+	// function resetEdit() {
+	// 	setTempUuid('')
+	// 	form.reset()
+	// 	setIsEdit(false)
+	// }
 
-	const handleEdit = item => {
-		setIsEdit(true)
-		form.setValues({
-			name: item.name,
-			link: item.link,
-			position: item.position,
-			image: item.image,
-			unit: item.unit,
-			visible: item.visible,
-			category: item.category,
-			compound: item.compound,
-			size1: item.variant.one.size,
-			price1: item.variant.one.price,
-			id1: item.variant.one.id,
-			size2: item.variant.two.size,
-			price2: item.variant.two.price,
-			id2: item.variant.two.id,
-			size3: item.variant.three.size,
-			price3: item.variant.three.price,
-			id3: item.variant.three.id,
-		})
-		setTempUuid(item.uuid)
-		handlers.open()
-	}
+	// const handleEdit = item => {
+	// 	setIsEdit(true)
+	// 	form.setValues({
+	// 		name: item.name,
+	// 		link: item.link,
+	// 		position: item.position,
+	// 		image: item.image,
+	// 		unit: item.unit,
+	// 		visible: item.visible,
+	// 		category: item.category,
+	// 		compound: item.compound,
+	// 		size1: item.variant.one.size,
+	// 		price1: item.variant.one.price,
+	// 		id1: item.variant.one.id,
+	// 		size2: item.variant.two.size,
+	// 		price2: item.variant.two.price,
+	// 		id2: item.variant.two.id,
+	// 		size3: item.variant.three.size,
+	// 		price3: item.variant.three.price,
+	// 		id3: item.variant.three.id,
+	// 	})
+	// 	setTempUuid(item.uuid)
+	// 	handlers.open()
+	// }
 
-	const form = useForm({
-		initialValues: {
-			name: '',
-			link: '',
-			position: 0,
-			image: '',
-			unit: '',
-			visible: false,
-			category: '',
-			compound: '',
-			size1: 0,
-			price1: 0,
-			id1: '',
-			size2: 0,
-			price2: 0,
-			id2: '',
-			size3: 0,
-			price3: 0,
-			id3: '',
-		},
-		validate: {
-			link: isNotEmpty('Поле не должно быть пустым'),
-		},
-	})
+	// const form = useForm({
+	// 	initialValues: {
+	// 		name: '',
+	// 		link: '',
+	// 		position: 0,
+	// 		image: '',
+	// 		unit: '',
+	// 		visible: false,
+	// 		category: '',
+	// 		compound: '',
+	// 		size1: 0,
+	// 		price1: 0,
+	// 		id1: '',
+	// 		size2: 0,
+	// 		price2: 0,
+	// 		id2: '',
+	// 		size3: 0,
+	// 		price3: 0,
+	// 		id3: '',
+	// 	},
+	// 	validate: {
+	// 		link: isNotEmpty('Поле не должно быть пустым'),
+	// 	},
+	// })
 
 	const rows = data.map(element => (
 		<tr key={element.link}>
@@ -166,7 +173,7 @@ const AdminMain = () => {
 				<AdminPanelSettings
 					element={element}
 					deleteLink={`/menu/${adminElement}/${element.link}`}
-					handleEdit={handleEdit}
+					handleEdit={dispatch(edited)}
 				/>
 			</td>
 		</tr>
@@ -175,11 +182,18 @@ const AdminMain = () => {
 	return (
 		<>
 			<Modal
-				opened={opened}
-				onClose={handlers.close}
-				title={isEdit ? 'Редактирование категории' : 'Добавление категории'}
+				opened={open}
+				onClose={() => dispatch(closeModal())}
+				title={edit ? 'Редактирование категории' : 'Добавление категории'}
 			>
-				<form
+				<AdminMainForm
+					adminElement={adminElement}
+					dataUnits={dataUnits}
+					dataCateroriesAlcohol={dataCateroriesAlcohol}
+					dataCateroriesNapitki={dataCateroriesNapitki}
+					dataCateroriesGoryachieNapitki={dataCateroriesGoryachieNapitki}
+				/>
+				{/* <form
 					onSubmit={
 						!isEdit
 							? form.onSubmit(values =>
@@ -385,13 +399,31 @@ const AdminMain = () => {
 					<Button mt='md' type='submit'>
 						{isEdit ? 'Сохранить' : 'Отправить'}
 					</Button>
-				</form>
+				</form> */}
 			</Modal>
 			<Group position='apart'>
 				<Title>{linkItem[0].name}</Title>
-				<Button onClick={handlers.open}>Добавить категорию</Button>
+				<Button onClick={() => dispatch(openModal())}>
+					Добавить категорию
+				</Button>
 			</Group>
-			<ScrollArea h={"70vh"} maw={"100%"} mx="auto">
+			<AdminTable
+				rows={rows}
+				columnArray={[
+					'Сортировка',
+					'Название',
+					'Картинка',
+					'Измерение',
+					'id',
+					'Ссылка',
+					'Состав',
+					'Категория',
+					'Вариант',
+					'Настройки',
+				]}
+				loading={loading}
+			/>
+			{/* <ScrollArea h={"70vh"} maw={"100%"} mx="auto">
 			<Table
 				className={classes.tableWrap}
 				highlightOnHover
@@ -416,7 +448,7 @@ const AdminMain = () => {
 				</thead>
 				<tbody>{rows}</tbody>
 			</Table>
-			</ScrollArea>
+			</ScrollArea> */}
 		</>
 	)
 }

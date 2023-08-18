@@ -1,45 +1,17 @@
-import { Button, Group, Title, Modal, TextInput, Table, ScrollArea } from '@mantine/core'
-import { useForm } from '@mantine/form'
-import { useDisclosure } from '@mantine/hooks'
-import { useState } from 'react'
+import { Button, Group, Title, Modal, Table, ScrollArea } from '@mantine/core'
 import { useSelector, useDispatch } from 'react-redux'
 import useFetchData from '../../hooks/useFetchData'
-import writeToDatabase from '../../helpers/writeToDataBase'
-import submitChangeDataBase from '../../helpers/submitChangeDataBase'
+import { closeModal, openModal } from '../../store/editSlice'
+import AdminUnitsForm from './AdminUnitsForm'
+import AdminTable from './AdminTable'
 import AdminPanelSettings from './AdminPanelSettings'
-import { edited, endEditing } from '../../store/editSlice'
-
+import { edited } from '../../store/editSlice'
 
 const AdminCategoryAlcohol = () => {
 	const edit = useSelector(state => state.edit.edit)
+	const open = useSelector(state => state.edit.editModal)
 	const dispatch = useDispatch()
-	const [opened, handlers] = useDisclosure(false, {
-		onClose: () => resetEdit(),
-	})
-	const [tempUuid, setTempUuid] = useState('')
-	// const [isEdit, setIsEdit] = useState(false)
-	const [categories] = useFetchData(`/units/`)
-
-	const handleEdit = item => {
-		dispatch(edited())
-		// setIsEdit(true)
-		form.setFieldValue('name', item.name)
-		setTempUuid(item.uuid)
-		handlers.open()
-	}
-
-	function resetEdit() {
-		setTempUuid('')
-		form.reset()
-		dispatch(endEditing())
-		//setIsEdit(false)
-	}
-
-	const form = useForm({
-		initialValues: {
-			name: '',
-		},
-	})
+	const [categories, loading] = useFetchData(`/units/`)
 
 	const rows = categories.map(element => (
 		<tr key={element.uuid}>
@@ -49,7 +21,7 @@ const AdminCategoryAlcohol = () => {
 				<AdminPanelSettings
 					element={element}
 					deleteLink={`units/${element.uuid}`}
-					handleEdit={handleEdit}
+					handleEdit={dispatch(edited)}
 				/>
 			</td>
 		</tr>
@@ -58,66 +30,27 @@ const AdminCategoryAlcohol = () => {
 	return (
 		<>
 			<Modal
-				opened={opened}
-				onClose={handlers.close}
-				title={edit ? 'Редактирование категории' : 'Добавление категории'}
+				opened={open}
+				onClose={() => dispatch(closeModal())}
+				title={
+					edit
+						? 'Редактирование единицы измерения'
+						: 'Добавление единицы измерения'
+				}
 			>
-				<form
-					onSubmit={
-						!edit
-							? form.onSubmit(values =>
-									writeToDatabase(
-										`/units/`,
-										{ ...values },
-										form.reset,
-										handlers.close,
-										true
-									)
-							  )
-							: form.onSubmit(values => {
-									submitChangeDataBase(
-										values,
-										`/units/${tempUuid}`,
-										tempUuid,
-										resetEdit,
-										handlers.close
-									)
-							  })
-					}
-				>
-					<TextInput
-						placeholder='Название единицы измерения'
-						label='Название единицы измерения'
-						withAsterisk
-						{...form.getInputProps('name')}
-					/>
-					<Button mt='md' type='submit'>
-						{edit ? 'Сохранить' : 'Отправить'}
-					</Button>
-				</form>
+				<AdminUnitsForm />
 			</Modal>
 			<Group position='apart'>
 				<Title>Единицы измерения</Title>
-				<Button onClick={handlers.open}>Добавить единицу измерения</Button>
+				<Button onClick={() => dispatch(openModal())}>
+					Добавить единицу измерения
+				</Button>
 			</Group>
-			<ScrollArea w={"100%"} h={"100%"}>
-			<Table
-				highlightOnHover
-				withBorder
-				withColumnBorders
-				fontSize='md'
-				mt='md'
-			>
-				<thead>
-					<tr>
-						<th>id</th>
-						<th>Название</th>
-						<th>Настройки</th>
-					</tr>
-				</thead>
-				<tbody>{rows}</tbody>
-			</Table>
-			</ScrollArea>
+			<AdminTable
+				rows={rows}
+				columnArray={['id', 'Название', 'Настройки']}
+				loading={loading}
+			/>
 		</>
 	)
 }

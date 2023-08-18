@@ -10,19 +10,20 @@ import {
 	Paper,
 	Button,
 } from '@mantine/core'
-import { useLoaderData, useNavigate } from 'react-router-dom'
+import { useLoaderData } from 'react-router-dom'
 import { getDatabase, ref, child, get } from 'firebase/database'
 import useSortData from '../hooks/useSortData'
 import AddList from '../components/AddList'
 import ProductTitle from '../components/ProductTitle'
 import Compound from '../components/Compound'
-import { ChevronsLeft } from 'tabler-icons-react'
 import { useDispatch } from 'react-redux'
 import { addOrder } from '../store/orderSlice'
 import { useSelector } from 'react-redux'
 import { uid } from 'uid'
 import ProductPrice from '../components/Product/ProductPrice'
 import ProductQuantity from '../components/Product/ProductQuantity'
+import BackButton from '../components/BackButton'
+import ProductImage from '../components/Product/ProductImage'
 
 const useStyles = createStyles(() => ({
 	wrapper: {
@@ -35,7 +36,6 @@ const useStyles = createStyles(() => ({
 const ProductPage = () => {
 	const { productDataBase, dataCategories, category, addList } = useLoaderData()
 	const quantity = useSelector(state => state.quantity.quantity)
-	const navigate = useNavigate()
 	const { classes } = useStyles()
 	const dataVariants = Object.values(productDataBase.variant)
 	const arrA = useSortData(dataVariants, 'size')
@@ -77,21 +77,17 @@ const ProductPage = () => {
 		<>
 			<Grid className={classes.wrapper}>
 				<Grid.Col md={6}>
-					<Button
-						variant='outline'
-						color='yellow'
-						mb='xl'
-						onClick={() => navigate(-1)}
-						leftIcon={<ChevronsLeft size='1rem' />}
-					>
-						Вернуться назад
-					</Button>
-					<Image
+					<BackButton />
+					<ProductImage
+						link={productDataBase.image}
+						title={productDataBase.name}
+					/>
+					{/* <Image
 						radius='md'
 						height={500}
 						src={productDataBase.image}
 						alt={productDataBase.name}
-					/>
+					/> */}
 				</Grid.Col>
 				<Grid.Col md={6}>
 					<Paper shadow='xs' p='md' withBorder>
