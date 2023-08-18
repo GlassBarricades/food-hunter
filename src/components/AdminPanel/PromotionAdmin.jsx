@@ -8,23 +8,18 @@ import {
 	Textarea,
 	Checkbox,
 	Table,
-	ActionIcon,
-	useMantineColorScheme,
 	Image,
 } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
-import { isNotEmpty, useForm } from '@mantine/form'
+import { useForm } from '@mantine/form'
 import { useState } from 'react'
 import useSortData from '../../hooks/useSortData'
-import { Pencil, Trash } from 'tabler-icons-react'
 import writeToDatabase from '../../helpers/writeToDataBase'
 import submitChangeDataBase from '../../helpers/submitChangeDataBase'
-import deleteDataBase from '../../helpers/deleteDataBase'
 import useFetchData from '../../hooks/useFetchData'
 import AdminPanelSettings from './AdminPanelSettings'
 
 const PromotionAdmin = () => {
-	const colorScheme = useMantineColorScheme()
 	const [opened, handlers] = useDisclosure(false, {
 		onClose: () => resetEdit(),
 	})
@@ -60,9 +55,6 @@ const PromotionAdmin = () => {
 			day: '',
 			visible: false,
 		},
-		validate: {
-			link: isNotEmpty('Поле не должно быть пустым'),
-		},
 	})
 
 	const rows = data.map(element => (
@@ -96,7 +88,7 @@ const PromotionAdmin = () => {
 							? form.onSubmit(values =>
 									writeToDatabase(
 										`/promo/`,
-										{ ...values },
+										values,
 										form.reset,
 										handlers.close,
 										true

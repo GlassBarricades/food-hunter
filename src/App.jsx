@@ -26,7 +26,6 @@ import AdminStats from './components/AdminPanel/AdminStats'
 import { fetchCategories } from './store/categoriesSlice'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
-import { Notifications } from '@mantine/notifications'
 
 const App = () => {
 	const categories = useSelector(state => state.categories.categories)
@@ -51,7 +50,7 @@ const App = () => {
 					<Route path='menu' element={<MenuPage />}>
 						<Route
 							index
-							element={<MenuGridCategory categories={categories} />}
+							element={<MenuGridCategory categories={categories}/>}
 						/>
 						<Route
 							path=':category'

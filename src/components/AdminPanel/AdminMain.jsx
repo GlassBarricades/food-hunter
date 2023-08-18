@@ -15,6 +15,8 @@ import {
 	Collapse,
 	Anchor,
 	NativeSelect,
+	ScrollArea,
+	createStyles
 } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import { useState } from 'react'
@@ -25,6 +27,12 @@ import submitChangeDataBase from '../../helpers/submitChangeDataBase'
 import { isNotEmpty, useForm } from '@mantine/form'
 import AdminPanelSettings from './AdminPanelSettings'
 import { edited } from '../../store/editSlice'
+
+const useStyles = createStyles({
+	tableWrap: {
+		minWidth: "100%",
+	}
+})
 
 const AdminMain = () => {
 	const { adminElement } = useParams()
@@ -43,6 +51,7 @@ const AdminMain = () => {
 	const [isEdit, setIsEdit] = useState(false)
 	const [categories] = useFetchData(`/menu/${adminElement}`)
 	const data = useSortData(categories, 'position')
+	const { classes } = useStyles()
 
 	const dataCateroriesAlcohol = alcoholCategories.map(item => {
 		return item.name
@@ -382,7 +391,9 @@ const AdminMain = () => {
 				<Title>{linkItem[0].name}</Title>
 				<Button onClick={handlers.open}>Добавить категорию</Button>
 			</Group>
+			<ScrollArea h={"70vh"} maw={"100%"} mx="auto">
 			<Table
+				className={classes.tableWrap}
 				highlightOnHover
 				withBorder
 				withColumnBorders
@@ -405,6 +416,7 @@ const AdminMain = () => {
 				</thead>
 				<tbody>{rows}</tbody>
 			</Table>
+			</ScrollArea>
 		</>
 	)
 }

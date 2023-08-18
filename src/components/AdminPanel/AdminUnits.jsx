@@ -1,4 +1,4 @@
-import { Button, Group, Title, Modal, TextInput, Table } from '@mantine/core'
+import { Button, Group, Title, Modal, TextInput, Table, ScrollArea } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { useDisclosure } from '@mantine/hooks'
 import { useState } from 'react'
@@ -9,6 +9,7 @@ import submitChangeDataBase from '../../helpers/submitChangeDataBase'
 import AdminPanelSettings from './AdminPanelSettings'
 import { edited, endEditing } from '../../store/editSlice'
 
+
 const AdminCategoryAlcohol = () => {
 	const edit = useSelector(state => state.edit.edit)
 	const dispatch = useDispatch()
@@ -18,7 +19,6 @@ const AdminCategoryAlcohol = () => {
 	const [tempUuid, setTempUuid] = useState('')
 	// const [isEdit, setIsEdit] = useState(false)
 	const [categories] = useFetchData(`/units/`)
-	console.log(edit)
 
 	const handleEdit = item => {
 		dispatch(edited())
@@ -100,6 +100,7 @@ const AdminCategoryAlcohol = () => {
 				<Title>Единицы измерения</Title>
 				<Button onClick={handlers.open}>Добавить единицу измерения</Button>
 			</Group>
+			<ScrollArea w={"100%"} h={"100%"}>
 			<Table
 				highlightOnHover
 				withBorder
@@ -116,6 +117,7 @@ const AdminCategoryAlcohol = () => {
 				</thead>
 				<tbody>{rows}</tbody>
 			</Table>
+			</ScrollArea>
 		</>
 	)
 }

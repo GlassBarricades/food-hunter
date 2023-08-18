@@ -7,11 +7,8 @@ import {
 	SegmentedControl,
 	Group,
 	Stack,
-	rem,
-	NumberInput,
 	Paper,
 	Button,
-	ActionIcon,
 } from '@mantine/core'
 import { useLoaderData, useNavigate } from 'react-router-dom'
 import { getDatabase, ref, child, get } from 'firebase/database'
@@ -22,9 +19,10 @@ import Compound from '../components/Compound'
 import { ChevronsLeft } from 'tabler-icons-react'
 import { useDispatch } from 'react-redux'
 import { addOrder } from '../store/orderSlice'
-import { incrementQuantity, decrementQuantity } from '../store/quantitySlice'
 import { useSelector } from 'react-redux'
 import { uid } from 'uid'
+import ProductPrice from '../components/Product/ProductPrice'
+import ProductQuantity from '../components/Product/ProductQuantity'
 
 const useStyles = createStyles(() => ({
 	wrapper: {
@@ -124,49 +122,9 @@ const ProductPage = () => {
 									data={filteredArr}
 								/>
 							</Group>
-							<Group position='left' spacing='xs' align='flex-end'>
-								<Text size='sm' mt='xs'>
-									Цена:
-								</Text>
-								<Text size='xl' mt='sm' fw={700}>
-									{dataVariants[variantValue].price}
-								</Text>
-								<Text size='sm' mt='xs'>
-									руб
-								</Text>
-							</Group>
+							<ProductPrice price={dataVariants[variantValue].price} />
 							<Group position='apart'>
-								<Group spacing={5}>
-									<Text>Количество: </Text>
-									<Group spacing={5}>
-										<ActionIcon
-											size={35}
-											variant='default'
-											onClick={() => dispatch(decrementQuantity())}
-										>
-											–
-										</ActionIcon>
-
-										<NumberInput
-											hideControls
-											value={quantity}
-											max={10}
-											min={0}
-											step={2}
-											styles={{
-												input: { width: rem(54), textAlign: 'center' },
-											}}
-										/>
-
-										<ActionIcon
-											size={35}
-											variant='default'
-											onClick={() => dispatch(incrementQuantity())}
-										>
-											+
-										</ActionIcon>
-									</Group>
-								</Group>
+								<ProductQuantity />
 								<Button
 									variant='outline'
 									color='yellow'
