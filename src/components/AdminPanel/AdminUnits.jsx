@@ -1,4 +1,4 @@
-import { Button, Group, Title, Modal, Table, ScrollArea } from '@mantine/core'
+import { Button, Group, Title, Modal } from '@mantine/core'
 import { useSelector, useDispatch } from 'react-redux'
 import useFetchData from '../../hooks/useFetchData'
 import { closeModal, openModal } from '../../store/editSlice'

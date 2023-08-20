@@ -17,10 +17,10 @@ import submitChangeDataBase from '../../helpers/submitChangeDataBase'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { closeModal } from '../../store/editSlice'
+import useFetchData from '../../hooks/useFetchData'
 
 const AdminMainForm = ({
 	adminElement,
-	dataUnits,
 	dataCateroriesAlcohol,
 	dataCateroriesNapitki,
 	dataCateroriesGoryachieNapitki,
@@ -30,6 +30,11 @@ const AdminMainForm = ({
 	const editUuid = useSelector(state => state.edit.editUuid)
 	const dispatch = useDispatch()
 	const [openedCollapse, { toggle }] = useDisclosure(false)
+	const [units] = useFetchData('/units/')
+
+	const dataUnits = units.map(item => {
+		return item.name
+	})
 
 	useEffect(() => {
 		if (edit) {
