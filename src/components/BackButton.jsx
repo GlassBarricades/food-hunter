@@ -1,8 +1,9 @@
 import { Button } from '@mantine/core'
 import { ChevronsLeft } from 'tabler-icons-react'
 import { useNavigate } from 'react-router-dom'
+import { memo } from 'react'
 
-const BackButton = () => {
+const BackButton = memo(() => {
 	const navigate = useNavigate()
 	return (
 		<Button
@@ -15,5 +16,5 @@ const BackButton = () => {
 			Вернуться назад
 		</Button>
 	)
-}
+})
 export default BackButton

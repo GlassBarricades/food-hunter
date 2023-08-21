@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import {
 	Grid,
-	Image,
 	createStyles,
 	Text,
 	SegmentedControl,
@@ -82,12 +81,6 @@ const ProductPage = () => {
 						link={productDataBase.image}
 						title={productDataBase.name}
 					/>
-					{/* <Image
-						radius='md'
-						height={500}
-						src={productDataBase.image}
-						alt={productDataBase.name}
-					/> */}
 				</Grid.Col>
 				<Grid.Col md={6}>
 					<Paper shadow='xs' p='md' withBorder>

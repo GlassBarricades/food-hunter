@@ -10,7 +10,6 @@ const editSlice = createSlice({
 	},
 	reducers: {
 		edited(state, action) {
-			console.log(action.payload)
 			state.edit = true
 			state.editData = action.payload
 			state.editUuid = action.payload.uuid

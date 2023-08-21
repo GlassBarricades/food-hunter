@@ -1,57 +1,29 @@
-import { Button, Group, Title, Modal } from '@mantine/core'
-import { useSelector, useDispatch } from 'react-redux'
-import useFetchData from '../../hooks/useFetchData'
-import { closeModal, openModal } from '../../store/editSlice'
-import AdminUnitsForm from './AdminUnitsForm'
-import AdminTable from './AdminTable'
-import AdminPanelSettings from './AdminPanelSettings'
-import { edited } from '../../store/editSlice'
+import useFetchData from "../../hooks/useFetchData";
+import AdminUnitsForm from "./AdminUnitsForm";
+import AdminTable from "./AdminTable";
+import AdminUnitsRow from "./AdminUnitsRow";
+import AdminHeaderBlock from "./AdminHeaderBlock";
+import AdminModal from "./AdminModal";
 
 const AdminCategoryAlcohol = () => {
-	const edit = useSelector(state => state.edit.edit)
-	const open = useSelector(state => state.edit.editModal)
-	const dispatch = useDispatch()
-	const [categories, loading] = useFetchData(`/units/`)
+  const [categories, loading] = useFetchData(`/units/`);
 
-	const rows = categories.map(element => (
-		<tr key={element.uuid}>
-			<td>{element.uuid}</td>
-			<td>{element.name}</td>
-			<td>
-				<AdminPanelSettings
-					element={element}
-					deleteLink={`units/${element.uuid}`}
-					handleEdit={dispatch(edited)}
-				/>
-			</td>
-		</tr>
-	))
+  const rows = categories.map((element) => (
+    <AdminUnitsRow key={element.uuid} element={element} />
+  ));
 
-	return (
-		<>
-			<Modal
-				opened={open}
-				onClose={() => dispatch(closeModal())}
-				title={
-					edit
-						? 'Редактирование единицы измерения'
-						: 'Добавление единицы измерения'
-				}
-			>
-				<AdminUnitsForm />
-			</Modal>
-			<Group position='apart'>
-				<Title>Единицы измерения</Title>
-				<Button onClick={() => dispatch(openModal())}>
-					Добавить единицу измерения
-				</Button>
-			</Group>
-			<AdminTable
-				rows={rows}
-				columnArray={['id', 'Название', 'Настройки']}
-				loading={loading}
-			/>
-		</>
-	)
-}
-export default AdminCategoryAlcohol
+  return (
+    <>
+      <AdminModal>
+        <AdminUnitsForm />
+      </AdminModal>
+      <AdminHeaderBlock title="Единицы измерения" />
+      <AdminTable
+        rows={rows}
+        columnArray={["id", "Название", "Настройки"]}
+        loading={loading}
+      />
+    </>
+  );
+};
+export default AdminCategoryAlcohol;
