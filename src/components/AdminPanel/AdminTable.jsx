@@ -9,13 +9,14 @@ const useStyles = createStyles({
 
 const AdminTable = memo(({ rows, columnArray, loading }) => {
 	const { classes } = useStyles()
+	console.log('render table')
 
 	return (
 		<>
-			{loading ? (
+			{loading === true || loading === 'loading' ? (
 				<Text size='xl'>Загрузка...</Text>
 			) : (
-				<ScrollArea h={'70vh'} maw={'100%'} mx='auto'>
+				<ScrollArea h={'70vh'} maw={'100%'} mx='auto' offsetScrollbars>
 					<Table
 						className={classes.tableWrap}
 						highlightOnHover

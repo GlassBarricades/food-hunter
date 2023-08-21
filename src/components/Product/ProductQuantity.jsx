@@ -20,9 +20,6 @@ const ProductQuantity = () => {
 				<NumberInput
 					hideControls
 					value={quantity}
-					max={10}
-					min={0}
-					step={2}
 					styles={{
 						input: { width: rem(54), textAlign: 'center' },
 					}}

@@ -18,23 +18,33 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { closeModal } from '../../store/editSlice'
 import useFetchData from '../../hooks/useFetchData'
+import { useParams } from 'react-router-dom'
 
-const AdminMainForm = ({
-	adminElement,
-	dataCateroriesAlcohol,
-	dataCateroriesNapitki,
-	dataCateroriesGoryachieNapitki,
-}) => {
+const AdminMainForm = () => {
 	const edit = useSelector(state => state.edit.edit)
 	const editData = useSelector(state => state.edit.editData)
 	const editUuid = useSelector(state => state.edit.editUuid)
+	const units = useSelector(state => state.units.unitsNamesArray)
+	const { adminElement } = useParams()
 	const dispatch = useDispatch()
 	const [openedCollapse, { toggle }] = useDisclosure(false)
-	const [units] = useFetchData('/units/')
+	const [alcoholCategories] = useFetchData('/categories-alcohol/')
+	const [napitkiCategories] = useFetchData('/categories-napitki/')
+	const [goryachieNapitkiCategories] = useFetchData(
+		'/categories-gorjachie-napitki/'
+	)
 
-	const dataUnits = units.map(item => {
+	const dataCateroriesAlcohol = alcoholCategories.map(item => {
 		return item.name
 	})
+	const dataCateroriesNapitki = napitkiCategories.map(item => {
+		return item.name
+	})
+	const dataCateroriesGoryachieNapitki = goryachieNapitkiCategories.map(
+		item => {
+			return item.name
+		}
+	)
 
 	useEffect(() => {
 		if (edit) {
@@ -181,6 +191,7 @@ const AdminMainForm = ({
 				placeholder='Ссылка для меню'
 				label='Ссылка для меню'
 				withAsterisk
+				disabled={edit ? true : false}
 				{...form.getInputProps('link')}
 			/>
 			<NumberInput
@@ -215,7 +226,7 @@ const AdminMainForm = ({
 				/>
 			) : undefined}
 			<NativeSelect
-				data={['Выберите единицу измерения', ...dataUnits]}
+				data={['Выберите единицу измерения', ...units]}
 				label='Установите единицу измерения'
 				{...form.getInputProps('unit')}
 			/>

@@ -1,7 +1,8 @@
 import { SimpleGrid, ScrollArea } from '@mantine/core'
 import AddCard from './AddCard'
+import { memo } from 'react'
 
-const AddList = ({ addList }) => {
+const AddList = memo(({ addList }) => {
 	return (
 		<ScrollArea h={300}>
 			<SimpleGrid
@@ -21,5 +22,5 @@ const AddList = ({ addList }) => {
 			</SimpleGrid>
 		</ScrollArea>
 	)
-}
+})
 export default AddList

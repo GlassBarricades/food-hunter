@@ -1,12 +1,12 @@
-import AdminPanelSettings from "./AdminPanelSettings";
-import { edited } from "../../store/editSlice";
-import { useDispatch } from "react-redux";
-import { memo } from "react";
+import AdminPanelSettings from './AdminPanelSettings'
+import { edited } from '../../store/editSlice'
+import { useDispatch } from 'react-redux'
+import { memo } from 'react'
 
-const AdminUnitsRow = memo(({element}) => {
-    const dispatch = useDispatch()
-    return (
-        <tr key={element.uuid}>
+const AdminUnitsRow = memo(({ element }) => {
+	const dispatch = useDispatch()
+	return (
+		<tr>
 			<td>{element.uuid}</td>
 			<td>{element.name}</td>
 			<td>
@@ -17,6 +17,6 @@ const AdminUnitsRow = memo(({element}) => {
 				/>
 			</td>
 		</tr>
-    )
+	)
 })
-export default AdminUnitsRow;
+export default AdminUnitsRow

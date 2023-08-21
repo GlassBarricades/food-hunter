@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom'
 import { Card, Image, Text, Button } from '@mantine/core'
+import { memo } from 'react'
 
-const MenuCard = ({ dataItem, category, itemVariants }) => {
+const MenuCard = memo(({ dataItem, category, itemVariants }) => {
 	return (
 		<Card
 			shadow='sm'
@@ -30,5 +31,5 @@ const MenuCard = ({ dataItem, category, itemVariants }) => {
 			</Button>
 		</Card>
 	)
-}
+})
 export default MenuCard

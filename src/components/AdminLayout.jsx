@@ -2,9 +2,17 @@ import { AppShell, Footer, useMantineTheme } from '@mantine/core'
 import { Outlet } from 'react-router-dom'
 import { HeaderSimple } from './Header'
 import NavBarApp from './NavBarApp'
+import { memo, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { fetchUnits } from '../store/unitsSlice'
 
-const AdminLayout = () => {
+const AdminLayout = memo(() => {
 	const theme = useMantineTheme()
+	const dispatch = useDispatch()
+
+	useEffect(() => {
+		dispatch(fetchUnits())
+	}, [dispatch])
 
 	return (
 		<AppShell
@@ -29,5 +37,5 @@ const AdminLayout = () => {
 			<Outlet />
 		</AppShell>
 	)
-}
+})
 export default AdminLayout

@@ -18,6 +18,7 @@ import authSlice from './authSlice'
 import categoriesSlice from './categoriesSlice'
 import navBarSlice from './navBarSlice'
 import editSlice from './editSlice'
+import unitsSlice from './unitsSlice'
 
 const rootReducer = combineReducers({
 	order: orderReducer,
@@ -28,12 +29,13 @@ const rootReducer = combineReducers({
 	categories: categoriesSlice,
 	navBar: navBarSlice,
 	edit: editSlice,
+	units: unitsSlice,
 })
 
 const persistConfig = {
 	key: 'root',
 	storage,
-	blacklist: ['categories', 'navBar', 'edit'],
+	blacklist: ['categories', 'navBar', 'edit', 'units'],
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
