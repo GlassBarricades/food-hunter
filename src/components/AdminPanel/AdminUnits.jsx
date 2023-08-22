@@ -1,17 +1,16 @@
 import AdminUnitsForm from './AdminUnitsForm'
 import AdminTable from './AdminTable'
-import AdminUnitsRow from './AdminUnitsRow'
 import AdminHeaderBlock from './AdminHeaderBlock'
 import AdminModal from './AdminModal'
-import { useSelector } from 'react-redux'
 import { Text } from '@mantine/core'
+import AdminRow from './AdminRow'
+import useFetchData from '../../hooks/useFetchData'
 
 const AdminCategoryAlcohol = () => {
-	const units = useSelector(state => state.units.units)
-	const loading = useSelector(state => state.units.status)
+	const [categories, loading] = useFetchData(`/units/`)
 
-	const rows = units.map(element => (
-		<AdminUnitsRow key={element.uuid} element={element} />
+	const rows = categories.map(element => (
+		<AdminRow key={element.uuid} element={element} variant='units' />
 	))
 
 	return (
@@ -20,7 +19,7 @@ const AdminCategoryAlcohol = () => {
 				<AdminUnitsForm />
 			</AdminModal>
 			<AdminHeaderBlock title='Единицы измерения' />
-			{units.length == 0 ? (
+			{categories.length == 0 ? (
 				<Text size='xl'>Загрузка ...</Text>
 			) : (
 				<AdminTable

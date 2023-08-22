@@ -1,42 +1,40 @@
-import useFetchData from "../../hooks/useFetchData";
-import useSortData from "../../hooks/useSortData";
-import { useParams } from "react-router-dom";
-import AdminTable from "./AdminTable";
-import { useSelector } from "react-redux";
-import AdminCategoryForm from "./AdminCategoryForm";
-import AdminModal from "./AdminModal";
-import AdminHeaderBlock from "./AdminHeaderBlock";
-import AdminCategoryRow from "./AdminCategoryRow";
+import useFetchSortedData from '../../hooks/useFetchSortedData'
+import { useParams } from 'react-router-dom'
+import AdminTable from './AdminTable'
+import AdminCategoryForm from './AdminCategoryForm'
+import AdminModal from './AdminModal'
+import AdminHeaderBlock from './AdminHeaderBlock'
+import AdminRow from './AdminRow'
 
 const AdminCategory = () => {
-  const { categoryElement } = useParams();
-  //   const categories = useSelector(state => state.categories.categories)
-  //   const loading = useSelector(state => state.categories.status)
-  const [categories, loading] = useFetchData(`/${categoryElement}/`);
-  const data = useSortData(categories, "position");
+	const { categoryElement } = useParams()
+	const [categories, loading] = useFetchSortedData(
+		`/${categoryElement}/`,
+		'position'
+	)
 
-  const rows = data.map((element) => (
-	<AdminCategoryRow key={element.uuid} element={element} />
-  ));
+	const rows = categories.map(element => (
+		<AdminRow key={element.uuid} element={element} variant='category' />
+	))
 
-  return (
-    <>
-      <AdminModal>
-        <AdminCategoryForm />
-      </AdminModal>
-	  <AdminHeaderBlock />
-      <AdminTable
-        rows={rows}
-        columnArray={[
-          "Сортировка",
-          "Название",
-          "Картинки",
-          "Ссылка",
-          "Настройки",
-        ]}
-        loading={loading}
-      />
-    </>
-  );
-};
-export default AdminCategory;
+	return (
+		<>
+			<AdminModal>
+				<AdminCategoryForm />
+			</AdminModal>
+			<AdminHeaderBlock />
+			<AdminTable
+				rows={rows}
+				columnArray={[
+					'Сортировка',
+					'Название',
+					'Картинки',
+					'Ссылка',
+					'Настройки',
+				]}
+				loading={loading}
+			/>
+		</>
+	)
+}
+export default AdminCategory
