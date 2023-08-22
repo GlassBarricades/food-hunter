@@ -5,6 +5,7 @@ import AdminMainForm from './AdminMainForm'
 import AdminModal from './AdminModal'
 import AdminHeaderBlock from './AdminHeaderBlock'
 import AdminMainRow from './AdminMainRow'
+import AdminRow from './AdminRow'
 
 const AdminMain = () => {
 	const { adminElement } = useParams()
@@ -14,7 +15,8 @@ const AdminMain = () => {
 	)
 
 	const rows = categories.map(element => (
-		<AdminMainRow key={element.uuid} element={element} />
+		// <AdminMainRow key={element.uuid} element={element} />
+		<AdminRow key={element.uuid} element={element} variant="main" />
 	))
 
 	return (
