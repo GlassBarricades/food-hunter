@@ -41,10 +41,10 @@ const App = () => {
 	const router = createBrowserRouter(
 		createRoutesFromElements(
 			<>
-				{/* <Route path='/home' element={<HomeLayout />} /> */}
+				<Route path='/home' element={<HomeLayout />} />
 				<Route path='/' element={<LayoutPage />}>
-					<Route index element={<HomePage />} />
-					{/* <Route index element={<Navigate to='/home' replace />} /> */}
+					{/* <Route index element={<HomePage />} /> */}
+					<Route index element={<Navigate to='/home' replace />} />
 					<Route path='/order' element={<OrderPage />} />
 					<Route path='/contacts' element={<ContactPage />} />
 					<Route
