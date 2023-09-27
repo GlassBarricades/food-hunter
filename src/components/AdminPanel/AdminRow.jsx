@@ -6,23 +6,26 @@ import { memo } from 'react'
 import { useParams } from 'react-router-dom'
 
 const AdminRow = memo(({ element, variant }) => {
+	console.log(element)
 	const dispatch = useDispatch()
 	const { categoryElement, adminElement } = useParams()
 	return (
 		<tr>
 			{variant === 'units' ? <td>{element.uuid}</td> : undefined}
-			{variant === 'main' || variant === 'category' ? (
+			{variant === 'main' || variant === 'category' || variant === 'pizza' ? (
 				<td>{element.position}</td>
 			) : undefined}
 			<td>{element.name}</td>
-			{variant === 'main' || variant === 'category' ? (
+			{variant === 'main' || variant === 'category' || variant === 'pizza' ? (
 				<td>
 					<Image width={50} src={element.image} alt={element.name} />
 				</td>
 			) : undefined}
 
-			{variant === 'main' ? <td>{element.unit}</td> : undefined}
-			{variant === 'main' ? (
+			{variant === 'main' || variant === 'pizza' ? (
+				<td>{element.unit}</td>
+			) : undefined}
+			{variant === 'main' || variant === 'pizza' ? (
 				<td>
 					<Group>
 						{element.variant
@@ -35,10 +38,10 @@ const AdminRow = memo(({ element, variant }) => {
 					</Group>
 				</td>
 			) : undefined}
-			{variant === 'main' || variant === 'category' ? (
+			{variant === 'main' || variant === 'category' || variant === 'pizza' ? (
 				<td>{`/${element.link}`}</td>
 			) : undefined}
-			{variant === 'main' ? (
+			{variant === 'main' || variant === 'pizza' ? (
 				<td>
 					<Spoiler maxHeight={50} showLabel='Еще...' hideLabel='Скрыть'>
 						{element.compound}
@@ -46,7 +49,7 @@ const AdminRow = memo(({ element, variant }) => {
 				</td>
 			) : undefined}
 			{variant === 'main' ? <td>{element.category}</td> : undefined}
-			{variant === 'main' ? (
+			{variant === 'main' || variant === 'pizza' ? (
 				<td>
 					<Group>
 						{element.variant
@@ -69,6 +72,8 @@ const AdminRow = memo(({ element, variant }) => {
 							? `/menu/${adminElement}/${element.link}`
 							: variant === 'units'
 							? `units/${element.uuid}`
+							: variant === 'pizza'
+							? `/menu/pizza-ads/${element.link}`
 							: `/${categoryElement}/${element.link}`
 					}
 					handleEdit={dispatch(edited)}

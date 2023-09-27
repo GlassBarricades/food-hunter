@@ -130,6 +130,10 @@ const NavBarApp = ({ admin }) => {
 			link: 'category/categories-gorjachie-napitki',
 		},
 		{
+			label: 'Добавки для пиццы',
+			link: 'pizza-ads',
+		},
+		{
 			label: 'Единицы измерения',
 			link: 'units',
 		},

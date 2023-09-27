@@ -9,7 +9,6 @@ const useStyles = createStyles({
 
 const AdminTable = memo(({ rows, columnArray, loading }) => {
 	const { classes } = useStyles()
-	console.log('render table')
 
 	return (
 		<>

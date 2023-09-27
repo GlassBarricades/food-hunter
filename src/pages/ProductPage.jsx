@@ -97,10 +97,11 @@ const ProductPage = () => {
 							category === 'gynkan' ||
 							category === 'sety-sushi' ||
 							category === 'goryachie-sushi' ||
-							category === 'friture' ||
-							category === 'pizza' ||
-							category === 'seti-pizza' ? (
+							category === 'friture' ? (
 								<AddList addList={addList} />
+							) : undefined}
+							{category === 'pizza' || category === 'seti-pizza' ? (
+								<AddList addList={addList} variant='pizza' />
 							) : undefined}
 							<Group>
 								<Text>Размер: </Text>

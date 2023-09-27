@@ -1,8 +1,13 @@
 import { SimpleGrid, ScrollArea } from '@mantine/core'
+import useFetchSortedData from '../hooks/useFetchSortedData'
 import AddCard from './AddCard'
 import { memo } from 'react'
 
-const AddList = memo(({ addList }) => {
+const AddList = memo(({ addList, variant }) => {
+	const [categories, loading] = useFetchSortedData(
+		`/menu/pizza-ads`,
+		'position'
+	)
 	return (
 		<ScrollArea h={300}>
 			<SimpleGrid
@@ -16,6 +21,11 @@ const AddList = memo(({ addList }) => {
 					{ maxWidth: 'xs', cols: 2, spacing: 'xs' },
 				]}
 			>
+				{variant === 'pizza'
+					? categories.map(item => {
+							return <AddCard key={item.uuid} item={item} />
+					  })
+					: undefined}
 				{addList.map(item => {
 					return <AddCard key={item.uuid} item={item} />
 				})}
