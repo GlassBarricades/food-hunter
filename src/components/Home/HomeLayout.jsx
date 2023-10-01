@@ -11,7 +11,7 @@ const HomeLayout = () => {
       })}
     >
       <BackgroundImage
-        src="https://i.ibb.co/YQG6Y99/td-DVh-YM-FA.jpg"
+        src="https://i.ibb.co/tZy6t7D/Gt-Z61-HH2-C9-M.jpg"
         radius="sm"
         mih={"100vh"}
       >
