@@ -17,9 +17,11 @@ import { Trash } from "tabler-icons-react";
 import { useSelector } from 'react-redux';
 import { removeOrder } from '../store/orderSlice';
 import { useDispatch } from 'react-redux';
+import { useState } from "react";
 
 const Basket = () => {
   const order = useSelector(state => state.order.order);
+  const [openBasket, setOpenBasket] = useState(false)
   const theme = useMantineTheme();
   const colorScheme = useMantineColorScheme();
   const dispatch = useDispatch();
@@ -48,7 +50,7 @@ const Basket = () => {
   ));
 
   return (
-    <HoverCard shadow="md">
+    <HoverCard shadow="md" initiallyOpened={openBasket}>
       <HoverCard.Target>
         <Indicator
           color={
@@ -83,6 +85,7 @@ const Basket = () => {
                   to="/order"
                   variant="outline"
                   color="yellow"
+                  onClick={() => setOpenBasket(false)}
                 >
                   Перейти к оформлению заказа
                 </Button>
