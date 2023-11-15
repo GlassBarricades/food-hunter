@@ -4,6 +4,7 @@ const navBarSlice = createSlice({
 	name: 'navBar',
 	initialState: {
 		navBar: false,
+		homeNavBar: false,
 	},
 	reducers: {
 		openNavBar(state) {
@@ -19,9 +20,22 @@ const navBarSlice = createSlice({
 				state.navBar = false
 			}
 		},
+		openHomeNavBar(state) {
+			state.homeNavBar = true
+		},
+		closeHomeNavBar(state) {
+			state.homeNavBar = false
+		},
+		toggleHomeNavBar(state) {
+			if (state.homeNavBar === false) {
+				state.homeNavBar = true
+			} else {
+				state.homeNavBar = false
+			}
+		},
 	},
 })
 
-export const { openNavBar, closeNavBar, toggleNavBar } = navBarSlice.actions
+export const { openNavBar, closeNavBar, toggleNavBar, openHomeNavBar, closeHomeNavBar, toggleHomeNavBar } = navBarSlice.actions
 
 export default navBarSlice.reducer

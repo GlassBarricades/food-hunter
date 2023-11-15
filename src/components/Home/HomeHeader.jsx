@@ -6,15 +6,14 @@ import {
   Burger,
   MediaQuery,
   useMantineTheme,
-  Title,
   Anchor,
   Image,
-  Box,
   Paper,
 } from "@mantine/core";
-import { ThemeChange } from "../Theme-change";
 import { NavLink } from "react-router-dom";
 import ContactsHeader from "../ContactsHeader";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleHomeNavBar } from "../../store/navBarSlice";
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -23,6 +22,9 @@ const useStyles = createStyles((theme) => ({
     alignItems: "center",
     height: "100%",
     width: "100%",
+    [theme.fn.smallerThan('md')]: {
+      justifyContent: "end",
+    },
   },
 
   links: {
@@ -32,9 +34,7 @@ const useStyles = createStyles((theme) => ({
   },
 
   burger: {
-    [theme.fn.largerThan("xs")]: {
-      display: "none",
-    },
+    backgroundColor: theme.colors.yellow[4]
   },
 
   link: {
@@ -69,8 +69,10 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const HomeHeader = ({ opened, setOpened }) => {
+const HomeHeader = () => {
   const theme = useMantineTheme();
+  const opened = useSelector((state) => state.navBar.homeNavBar);
+  const dispatch = useDispatch();
   const { classes } = useStyles();
 
   const linksMain = [
@@ -116,25 +118,26 @@ const HomeHeader = ({ opened, setOpened }) => {
       <div style={{ display: "flex", alignItems: "center", height: "100%" }}>
         <MediaQuery largerThan="md" styles={{ display: "none" }}>
           <Burger
+            className={classes.burger}
             opened={opened}
-            onClick={() => setOpened((o) => !o)}
-            size="sm"
-            color={theme.colors.gray[6]}
+            onClick={() => dispatch(toggleHomeNavBar())}
+            size="lg"
+            color={theme.colors.dark[6]}
             mr="xl"
           />
         </MediaQuery>
 
         <Container className={classes.header}>
-          <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
             <Image width={60} src="https://i.ibb.co/GW6fC9X/logo1.png" />
-          </MediaQuery>
-          <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
+          <MediaQuery smallerThan="md" styles={{ display: "none" }}>
             <Group>{items}</Group>
           </MediaQuery>
           <Group spacing="md" align="center">
-            <Paper p="xs">
-              <ContactsHeader />
-            </Paper>
+            <MediaQuery smallerThan="md" styles={{ display: "none" }}>
+              <Paper p="xs">
+                <ContactsHeader />
+              </Paper>
+            </MediaQuery>
           </Group>
         </Container>
       </div>
