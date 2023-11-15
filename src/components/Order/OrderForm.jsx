@@ -44,7 +44,6 @@ const OrderForm = () => {
       apart: "",
       descr: "",
       tags: [],
-      // datetime: '',
     },
     validate: {
       name: hasLength({ max: 50 }, "Имя должно быть до 50 символов длинной"),
@@ -168,13 +167,6 @@ const OrderForm = () => {
           />
         </>
       ) : undefined}
-      {/* <DateTimePicker
-                            withSeconds
-                            valueFormat='YYYY-MM-DD HH:mm:ss'
-                            label='Выберите дату и время предзаказа'
-                            placeholder='Дата и время предзаказа'
-                            {...form.getInputProps('datetime')}
-                        /> */}
       <Textarea
         label="Комментарий к заказу"
         placeholder="Комментарий к заказу"
