@@ -6,15 +6,18 @@ import { getDatabase, ref, child, get } from 'firebase/database'
 const PromotionPage = () => {
 	const { dataPromo } = useLoaderData()
 	const promoItems = dataPromo.map(item => {
-		return (
-			<PromotionCard
-				key={item.uuid}
-				image={item.image}
-				title={item.name}
-				day={item.day}
-				description={item.descr}
-			/>
-		)
+		if (item.visible === false) {
+			return (
+				<PromotionCard
+					key={item.uuid}
+					image={item.image}
+					title={item.name}
+					day={item.day}
+					description={item.descr}
+				/>
+			)
+		}
+		
 	})
 	return (
 		<>

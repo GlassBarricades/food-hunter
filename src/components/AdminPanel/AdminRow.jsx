@@ -11,12 +11,12 @@ const AdminRow = memo(({ element, variant }) => {
 	const { categoryElement, adminElement } = useParams()
 	return (
 		<tr>
-			{variant === 'units' ? <td>{element.uuid}</td> : undefined}
-			{variant === 'main' || variant === 'category' || variant === 'pizza' ? (
+			{variant === 'units' || variant === 'promo' ? <td>{element.uuid}</td> : undefined}
+			{variant === 'main' || variant === 'category' || variant === 'pizza' || variant === 'promo' ? (
 				<td>{element.position}</td>
 			) : undefined}
 			<td>{element.name}</td>
-			{variant === 'main' || variant === 'category' || variant === 'pizza' ? (
+			{variant === 'main' || variant === 'category' || variant === 'pizza' || variant === 'promo' ? (
 				<td>
 					<Image width={50} src={element.image} alt={element.name} />
 				</td>
@@ -64,6 +64,8 @@ const AdminRow = memo(({ element, variant }) => {
 					</Group>
 				</td>
 			) : undefined}
+			{variant === 'promo' ? <td>{element.day}</td> : undefined}
+			{variant === 'promo' ? <td>{element.descr}</td> : undefined}
 			<td>
 				<AdminPanelSettings
 					element={element}
@@ -72,6 +74,8 @@ const AdminRow = memo(({ element, variant }) => {
 							? `/menu/${adminElement}/${element.link}`
 							: variant === 'units'
 							? `units/${element.uuid}`
+							: variant === 'promo'
+							? `promo/${element.uuid}`
 							: variant === 'pizza'
 							? `/menu/pizza-ads/${element.link}`
 							: `/${categoryElement}/${element.link}`

@@ -90,7 +90,7 @@ const HomeNavBar = () => {
 	})
 
 	return (
-		<Navbar p='md' className={classes.navBar}  hiddenBreakpoint={"xl"} hidden={!opened} width={{ md: 220 }}>
+		<Navbar p='md' className={classes.navBar}  hiddenBreakpoint={5000} hidden={!opened} width={{ md: 220 }}>
 			<ScrollArea>
 					<>{items}</>
 			</ScrollArea>
