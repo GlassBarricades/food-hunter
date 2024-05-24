@@ -1,16 +1,13 @@
-import {
-	Anchor,
-	createStyles,
-	Navbar,
-	ScrollArea,
-} from '@mantine/core'
+import { Anchor, createStyles, Navbar, Paper, ScrollArea } from '@mantine/core'
 import { NavLink } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { closeHomeNavBar } from '../../store/navBarSlice'
+import ContactsHeader from '../ContactsHeader'
+import HomeNavBarCntacts from './HomeNavBarCntacts'
 
 const useStyles = createStyles(theme => ({
-    navBar: {
-		backgroundColor: "transparent",
+	navBar: {
+		backgroundColor: 'transparent',
 	},
 	links: {
 		[theme.fn.smallerThan('xs')]: {
@@ -21,7 +18,7 @@ const useStyles = createStyles(theme => ({
 		display: 'block',
 		lineHeight: 1,
 		padding: '18px 17px',
-        marginBottom: '15px',
+		marginBottom: '15px',
 		borderRadius: theme.radius.sm,
 		textDecoration: 'none',
 		color:
@@ -30,7 +27,7 @@ const useStyles = createStyles(theme => ({
 				: theme.colors.gray[7],
 		fontSize: theme.fontSizes.sm,
 		fontWeight: 500,
-        backgroundColor: theme.colors.dark[6],
+		backgroundColor: theme.colors.dark[6],
 
 		'&:hover': {
 			backgroundColor:
@@ -90,10 +87,19 @@ const HomeNavBar = () => {
 	})
 
 	return (
-		<Navbar p='md' className={classes.navBar}  hiddenBreakpoint={5000} hidden={!opened} width={{ md: 220 }}>
+		<Navbar
+			p='md'
+			className={classes.navBar}
+			hiddenBreakpoint={5000}
+			hidden={!opened}
+			width={{ md: 220 }}
+		>
 			<ScrollArea>
-					<>{items}</>
+				<>{items}</>
 			</ScrollArea>
+			<Paper p='xs'>
+				<HomeNavBarCntacts />
+			</Paper>
 		</Navbar>
 	)
 }
