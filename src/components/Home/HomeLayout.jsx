@@ -5,10 +5,13 @@ import {
 	Paper,
 	useMantineTheme,
 	createStyles,
+	Loader,
+	LoadingOverlay,
 } from '@mantine/core'
 import HomeHeader from './HomeHeader'
 import HomeNavBar from './HomeNavBar'
-import { BrandInstagram, BrandTelegram, BrandVk } from 'tabler-icons-react'
+import { BrandInstagram } from 'tabler-icons-react'
+import { useEffect, useState } from 'react'
 
 const useStyles = createStyles(theme => ({
 	socWrap: {
@@ -29,6 +32,16 @@ const useStyles = createStyles(theme => ({
 const HomeLayout = () => {
 	const theme = useMantineTheme()
 	const { classes } = useStyles()
+	const [url, setUrl] = useState('')
+
+	useEffect(() => {
+		fetch('https://i.ibb.co/tZy6t7D/Gt-Z61-HH2-C9-M.jpg')
+			.then(response => response.blob())
+			.then((image) => {
+				setUrl(URL.createObjectURL(image));
+			});
+	}, []);
+
 	return (
 		<Box
 			miw={'100vw'}
@@ -37,8 +50,9 @@ const HomeLayout = () => {
 				minHeight: '100vh',
 			})}
 		>
+			<LoadingOverlay visible={!url} transitionDuration={2000} overlayBlur={2} loaderProps={{ size: 'xl', color: 'orange'}} />
 			<BackgroundImage
-				src='https://i.ibb.co/tZy6t7D/Gt-Z61-HH2-C9-M.jpg'
+				src={url}
 				radius='sm'
 				mih={'100vh'}
 			>
@@ -64,6 +78,7 @@ const HomeLayout = () => {
 					</Paper>
 				</AppShell>
 			</BackgroundImage>
+
 		</Box>
 	)
 }
