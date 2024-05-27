@@ -78,6 +78,7 @@ const ProductPage = () => {
 				<Grid.Col md={6}>
 					<BackButton />
 					<ProductImage
+						category={category}
 						link={productDataBase.image}
 						title={productDataBase.name}
 					/>

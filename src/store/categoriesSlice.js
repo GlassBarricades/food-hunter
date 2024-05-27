@@ -29,6 +29,7 @@ const categoriesSlice = createSlice({
 	name: 'categories',
 	initialState: {
 		categories: [],
+		categoriesSubsection: [],
 		status: null,
 		error: null,
 	},
@@ -46,6 +47,7 @@ const categoriesSlice = createSlice({
 				})
 				.then(data => {
 					state.categories = data
+					
 				})
 				.catch(error => {
 					console.error(error)
@@ -60,6 +62,7 @@ const categoriesSlice = createSlice({
 		[fetchCategories.fulfilled]: (state, action) => {
 			state.status = 'resolved'
 			state.categories = action.payload
+			state.categoriesSubsection = state.categories.filter(item => item.subsection === true)
 		},
 		[fetchCategories.rejected]: (state, action) => {},
 	},

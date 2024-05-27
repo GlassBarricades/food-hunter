@@ -5,13 +5,12 @@ import {
 	Paper,
 	useMantineTheme,
 	createStyles,
-	Loader,
 	LoadingOverlay,
 } from '@mantine/core'
 import HomeHeader from './HomeHeader'
 import HomeNavBar from './HomeNavBar'
 import { BrandInstagram } from 'tabler-icons-react'
-import { useEffect, useState } from 'react'
+import useFetchImage from '../../hooks/useFetchImage'
 
 const useStyles = createStyles(theme => ({
 	socWrap: {
@@ -32,15 +31,7 @@ const useStyles = createStyles(theme => ({
 const HomeLayout = () => {
 	const theme = useMantineTheme()
 	const { classes } = useStyles()
-	const [url, setUrl] = useState('')
-
-	useEffect(() => {
-		fetch('https://i.ibb.co/tZy6t7D/Gt-Z61-HH2-C9-M.jpg')
-			.then(response => response.blob())
-			.then((image) => {
-				setUrl(URL.createObjectURL(image));
-			});
-	}, []);
+	const {url} = useFetchImage('https://i.ibb.co/tZy6t7D/Gt-Z61-HH2-C9-M.jpg')
 
 	return (
 		<Box

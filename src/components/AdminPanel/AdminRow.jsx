@@ -6,7 +6,6 @@ import { memo } from 'react'
 import { useParams } from 'react-router-dom'
 
 const AdminRow = memo(({ element, variant }) => {
-	console.log(element)
 	const dispatch = useDispatch()
 	const { categoryElement, adminElement } = useParams()
 	return (

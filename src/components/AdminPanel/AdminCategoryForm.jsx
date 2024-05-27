@@ -23,6 +23,7 @@ const AdminCategoryForm = () => {
         image: editData.image,
         visible: editData.visible,
         delivery: editData.delivery,
+        subsection: editData.subsection
       });
     }
   }, [edit]);
@@ -34,6 +35,7 @@ const AdminCategoryForm = () => {
       image: "",
       visible: false,
       delivery: false,
+      subsection: false
     },
     validate: {
       link: isNotEmpty("Поле не должно быть пустым"),
@@ -99,6 +101,12 @@ const AdminCategoryForm = () => {
           size="md"
           label="Без доставки"
           {...form.getInputProps("delivery", { type: "checkbox" })}
+        />
+        <Checkbox
+          mt="xs"
+          size="md"
+          label="Включает подразделы"
+          {...form.getInputProps("subsection", { type: "checkbox" })}
         />
       </Group>
       <Button mt="md" type="submit">

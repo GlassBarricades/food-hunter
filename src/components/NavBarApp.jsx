@@ -52,10 +52,14 @@ const useStyles = createStyles(theme => ({
 
 const NavBarApp = ({ admin }) => {
 	const adminLinksCategories = useSelector(state => state.categories.categories)
+	const adminSubsectionCategories = useSelector(state => state.categories.categoriesSubsection)
 	const opened = useSelector(state => state.navBar.navBar)
 	const dispatch = useDispatch()
 	const { classes } = useStyles()
 	const [open, { toggle }] = useDisclosure(false)
+
+	console.log(adminSubsectionCategories)
+
 
 	const linksMain = [
 		{
@@ -100,6 +104,20 @@ const NavBarApp = ({ admin }) => {
 				onClick={() => dispatch(closeNavBar())}
 			>
 				{link.name}
+			</Anchor>
+		)
+	})
+
+	const itemsSubcategories = adminSubsectionCategories.map((link, indx) => {
+		return (
+			<Anchor
+				component={NavLink}
+				to={`categories-${link.link}`}
+				key={indx}
+				className={classes.link}
+				onClick={() => dispatch(closeNavBar())}
+			>
+				{`Категории ${link.name}`}
 			</Anchor>
 		)
 	})
@@ -157,6 +175,7 @@ const NavBarApp = ({ admin }) => {
 		<Navbar p='md' hiddenBreakpoint='md' hidden={!opened} width={{ md: 220 }}>
 			<ScrollArea>
 				{admin ? <>{adminLinks}</> : undefined}
+				{admin ? <>{itemsSubcategories}</> : undefined}
 				{admin ? (
 					<>
 						<Anchor

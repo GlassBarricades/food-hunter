@@ -5,7 +5,6 @@ import { edited } from '../../store/editSlice'
 import { useDispatch } from 'react-redux'
 
 const AdminPanelSettings = ({ element, deleteLink, handleEdit }) => {
-	console.log(deleteLink)
 	const dispatch = useDispatch()
 	const colorScheme = useMantineColorScheme()
 	return (
