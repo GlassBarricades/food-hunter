@@ -19,32 +19,23 @@ import { useEffect } from 'react'
 import { closeModal } from '../../store/editSlice'
 import useFetchData from '../../hooks/useFetchData'
 import { useParams } from 'react-router-dom'
+import useFilterOnField from '../../hooks/useFilterOnField'
 
 const AdminMainForm = () => {
+	const { adminElement } = useParams()
 	const edit = useSelector(state => state.edit.edit)
 	const editData = useSelector(state => state.edit.editData)
 	const editUuid = useSelector(state => state.edit.editUuid)
 	const units = useSelector(state => state.units.unitsNamesArray)
-	const { adminElement } = useParams()
+	const categories = useSelector(state => state.categories.categories)
+	const {object} = useFilterOnField(categories, adminElement)
 	const dispatch = useDispatch()
 	const [openedCollapse, { toggle }] = useDisclosure(false)
-	const [alcoholCategories] = useFetchData('/categories-alcohol/')
-	const [napitkiCategories] = useFetchData('/categories-napitki/')
-	const [goryachieNapitkiCategories] = useFetchData(
-		'/categories-gorjachie-napitki/'
-	)
+	const [subCategory] = useFetchData(`/subcategory/${adminElement}`)
 
-	const dataCateroriesAlcohol = alcoholCategories.map(item => {
+	const dataSubCategory = subCategory.map(item => {
 		return item.name
 	})
-	const dataCateroriesNapitki = napitkiCategories.map(item => {
-		return item.name
-	})
-	const dataCateroriesGoryachieNapitki = goryachieNapitkiCategories.map(
-		item => {
-			return item.name
-		}
-	)
 
 	useEffect(() => {
 		if (edit) {
@@ -110,9 +101,7 @@ const AdminMainForm = () => {
 									unit: values.unit,
 									visible: values.visible,
 									category:
-										adminElement === 'alcohole' ||
-										adminElement === 'napitki' ||
-										adminElement === 'goryachie-napitki'
+											object.subsection
 											? values.category
 											: ' ',
 									compound: values.compound,
@@ -149,9 +138,7 @@ const AdminMainForm = () => {
 									unit: values.unit,
 									visible: values.visible,
 									category:
-										adminElement === 'alcohole' ||
-										adminElement === 'napitki' ||
-										adminElement === 'goryachie-napitki'
+									object.subsection
 											? values.category
 											: ' ',
 									compound: values.compound,
@@ -204,27 +191,11 @@ const AdminMainForm = () => {
 				placeholder='Картинка'
 				{...form.getInputProps('image')}
 			/>
-			{adminElement === 'alcohole' ? (
-				<NativeSelect
-					data={['Выберите категорию', ...dataCateroriesAlcohol]}
+			{object.subsection ? <NativeSelect
+					data={['Выберите категорию', ...dataSubCategory]}
 					label='Установите категорию'
 					{...form.getInputProps('category')}
-				/>
-			) : undefined}
-			{adminElement === 'napitki' ? (
-				<NativeSelect
-					data={['Выберите категорию', ...dataCateroriesNapitki]}
-					label='Установите категорию'
-					{...form.getInputProps('category')}
-				/>
-			) : undefined}
-			{adminElement === 'goryachie-napitki' ? (
-				<NativeSelect
-					data={['Выберите категорию', ...dataCateroriesGoryachieNapitki]}
-					label='Установите категорию'
-					{...form.getInputProps('category')}
-				/>
-			) : undefined}
+				/> : undefined}
 			<NativeSelect
 				data={['Выберите единицу измерения', ...units]}
 				label='Установите единицу измерения'

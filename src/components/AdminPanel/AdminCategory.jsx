@@ -7,9 +7,9 @@ import AdminHeaderBlock from './AdminHeaderBlock'
 import AdminRow from './AdminRow'
 
 const AdminCategory = () => {
-	const { categoryElement } = useParams()
+	const { categoryElement, subelement, subcategory } = useParams()
 	const [categories, loading] = useFetchSortedData(
-		`/${categoryElement}/`,
+		!subcategory ? `/${categoryElement}/` : `/${subcategory}/${subelement}/`,
 		'position'
 	)
 

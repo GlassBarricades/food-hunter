@@ -58,8 +58,6 @@ const NavBarApp = ({ admin }) => {
 	const { classes } = useStyles()
 	const [open, { toggle }] = useDisclosure(false)
 
-	console.log(adminSubsectionCategories)
-
 
 	const linksMain = [
 		{
@@ -112,7 +110,7 @@ const NavBarApp = ({ admin }) => {
 		return (
 			<Anchor
 				component={NavLink}
-				to={`categories-${link.link}`}
+				to={`category/subcategory/${link.link}`}
 				key={indx}
 				className={classes.link}
 				onClick={() => dispatch(closeNavBar())}
@@ -134,18 +132,6 @@ const NavBarApp = ({ admin }) => {
 		{
 			label: 'Категории',
 			link: 'category/categories',
-		},
-		{
-			label: 'Категории алкоголь',
-			link: 'category/categories-alcohol',
-		},
-		{
-			label: 'Категории напитки',
-			link: 'category/categories-napitki',
-		},
-		{
-			label: 'Категории горячие напитки',
-			link: 'category/categories-gorjachie-napitki',
 		},
 		{
 			label: 'Добавки для пиццы',

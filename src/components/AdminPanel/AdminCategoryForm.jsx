@@ -8,7 +8,7 @@ import { closeModal } from "../../store/editSlice";
 import { useEffect } from "react";
 
 const AdminCategoryForm = () => {
-  const { categoryElement } = useParams();
+  const { categoryElement, subelement, subcategory } = useParams()
   const edit = useSelector((state) => state.edit.edit);
   const editData = useSelector((state) => state.edit.editData);
   const editUuid = useSelector((state) => state.edit.editUuid);
@@ -47,23 +47,23 @@ const AdminCategoryForm = () => {
       onSubmit={
         !edit
           ? form.onSubmit((values) =>
-              writeToDatabase(
-                `/${categoryElement}/${values.link}`,
-                { ...values },
-                form.reset,
-                () => dispatch(closeModal()),
-                false
-              )
+            writeToDatabase(
+              !subcategory ? `/${categoryElement}/${values.link}` : `/${subcategory}/${subelement}/${values.link}`,
+              { ...values },
+              form.reset,
+              () => dispatch(closeModal()),
+              false
             )
+          )
           : form.onSubmit((values) => {
-              submitChangeDataBase(
-                values,
-                `/${categoryElement}/${values.link}`,
-                editUuid,
-                form.reset,
-                () => dispatch(closeModal())
-              );
-            })
+            submitChangeDataBase(
+              values,
+              !subcategory ? `/${categoryElement}/${values.link}` : `/${subcategory}/${subelement}/${values.link}`,
+              editUuid,
+              form.reset,
+              () => dispatch(closeModal())
+            );
+          })
       }
     >
       <TextInput
@@ -102,12 +102,14 @@ const AdminCategoryForm = () => {
           label="Без доставки"
           {...form.getInputProps("delivery", { type: "checkbox" })}
         />
+        {!subcategory ? 
         <Checkbox
           mt="xs"
           size="md"
           label="Включает подразделы"
           {...form.getInputProps("subsection", { type: "checkbox" })}
-        />
+        /> : undefined}
+
       </Group>
       <Button mt="md" type="submit">
         {edit ? "Сохранить" : "Отправить"}

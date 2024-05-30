@@ -122,6 +122,8 @@ const CategoryPage = () => {
 
 const categoryLoader = async ({ params }) => {
 	const category = params.category
+	const tabs = params.tabs
+	console.log(params)
 	const dbRef = ref(getDatabase())
 	let dataBase = []
 	let dataCategories
@@ -141,18 +143,12 @@ const categoryLoader = async ({ params }) => {
 			console.error(error)
 		})
 	if (
-		category === 'alcohole' ||
-		category === 'napitki' ||
-		category === 'goryachie-napitki'
+		tabs
 	) {
 		await get(
 			child(
 				dbRef,
-				category === 'alcohole'
-					? `/categories-alcohol/`
-					: category === 'goryachie-napitki'
-						? `/categories-gorjachie-napitki/`
-						: `/categories-${category}/`
+				`/subcategory/${category}`
 			)
 		)
 			.then(snapshot => {

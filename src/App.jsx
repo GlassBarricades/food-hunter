@@ -63,7 +63,7 @@ const App = () => {
 							loader={categoryLoader}
 						/>
 						<Route
-							path=':category/tabs/:tabValue'
+							path=':category/:tabs/:tabValue'
 							element={<CategoryPage />}
 							loader={categoryLoader}
 						/>
@@ -105,6 +105,14 @@ const App = () => {
 					/>
 					<Route
 						path='category/:categoryElement'
+						element={
+							<RequireAuth>
+								<AdminCategory />
+							</RequireAuth>
+						}
+					/>
+					<Route
+						path='category/:subcategory/:subelement'
 						element={
 							<RequireAuth>
 								<AdminCategory />

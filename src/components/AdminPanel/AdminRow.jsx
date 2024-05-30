@@ -7,7 +7,7 @@ import { useParams } from 'react-router-dom'
 
 const AdminRow = memo(({ element, variant }) => {
 	const dispatch = useDispatch()
-	const { categoryElement, adminElement } = useParams()
+	const { categoryElement, adminElement, subcategory, subelement } = useParams()
 	return (
 		<tr>
 			{variant === 'units' || variant === 'promo' ? <td>{element.uuid}</td> : undefined}
@@ -77,6 +77,8 @@ const AdminRow = memo(({ element, variant }) => {
 							? `promo/${element.uuid}`
 							: variant === 'pizza'
 							? `/menu/pizza-ads/${element.link}`
+							: subcategory
+							? `/${subcategory}/${subelement}/${element.link}`
 							: `/${categoryElement}/${element.link}`
 					}
 					handleEdit={dispatch(edited)}
