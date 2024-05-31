@@ -7,7 +7,6 @@ import { useSelector } from "react-redux";
 const MenuGridCategory = ({ variant, categories }) => {
   const loading = useSelector((state) => state.categories.status);
   const dataCategories = useSortDataVisible(categories, "position");
-  console.log(dataCategories)
 
   return (
     <>

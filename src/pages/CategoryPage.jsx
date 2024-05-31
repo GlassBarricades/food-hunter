@@ -28,8 +28,6 @@ const CategoryPage = () => {
 		}
 	}) : []
 	const sortedDataA = useSortDataVisible(filteredData, 'position')
-	console.log(dataCategories)
-	console.log(object)
 
 	return (
 		<>
@@ -123,7 +121,6 @@ const CategoryPage = () => {
 const categoryLoader = async ({ params }) => {
 	const category = params.category
 	const tabs = params.tabs
-	console.log(params)
 	const dbRef = ref(getDatabase())
 	let dataBase = []
 	let dataCategories

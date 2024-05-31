@@ -98,6 +98,7 @@ const ProductPage = () => {
 							category === 'gynkan' ||
 							category === 'sety-sushi' ||
 							category === 'goryachie-sushi' ||
+							category === 'zapechenie-rolli' ||
 							category === 'friture' ? (
 								<AddList addList={addList} />
 							) : undefined}
@@ -188,6 +189,7 @@ const productLoader = async ({ params }) => {
 		category === 'gynkan' ||
 		category === 'seti-sushi' ||
 		category === 'goryachie-sushi' ||
+		category === 'zapechenie-rolli' ||
 		category === 'friture'
 	) {
 		await get(child(dbRef, `menu/soysi`))

@@ -6,7 +6,6 @@ import {
 	createRoutesFromElements,
 	Navigate,
 } from 'react-router-dom'
-import HomePage from './pages/HomePage'
 import { CategoryPage, categoryLoader } from './pages/CategoryPage'
 import { ProductPage, productLoader } from './pages/ProductPage'
 import MenuPage from './pages/MenuPage'
@@ -43,7 +42,6 @@ const App = () => {
 			<>
 				<Route path='/home' element={<HomeLayout />} />
 				<Route path='/' element={<LayoutPage />}>
-					{/* <Route index element={<HomePage />} /> */}
 					<Route index element={<Navigate to='/home' replace />} />
 					<Route path='/order' element={<OrderPage />} />
 					<Route path='/contacts' element={<ContactPage />} />
