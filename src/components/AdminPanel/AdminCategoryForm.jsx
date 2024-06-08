@@ -23,7 +23,8 @@ const AdminCategoryForm = () => {
         image: editData.image,
         visible: editData.visible,
         delivery: editData.delivery,
-        subsection: editData.subsection
+        subsection: editData.subsection,
+        verticalImage: editData.verticalImage
       });
     }
   }, [edit]);
@@ -35,7 +36,8 @@ const AdminCategoryForm = () => {
       image: "",
       visible: false,
       delivery: false,
-      subsection: false
+      subsection: false,
+      verticalImage: false
     },
     validate: {
       link: isNotEmpty("Поле не должно быть пустым"),
@@ -101,6 +103,12 @@ const AdminCategoryForm = () => {
           size="md"
           label="Без доставки"
           {...form.getInputProps("delivery", { type: "checkbox" })}
+        />
+        <Checkbox
+          mt="xs"
+          size="md"
+          label="Вертикальные картинки"
+          {...form.getInputProps("verticalImage", { type: "checkbox" })}
         />
         {!subcategory ? 
         <Checkbox

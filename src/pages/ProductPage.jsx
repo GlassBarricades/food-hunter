@@ -41,6 +41,8 @@ const ProductPage = () => {
 	const [variantValue, setVarianValue] = useState(createVariants(arrA))
 	const dispatch = useDispatch()
 
+	console.log(dataCategories)
+
 	const arr = arrA.map((item, index) => {
 		if (item.size !== 0) {
 			const obj = {
@@ -81,6 +83,7 @@ const ProductPage = () => {
 						category={category}
 						link={productDataBase.image}
 						title={productDataBase.name}
+						vertical={dataCategories.verticalImage}
 					/>
 				</Grid.Col>
 				<Grid.Col md={6}>

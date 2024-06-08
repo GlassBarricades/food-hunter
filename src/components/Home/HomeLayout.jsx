@@ -19,7 +19,7 @@ const useStyles = createStyles(theme => ({
 		display: 'flex',
 		justifyContent: 'space-around',
 		position: 'absolute',
-		bottom: '20px',
+		bottom: '50px',
 		right: '20px',
 		padding: '15px',
 	},
