@@ -8,6 +8,7 @@ const AddList = memo(({ addList, variant }) => {
 		`/menu/pizza-ads`,
 		'position'
 	)
+	console.log(addList)
 	return (
 		<ScrollArea h={300}>
 			<SimpleGrid

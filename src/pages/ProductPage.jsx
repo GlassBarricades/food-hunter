@@ -1,234 +1,238 @@
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from "react";
 import {
-	Grid,
-	createStyles,
-	Text,
-	SegmentedControl,
-	Group,
-	Stack,
-	Paper,
-	Button,
-} from '@mantine/core'
-import { useLoaderData } from 'react-router-dom'
-import { getDatabase, ref, child, get } from 'firebase/database'
-import useSortData from '../hooks/useSortData'
-import AddList from '../components/AddList'
-import ProductTitle from '../components/ProductTitle'
-import Compound from '../components/Compound'
-import { useDispatch } from 'react-redux'
-import { addOrder } from '../store/orderSlice'
-import { useSelector } from 'react-redux'
-import { uid } from 'uid'
-import ProductPrice from '../components/Product/ProductPrice'
-import ProductQuantity from '../components/Product/ProductQuantity'
-import BackButton from '../components/BackButton'
-import ProductImage from '../components/Product/ProductImage'
+  Grid,
+  createStyles,
+  Text,
+  SegmentedControl,
+  Group,
+  Stack,
+  Paper,
+  Button,
+} from "@mantine/core";
+import { useLoaderData } from "react-router-dom";
+import { getDatabase, ref, child, get } from "firebase/database";
+import useSortData from "../hooks/useSortData";
+import AddList from "../components/AddList";
+import ProductTitle from "../components/ProductTitle";
+import Compound from "../components/Compound";
+import { useDispatch } from "react-redux";
+import { addOrder } from "../store/orderSlice";
+import { useSelector } from "react-redux";
+import { uid } from "uid";
+import ProductPrice from "../components/Product/ProductPrice";
+import ProductQuantity from "../components/Product/ProductQuantity";
+import BackButton from "../components/BackButton";
+import ProductImage from "../components/Product/ProductImage";
+
+const categoriesWithAddList = [
+  "sushi",
+  "nigiri",
+  "gynkan",
+  "seti-sushi",
+  "goryachie-sushi",
+  "zapechenie-rolli",
+  "friture",
+  "pizza",
+  "seti-pizza",
+];
+
+const createVariants = (arr, unit) => {
+  const array = arr
+    .map((item, index) => {
+      return item.size !== 0
+        ? { label: `${item.size} ${unit}`, value: `${index}` }
+        : false;
+    })
+    .filter(Boolean);
+	if (array.length === 1) {
+		array[0].value = '0'
+	}
+  return array;
+};
+
+//   function createVariants(arr) {
+//     const arrData = arr.map((item, index) => {
+//       if (item.size !== 0) {
+//         const obj = {
+//           label: `${item.size} ${productDataBase.unit}`,
+//           value: `${index}`,
+//         };
+//         return obj;
+//       }
+//       return false;
+//     });
+//     const filteredArr = arrData.filter((item) => {
+//       return item !== false ? item : undefined;
+//     });
+//     return filteredArr[0].value;
+//   }
 
 const useStyles = createStyles(() => ({
-	wrapper: {
-		height: '100%',
-		display: 'flex',
-		alignItems: 'center',
-	},
-}))
+  wrapper: {
+    height: "100%",
+    display: "flex",
+    alignItems: "center",
+  },
+}));
 
 const ProductPage = () => {
-	const { productDataBase, dataCategories, category, addList } = useLoaderData()
-	const quantity = useSelector(state => state.quantity.quantity)
-	const { classes } = useStyles()
-	const dataVariants = Object.values(productDataBase.variant)
-	const arrA = useSortData(dataVariants, 'size')
-	const [variantValue, setVarianValue] = useState(createVariants(arrA))
-	const dispatch = useDispatch()
+  const { productDataBase, dataCategories, category, addList } =
+    useLoaderData();
+  const quantity = useSelector((state) => state.quantity.quantity);
+  const { classes } = useStyles();
+  const dataVariants = Object.values(productDataBase.variant).filter(item => item.size !== 0);
+  const arrA = useSortData(dataVariants, "size");
+  const variants = useMemo(
+    () => createVariants(arrA, productDataBase.unit),
+    [arrA, productDataBase.unit]
+  );
+  const [variantValue, setVarianValue] = useState(variants[0].value);
+  const dispatch = useDispatch();
 
-	console.log(dataCategories)
-
-	const arr = arrA.map((item, index) => {
-		if (item.size !== 0) {
-			const obj = {
-				label: `${item.size} ${productDataBase.unit}`,
-				value: `${index}`,
-			}
-			return obj
-		}
-		return false
-	})
-	const filteredArr = arr.filter(item => {
-		return item !== false ? item : undefined
-	})
-
-	function createVariants(arr) {
-		const arrData = arr.map((item, index) => {
-			if (item.size !== 0) {
-				const obj = {
-					label: `${item.size} ${productDataBase.unit}`,
-					value: `${index}`,
-				}
-				return obj
-			}
-			return false
-		})
-		const filteredArr = arrData.filter(item => {
-			return item !== false ? item : undefined
-		})
-		return filteredArr[0].value
-	}
-
-	return (
-		<>
-			<Grid className={classes.wrapper}>
-				<Grid.Col md={6}>
-					<BackButton />
-					<ProductImage
-						category={category}
-						link={productDataBase.image}
-						title={productDataBase.name}
-						vertical={dataCategories.verticalImage}
-					/>
-				</Grid.Col>
-				<Grid.Col md={6}>
-					<Paper shadow='xs' p='md' withBorder>
-						<Stack>
-							<Group position='apart'>
-								<ProductTitle title={productDataBase.name} />
-								{dataCategories.delivery ? (
-									<Text>(Доставка не осуществляется)</Text>
-								) : undefined}
-							</Group>
-							<Compound compound={productDataBase.compound} />
-							{category === 'sushi' ||
-							category === 'nigiri' ||
-							category === 'gynkan' ||
-							category === 'sety-sushi' ||
-							category === 'goryachie-sushi' ||
-							category === 'zapechenie-rolli' ||
-							category === 'friture' ? (
-								<AddList addList={addList} />
-							) : undefined}
-							{category === 'pizza' || category === 'seti-pizza' ? (
-								<AddList addList={addList} variant='pizza' />
-							) : undefined}
-							<Group>
-								<Text>Размер: </Text>
-								<SegmentedControl
-									size='md'
-									value={variantValue}
-									onChange={setVarianValue}
-									data={filteredArr}
-								/>
-							</Group>
-							<ProductPrice price={dataVariants[variantValue].price} />
-							<Group position='apart'>
-								<ProductQuantity />
-								<Button
-									variant='outline'
-									color='yellow'
-									onClick={() =>
-										dispatch(
-											addOrder({
-												item: productDataBase,
-												quantity: quantity,
-												label: arr[variantValue].label,
-												price: dataVariants[variantValue].price,
-												id: dataVariants[variantValue].id,
-												handlers: undefined,
-												orderUuid: uid(),
-												delive: dataCategories.delivery,
-											})
-										)
-									}
-								>
-									Добавить в корзину
-								</Button>
-							</Group>
-						</Stack>
-					</Paper>
-				</Grid.Col>
-			</Grid>
-		</>
-	)
-}
+   const arr = useMemo(
+     () =>
+       arrA
+         .map((item, index) =>
+           item.size !== 0
+             ? {
+                 label: `${item.size} ${productDataBase.unit}`,
+                 value: `${index}`,
+               }
+             : null
+         )
+         .filter(Boolean),
+     [arrA, productDataBase.unit]
+   );
+  const filteredArr = useMemo(() => variants.filter(Boolean), [variants]);
+  console.log(typeof variantValue)
+  console.log(variantValue)
+  console.log(dataVariants)
+  return (
+    <>
+      <Grid className={classes.wrapper}>
+        <Grid.Col md={6}>
+          <BackButton />
+          <ProductImage
+            category={category}
+            link={productDataBase.image}
+            title={productDataBase.name}
+            vertical={dataCategories.verticalImage}
+          />
+        </Grid.Col>
+        <Grid.Col md={6}>
+          <Paper shadow="xs" p="md" withBorder>
+            <Stack>
+              <Group position="apart">
+                <ProductTitle title={productDataBase.name} />
+                {dataCategories.delivery ? (
+                  <Text>(Доставка не осуществляется)</Text>
+                ) : undefined}
+              </Group>
+              <Compound compound={productDataBase.compound} />
+              {/* {category === "sushi" ||
+              category === "nigiri" ||
+              category === "gynkan" ||
+              category === "sety-sushi" ||
+              category === "goryachie-sushi" ||
+              category === "zapechenie-rolli" ||
+              category === "friture" ? (
+                <AddList addList={addList} />
+              ) : undefined}
+              {category === "pizza" || category === "seti-pizza" ? (
+                <AddList addList={addList} variant="pizza" />
+              ) : undefined} */}
+              {categoriesWithAddList && addList && (
+                <AddList
+                  addList={addList}
+                  variant={category.includes("pizza") ? "pizza" : undefined}
+                />
+              )}
+              <Group>
+                <Text>Размер: </Text>
+                <SegmentedControl
+                  size="md"
+                  value={variantValue}
+                  onChange={setVarianValue}
+                  data={filteredArr}
+                />
+              </Group>
+              <ProductPrice price={dataVariants[variantValue].price} />
+              <Group position="apart">
+                <ProductQuantity />
+                <Button
+                  variant="outline"
+                  color="yellow"
+                  onClick={() =>
+                    dispatch(
+                      addOrder({
+                        item: productDataBase,
+                        quantity: quantity,
+                        label: arr[variantValue].label,
+                        price: dataVariants[variantValue].price,
+                        id: dataVariants[variantValue].id,
+                        handlers: undefined,
+                        orderUuid: uid(),
+                        delive: dataCategories.delivery,
+                      })
+                    )
+                  }
+                >
+                  Добавить в корзину
+                </Button>
+              </Group>
+            </Stack>
+          </Paper>
+        </Grid.Col>
+      </Grid>
+    </>
+  );
+};
+const getData = async (dbRef, path) => {
+  const snapshot = await get(child(dbRef, path));
+  if (!snapshot.exists()) {
+    throw new Error("No data available");
+  }
+  return snapshot.val();
+};
 
 const productLoader = async ({ params }) => {
-	const category = params.category
-	const product = params.product
-	const dbRef = ref(getDatabase())
-	let productDataBase
-	let dataCategories
-	let addList
-	await get(child(dbRef, `menu/${category}/${product}`))
-		.then(snapshot => {
-			if (snapshot.exists()) {
-				const data = snapshot.val()
-				return data
-			} else {
-				console.log('No data available')
-			}
-		})
-		.then(data => {
-			productDataBase = data
-		})
-		.catch(error => {
-			console.error(error)
-		})
-	await get(child(dbRef, `/categories/${category}`))
-		.then(snapshot => {
-			if (snapshot.exists()) {
-				const data = snapshot.val()
-				return data
-			} else {
-				console.log('No data available')
-			}
-		})
-		.then(data => {
-			dataCategories = data
-		})
-		.catch(error => {
-			console.error(error)
-		})
-	if (
-		category === 'sushi' ||
-		category === 'nigiri' ||
-		category === 'gynkan' ||
-		category === 'seti-sushi' ||
-		category === 'goryachie-sushi' ||
-		category === 'zapechenie-rolli' ||
-		category === 'friture'
-	) {
-		await get(child(dbRef, `menu/soysi`))
-			.then(snapshot => {
-				if (snapshot.exists()) {
-					const data = Object.values(snapshot.val())
-					return data
-				} else {
-					console.log('No data available')
-				}
-			})
-			.then(data => {
-				addList = data
-			})
-			.catch(error => {
-				console.error(error)
-			})
-	}
-	if (category === 'pizza' || category === 'seti-pizza') {
-		await get(child(dbRef, `menu/dobavki`))
-			.then(snapshot => {
-				if (snapshot.exists()) {
-					const data = Object.values(snapshot.val())
-					return data
-				} else {
-					console.log('No data available')
-				}
-			})
-			.then(data => {
-				addList = data
-			})
-			.catch(error => {
-				console.error(error)
-			})
-	}
-	return { productDataBase, dataCategories, category, product, addList }
-}
+  const { category, product } = params;
+  const dbRef = ref(getDatabase());
 
-export { ProductPage, productLoader }
+  try {
+    const productDataBase = await getData(dbRef, `menu/${category}/${product}`);
+    const dataCategories = await getData(dbRef, `/categories/${category}`);
+
+    let addListObj;
+    let addList;
+    const categoriesWithAddList = [
+      "sushi",
+      "nigiri",
+      "gynkan",
+      "seti-sushi",
+      "goryachie-sushi",
+      "zapechenie-rolli",
+      "friture",
+      "pizza",
+      "seti-pizza",
+    ];
+
+    if (categoriesWithAddList.includes(category)) {
+      const addListPath = category.includes("pizza")
+        ? "menu/dobavki"
+        : "menu/soysi";
+      addListObj = await getData(dbRef, addListPath);
+      addList = Object.entries(addListObj).map(([key, value]) => ({
+        ...value,
+        id: key,
+      }));
+    }
+
+    return { productDataBase, dataCategories, category, product, addList };
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export { ProductPage, productLoader };

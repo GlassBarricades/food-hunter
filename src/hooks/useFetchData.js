@@ -1,31 +1,32 @@
 import { useState, useEffect } from "react";
-import { db } from "../firebase";
-import { ref, onValue } from "firebase/database";
+import { db} from "../firebase";
+import { ref, onValue } from 'firebase/database';
 
-const useFetchData = (url) => {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
+import 'firebase/database';
 
-  function fetchData(url) {
-    setLoading(true);
-    onValue(ref(db, url), (snapshot) => {
-      setData([]);
-      const dataValue = snapshot.val();
-      if (dataValue !== null) {
-        Object.values(dataValue).map((item) =>
-          setData((oldArray) => [...oldArray, item])
-        );
-        setLoading(false);
-      }
-    });
-  }
+const useFetchData = async (url) => {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (url) {
-      fetchData(url);
+    function fetchData(url) {
+      onValue(ref(db, url), (snapshot) => {
+        setData([]);
+        const dataValue = snapshot.val();
+        if (dataValue !== null) {
+          Object.values(dataValue).map((item) =>
+            setData((oldArray) => [...oldArray, item])
+          );
+          setLoading(false);
+        }
+      });
     }
-  }, [url]);
 
-  return [data, loading];
+    useEffect(() => {
+      if (url) {
+        fetchData(url);
+      }
+    }, []);
+
+   return [data, loading];
 };
 export default useFetchData;
