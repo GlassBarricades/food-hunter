@@ -21,7 +21,6 @@ const ProductImage = memo(({ category, link, title, vertical }) => {
 	const [opened, { open, close }] = useDisclosure(false);
 	const { classes } = useStyles()
 	const { url } = useFetchImage(link)
-	console.log(theme.colors.yellow[5])
 	return (
 		<>
 		 <Modal

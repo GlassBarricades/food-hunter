@@ -5,36 +5,37 @@ import AdminCategoryForm from './AdminCategoryForm'
 import AdminModal from './AdminModal'
 import AdminHeaderBlock from './AdminHeaderBlock'
 import AdminRow from './AdminRow'
+import { useMemo } from "react";
 
 const AdminCategory = () => {
-	const { categoryElement, subelement, subcategory } = useParams()
-	const [categories, loading] = useFetchSortedData(
-		!subcategory ? `/${categoryElement}/` : `/${subcategory}/${subelement}/`,
-		'position'
-	)
+  const { categoryElement, subelement, subcategory } = useParams();
+  const [categories, loading] = useFetchSortedData(
+    !subcategory ? `/${categoryElement}/` : `/${subcategory}/${subelement}/`,
+    "position"
+  );
 
-	const rows = categories.map(element => (
-		<AdminRow key={element.uuid} element={element} variant='category' />
-	))
+  const rows = useMemo(() => 
+    categories.map((element) => (
+      <AdminRow key={element.uuid} element={element} variant="category" />
+    )),
+    [categories]
+  );
 
-	return (
-		<>
-			<AdminModal>
-				<AdminCategoryForm />
-			</AdminModal>
-			<AdminHeaderBlock />
-			<AdminTable
-				rows={rows}
-				columnArray={[
-					'Сортировка',
-					'Название',
-					'Картинки',
-					'Ссылка',
-					'Настройки',
-				]}
-				loading={loading}
-			/>
-		</>
-	)
-}
-export default AdminCategory
+  const columnArray = ['Сортировка', 'Название', 'Картинки', 'Ссылка', 'Настройки'];
+
+  return (
+    <>
+      <AdminModal>
+        <AdminCategoryForm />
+      </AdminModal>
+      <AdminHeaderBlock />
+      <AdminTable
+        rows={rows}
+        columnArray={columnArray}
+        loading={loading}
+      />
+    </>
+  );
+};
+
+export default AdminCategory;

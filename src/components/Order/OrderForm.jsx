@@ -8,7 +8,7 @@ import {
   TextInput,
   Textarea,
   Button,
-  Modal
+  Modal,
 } from "@mantine/core";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -64,7 +64,7 @@ const OrderForm = () => {
           Ваш заказ отправлен. Ожидайте звонок администратора.
         </Text>
       </Modal>
-      <form
+      {/* <form
         id="formOrder"
         onSubmit={form.onSubmit((values) => {
           fetch("sendOrder.php", {
@@ -84,6 +84,34 @@ const OrderForm = () => {
               alert("Ошибка HTTP: " + response.status);
             }
           })
+        })}
+      > */}
+      <form
+        id="formOrder"
+        onSubmit={form.onSubmit((values) => {
+          fetch("sendOrder.php", {
+            method: "POST",
+            mode: "no-cors",
+            headers: {
+              "Content-type":
+                "application/x-www-form-urlencoded; application/json; charset=UTF-8",
+            },
+            body: "paramm=" + JSON.stringify(values),
+          })
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error("Ошибка HTTP: " + response.status);
+              }
+              return response;
+            })
+            .then((response) => {
+              dispatch(resetOrder());
+              open();
+              form.reset();
+            })
+            .catch((error) => {
+              alert(error.message);
+            });
         })}
       >
         <Group>

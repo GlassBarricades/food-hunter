@@ -17,9 +17,9 @@ import submitChangeDataBase from '../../helpers/submitChangeDataBase'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { closeModal } from '../../store/editSlice'
-import useFetchData from '../../hooks/useFetchData'
 import { useParams } from 'react-router-dom'
 import useFilterOnField from '../../hooks/useFilterOnField'
+import useFetchSortedData from '../../hooks/useFetchSortedData'
 
 const AdminMainForm = () => {
 	const { adminElement } = useParams()
@@ -31,7 +31,7 @@ const AdminMainForm = () => {
 	const {object} = useFilterOnField(categories, adminElement)
 	const dispatch = useDispatch()
 	const [openedCollapse, { toggle }] = useDisclosure(false)
-	const [subCategory] = useFetchData(`/subcategory/${adminElement}`)
+	const [subCategory] = useFetchSortedData(`/subcategory/${adminElement}`, 'name')
 
 	const dataSubCategory = subCategory.map(item => {
 		return item.name

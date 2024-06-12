@@ -4,30 +4,16 @@ import writeToDatabase from "../../helpers/writeToDataBase";
 import submitChangeDataBase from "../../helpers/submitChangeDataBase";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
+import { useEffect, useCallback } from "react";
 import { closeModal } from "../../store/editSlice";
-import { useEffect } from "react";
 
 const AdminCategoryForm = () => {
-  const { categoryElement, subelement, subcategory } = useParams()
+  const { categoryElement, subelement, subcategory } = useParams();
   const edit = useSelector((state) => state.edit.edit);
   const editData = useSelector((state) => state.edit.editData);
   const editUuid = useSelector((state) => state.edit.editUuid);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (edit) {
-      form.setValues({
-        name: editData.name,
-        link: editData.link,
-        position: editData.position,
-        image: editData.image,
-        visible: editData.visible,
-        delivery: editData.delivery,
-        subsection: editData.subsection,
-        verticalImage: editData.verticalImage
-      });
-    }
-  }, [edit]);
   const form = useForm({
     initialValues: {
       name: "",
@@ -44,30 +30,45 @@ const AdminCategoryForm = () => {
     },
   });
 
+  useEffect(() => {
+    if (edit) {
+      form.setValues({
+        name: editData.name,
+        link: editData.link,
+        position: editData.position,
+        image: editData.image,
+        visible: editData.visible,
+        delivery: editData.delivery,
+        subsection: editData.subsection,
+        verticalImage: editData.verticalImage
+      });
+    }
+  }, [edit]);
+
+  const handleSubmit = useCallback((values) => {
+    const path = !subcategory ? `/${categoryElement}/${values.link}` : `/${subcategory}/${subelement}/${values.link}`;
+
+    if (edit) {
+      submitChangeDataBase(
+        values,
+        path,
+        editUuid,
+        form.reset,
+        () => dispatch(closeModal())
+      );
+    } else {
+      writeToDatabase(
+        path,
+        { ...values },
+        form.reset,
+        () => dispatch(closeModal()),
+        false
+      );
+    }
+  }, [categoryElement, subcategory, subelement, edit, editUuid, form, dispatch]);
+
   return (
-    <form
-      onSubmit={
-        !edit
-          ? form.onSubmit((values) =>
-            writeToDatabase(
-              !subcategory ? `/${categoryElement}/${values.link}` : `/${subcategory}/${subelement}/${values.link}`,
-              { ...values },
-              form.reset,
-              () => dispatch(closeModal()),
-              false
-            )
-          )
-          : form.onSubmit((values) => {
-            submitChangeDataBase(
-              values,
-              !subcategory ? `/${categoryElement}/${values.link}` : `/${subcategory}/${subelement}/${values.link}`,
-              editUuid,
-              form.reset,
-              () => dispatch(closeModal())
-            );
-          })
-      }
-    >
+    <form onSubmit={form.onSubmit(handleSubmit)}>
       <TextInput
         placeholder="Название катерогии"
         label="Название категории"
@@ -125,4 +126,5 @@ const AdminCategoryForm = () => {
     </form>
   );
 };
+
 export default AdminCategoryForm;

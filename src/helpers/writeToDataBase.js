@@ -1,22 +1,23 @@
-import { set, ref } from 'firebase/database'
-import { db } from '../firebase'
-import { uid } from 'uid'
+import { set, ref } from 'firebase/database';
+import { db } from '../firebase';
+import { uid } from 'uid';
 
-const writeToDatabase = (link, data, reset, close, withId) => {
-	const uuid = uid()
-	if (withId) {
-		set(ref(db, `${link}${uuid}`), {
-			...data,
-			uuid: uuid,
-		})
-	} else {
-		set(ref(db, link), {
-			...data,
-			uuid: uuid,
-		})
-	}
-	reset()
-	close()
-}
+const writeToDatabase = async (link, data, reset, close, withId) => {
+  const uuid = uid();
+  const dataWithId = { ...data, uuid };
 
-export default writeToDatabase
+  try {
+    if (withId) {
+      await set(ref(db, `${link}${uuid}`), dataWithId);
+    } else {
+      await set(ref(db, link), dataWithId);
+    }
+
+    reset();
+    close();
+  } catch (error) {
+    console.error("Error writing to database: ", error);
+  }
+};
+
+export default writeToDatabase;

@@ -1,12 +1,5 @@
-import {
-  Grid,
-  SimpleGrid,
-  Title,
-  Paper,
-  Card,
-  Group,
-  createStyles,
-} from "@mantine/core";
+import React, { useMemo } from 'react';
+import { SimpleGrid, Title, Paper, Card, Group, createStyles } from "@mantine/core";
 import { useSelector } from "react-redux";
 import OrderBasketCard from "../components/OrderBasketCard";
 import OrderForm from "../components/Order/OrderForm";
@@ -20,12 +13,10 @@ const useStyles = createStyles((theme) => ({
 const OrderPage = () => {
   const order = useSelector((state) => state.order.order);
   const { classes } = useStyles();
-  const arrPrice = order.map((item) => {
-    return item.priceOrder * item.quantity;
-  });
-  const fullPrice = arrPrice.reduce(function (sum, elem) {
-    return sum + elem;
-  }, 0);
+
+  const fullPrice = useMemo(() => {
+    return order.reduce((sum, item) => sum + item.priceOrder * item.quantity, 0);
+  }, [order]);
 
   return (
     <>
@@ -51,15 +42,11 @@ const OrderPage = () => {
               </Group>
             </Card.Section>
             <Card.Section p="sm">
-				<OrderForm />
+              <OrderForm />
             </Card.Section>
           </Card>
         </Paper>
-        <Grid gutter="md">
-          <Grid.Col>
-            <OrderBasketCard fullPrice={fullPrice} />
-          </Grid.Col>
-        </Grid>
+        <OrderBasketCard fullPrice={fullPrice} />
       </SimpleGrid>
     </>
   );

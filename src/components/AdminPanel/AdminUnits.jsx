@@ -4,10 +4,11 @@ import AdminHeaderBlock from './AdminHeaderBlock'
 import AdminModal from './AdminModal'
 import { Text } from '@mantine/core'
 import AdminRow from './AdminRow'
-import useFetchData from '../../hooks/useFetchData'
+import useFetchSortedData from '../../hooks/useFetchSortedData'
 
 const AdminCategoryAlcohol = () => {
-	const [categories, loading] = useFetchData(`/units/`)
+	const [categories, loading] = useFetchSortedData(`/units/`, 'name')
+	console.log(categories)
 
 	const rows = categories.map(element => (
 		<AdminRow key={element.uuid} element={element} variant='units' />

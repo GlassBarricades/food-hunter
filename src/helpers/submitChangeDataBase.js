@@ -1,14 +1,18 @@
-import { update, ref } from 'firebase/database'
-import { db } from '../firebase'
+import { update, ref } from 'firebase/database';
+import { db } from '../firebase';
 
-const submitChangeDataBase = (data, link, tempId, reset, close) => {
-	update(ref(db, link), {
-		...data,
-		uuid: tempId,
-	})
+const submitChangeDataBase = async (data, link, tempId, reset, close) => {
+  try {
+    await update(ref(db, link), {
+      ...data,
+      uuid: tempId,
+    });
 
-	reset()
-	close()
-}
+    reset();
+    close();
+  } catch (error) {
+    console.error("Error updating database: ", error);
+  }
+};
 
-export default submitChangeDataBase
+export default submitChangeDataBase;

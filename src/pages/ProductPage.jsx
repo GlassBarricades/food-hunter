@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import {
   Grid,
   createStyles,
@@ -50,23 +50,6 @@ const createVariants = (arr, unit) => {
   return array;
 };
 
-//   function createVariants(arr) {
-//     const arrData = arr.map((item, index) => {
-//       if (item.size !== 0) {
-//         const obj = {
-//           label: `${item.size} ${productDataBase.unit}`,
-//           value: `${index}`,
-//         };
-//         return obj;
-//       }
-//       return false;
-//     });
-//     const filteredArr = arrData.filter((item) => {
-//       return item !== false ? item : undefined;
-//     });
-//     return filteredArr[0].value;
-//   }
-
 const useStyles = createStyles(() => ({
   wrapper: {
     height: "100%",
@@ -104,9 +87,6 @@ const ProductPage = () => {
      [arrA, productDataBase.unit]
    );
   const filteredArr = useMemo(() => variants.filter(Boolean), [variants]);
-  console.log(typeof variantValue)
-  console.log(variantValue)
-  console.log(dataVariants)
   return (
     <>
       <Grid className={classes.wrapper}>
@@ -129,18 +109,6 @@ const ProductPage = () => {
                 ) : undefined}
               </Group>
               <Compound compound={productDataBase.compound} />
-              {/* {category === "sushi" ||
-              category === "nigiri" ||
-              category === "gynkan" ||
-              category === "sety-sushi" ||
-              category === "goryachie-sushi" ||
-              category === "zapechenie-rolli" ||
-              category === "friture" ? (
-                <AddList addList={addList} />
-              ) : undefined}
-              {category === "pizza" || category === "seti-pizza" ? (
-                <AddList addList={addList} variant="pizza" />
-              ) : undefined} */}
               {categoriesWithAddList && addList && (
                 <AddList
                   addList={addList}

@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 import useFilterOnField from "../hooks/useFilterOnField";
 
 const CategoryPage = () => {
-  const { dataBase, category, dataCategories, err } = useLoaderData();
+  const { dataBase, category, dataCategories, categoryData, error } = useLoaderData();
   const categories = useSelector((state) => state.categories.categories);
   const { object } = useFilterOnField(categories, category);
   const navigate = useNavigate();
@@ -30,11 +30,14 @@ const CategoryPage = () => {
     : [];
   const sortedDataA = useSortDataVisible(filteredData, "position");
 
+  console.log(dataCategories)
 
   return (
     <>
-      <ScrollToTop />
-      {!dataBase ? (
+    <ScrollToTop />
+      {error  ? (
+        <Text size="xl">Произошла ошибка: {error.message}</Text>
+      ) : !dataBase ? (
         <Text size="xl">Данный раздел пока пуст</Text>
       ) : (
         <>
@@ -82,6 +85,7 @@ const CategoryPage = () => {
                             dataItem={item}
                             category={category}
                             itemVariants={itemVariants}
+                            vertical={categoryData.verticalImage}
                           />
                         );
                       })}
@@ -112,6 +116,7 @@ const CategoryPage = () => {
                     dataItem={item}
                     category={category}
                     itemVariants={itemVariants}
+                    vertical={categoryData.verticalImage}
                   />
                 );
               })}
@@ -122,31 +127,49 @@ const CategoryPage = () => {
     </>
   );
 };
+
+const getData = async (dbRef, path) => {
+  const snapshot = await get(child(dbRef, path));
+  if (!snapshot.exists()) {
+    throw new Error("No data available");
+  }
+  return snapshot.val();
+};
+
 const categoryLoader = async ({ params }) => {
   const { category, tabs } = params;
   const dbRef = ref(getDatabase());
 
+  let result = {
+    dataBase: null,
+    category: null,
+    dataCategories: null,
+    categoryData: null,
+    error: null,
+  };
+
   try {
     const snapshot = await get(child(dbRef, `menu/${category}`));
-    let err
+    result.categoryData = await getData(dbRef, `/categories/${category}`);
     if (!snapshot.exists()) {
       throw new Error("No data available1");
     }
-    const dataBase = Object.values(snapshot.val());
+    result.dataBase = Object.values(snapshot.val());
 
-    let dataCategories;
     if (tabs) {
       const snapshot = await get(child(dbRef, `/subcategory/${category}`));
       if (!snapshot.exists()) {
         throw new Error("No data available");
       }
-      dataCategories = Object.values(snapshot.val());
+      result.dataCategories = Object.values(snapshot.val());
     }
-    return { dataBase, category, dataCategories };
+    result.category = category;
   } catch (error) {
     console.error(error);
-    throw error;
+    result.error = error;
   }
+
+  return result;
 };
 
 export { CategoryPage, categoryLoader };
