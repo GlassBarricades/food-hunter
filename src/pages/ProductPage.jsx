@@ -1,7 +1,6 @@
 import { useMemo, useState } from "react";
 import {
   Grid,
-  createStyles,
   Text,
   SegmentedControl,
   Group,
@@ -23,6 +22,7 @@ import ProductPrice from "../components/Product/ProductPrice";
 import ProductQuantity from "../components/Product/ProductQuantity";
 import BackButton from "../components/BackButton";
 import ProductImage from "../components/Product/ProductImage";
+import classes from './ProductPage.module.css';
 
 const categoriesWithAddList = [
   "sushi",
@@ -50,19 +50,11 @@ const createVariants = (arr, unit) => {
   return array;
 };
 
-const useStyles = createStyles(() => ({
-  wrapper: {
-    height: "100%",
-    display: "flex",
-    alignItems: "center",
-  },
-}));
 
 const ProductPage = () => {
   const { productDataBase, dataCategories, category, addList } =
     useLoaderData();
   const quantity = useSelector((state) => state.quantity.quantity);
-  const { classes } = useStyles();
   const dataVariants = Object.values(productDataBase.variant).filter(item => item.size !== 0);
   const arrA = useSortData(dataVariants, "size");
   const variants = useMemo(
