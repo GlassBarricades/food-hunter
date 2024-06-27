@@ -1,18 +1,19 @@
 import React, { useMemo } from 'react';
-import { SimpleGrid, Title, Paper, Card, Group, createStyles } from "@mantine/core";
+import { SimpleGrid, Title, Paper, Card, Group } from "@mantine/core";
 import { useSelector } from "react-redux";
 import OrderBasketCard from "../components/OrderBasketCard";
 import OrderForm from "../components/Order/OrderForm";
+import classes from './OrderPage.module.css';
 
-const useStyles = createStyles((theme) => ({
-  formWrapper: {
-    height: "100%",
-  },
-}));
+// const useStyles = createStyles((theme) => ({
+//   formWrapper: {
+//     height: "100%",
+//   },
+// }));
 
 const OrderPage = () => {
   const order = useSelector((state) => state.order.order);
-  const { classes } = useStyles();
+  // const { classes } = useStyles();
 
   const fullPrice = useMemo(() => {
     return order.reduce((sum, item) => sum + item.priceOrder * item.quantity, 0);

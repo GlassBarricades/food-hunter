@@ -1,0 +1,19 @@
+.wrapper {
+    display: 'flex';
+    align-items: 'center';
+    color: light-dark(var(--mantine-color-black), var(--mantine-color-yellow-6));
+    /* theme.colorScheme === 'dark' ? theme.colors.yellow[6] : theme.black; */
+}
+
+.icon {
+    margin-right: var(--mantine-spacing-md);
+    background-color: 'transparent';
+}
+
+.title {
+    color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
+}
+
+.description {
+    color: light-dark(var(--mantine-color-black), var(--mantine-color-yellow-6));
+}

@@ -1,0 +1,11 @@
+.wrapper {
+    @media (min-width: $mantine-breakpoint-md) {
+        min-width: 700px;
+      }
+}
+.indicator {
+  color: light-dark(var(--mantine-color-black), var(--mantine-color-gray-6))
+}
+.icon {
+  color: light-dark(var(--mantine-color-black), var(--mantine-color-yellow-5))
+}

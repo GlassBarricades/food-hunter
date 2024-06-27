@@ -1,5 +1,4 @@
 import {
-	createStyles,
 	ThemeIcon,
 	Text,
 	SimpleGrid,
@@ -7,33 +6,34 @@ import {
 	Stack,
 } from '@mantine/core'
 import { Sun, Phone, MapPin, At } from 'tabler-icons-react'
+import classes from './ContactIcon.module.css'
 
-const useStyles = createStyles((theme, { variant }) => ({
-	wrapper: {
-		display: 'flex',
-		alignItems: 'center',
-		color: theme.colorScheme === 'dark' ? theme.colors.yellow[6] : theme.black,
-	},
+// const useStyles = createStyles((theme, { variant }) => ({
+// 	wrapper: {
+// 		display: 'flex',
+// 		alignItems: 'center',
+// 		color: theme.colorScheme === 'dark' ? theme.colors.yellow[6] : theme.black,
+// 	},
 
-	icon: {
-		marginRight: theme.spacing.md,
-		backgroundImage:
-			variant === 'gradient'
-				? `linear-gradient(135deg, ${theme.colors[theme.primaryColor][4]} 0%, ${
-						theme.colors[theme.primaryColor][6]
-				  } 100%)`
-				: 'none',
-		backgroundColor: 'transparent',
-	},
+// 	icon: {
+// 		marginRight: theme.spacing.md,
+// 		backgroundImage:
+// 			variant === 'gradient'
+// 				? `linear-gradient(135deg, ${theme.colors[theme.primaryColor][4]} 0%, ${
+// 						theme.colors[theme.primaryColor][6]
+// 				  } 100%)`
+// 				: 'none',
+// 		backgroundColor: 'transparent',
+// 	},
 
-	title: {
-		color: theme.colorScheme === 'dark' ? theme.white : theme.black,
-	},
+// 	title: {
+// 		color: theme.colorScheme === 'dark' ? theme.white : theme.black,
+// 	},
 
-	description: {
-		color: theme.colorScheme === 'dark' ? theme.colors.yellow[6] : theme.black,
-	},
-}))
+// 	description: {
+// 		color: theme.colorScheme === 'dark' ? theme.colors.yellow[6] : theme.black,
+// 	},
+// }))
 
 function ContactIcon({
 	icon: Icon,
@@ -43,9 +43,9 @@ function ContactIcon({
 	className,
 	...others
 }) {
-	const { classes, cx } = useStyles({ variant })
+	// const { classes, cx } = useStyles({ variant })
 	return (
-		<div className={cx(classes.wrapper, className)} {...others}>
+		<div className={classes.wrapper} {...others}>
 			{variant === 'gradient' ? (
 				<ThemeIcon size={40} radius='md' className={classes.icon}>
 					<Icon size='1.5rem' />

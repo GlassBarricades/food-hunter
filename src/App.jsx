@@ -28,6 +28,7 @@ import { fetchCategories } from './store/categoriesSlice'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
 import HomeLayout from './components/Home/HomeLayout'
+import { MainLayout } from './components/MainLayout'
 
 const App = () => {
 	const categories = useSelector(state => state.categories.categories)
@@ -41,7 +42,7 @@ const App = () => {
 		createRoutesFromElements(
 			<>
 				<Route path='/home' element={<HomeLayout />} />
-				<Route path='/' element={<LayoutPage />}>
+				<Route path='/' element={<MainLayout />}>
 					<Route index element={<Navigate to='/home' replace />} />
 					<Route path='/order' element={<OrderPage />} />
 					<Route path='/contacts' element={<ContactPage />} />

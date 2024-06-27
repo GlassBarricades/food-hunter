@@ -1,61 +1,18 @@
 import {
 	Anchor,
 	Button,
-	createStyles,
-	Navbar,
 	ScrollArea,
 	Collapse,
 } from '@mantine/core'
 import { NavLink } from 'react-router-dom'
 import { useDisclosure } from '@mantine/hooks'
-import { useSelector, useDispatch } from 'react-redux'
-import { closeNavBar } from '../store/navBarSlice'
+import { useSelector } from 'react-redux'
 import { CaretDown, CaretUp } from 'tabler-icons-react'
+import classes from './NavBarApp.module.css'
 
-const useStyles = createStyles(theme => ({
-	links: {
-		[theme.fn.smallerThan('xs')]: {
-			display: 'none',
-		},
-	},
-	link: {
-		display: 'block',
-		lineHeight: 1,
-		padding: '8px 12px',
-		borderRadius: theme.radius.sm,
-		textDecoration: 'none',
-		color:
-			theme.colorScheme === 'dark'
-				? theme.colors.dark[0]
-				: theme.colors.gray[7],
-		fontSize: theme.fontSizes.sm,
-		fontWeight: 500,
-
-		'&:hover': {
-			backgroundColor:
-				theme.colorScheme === 'dark'
-					? theme.colors.dark[6]
-					: theme.colors.gray[0],
-		},
-	},
-	active: {
-		'&, &:hover': {
-			backgroundColor: theme.fn.variant({
-				variant: 'light',
-				color: theme.primaryColor,
-			}).background,
-			color: theme.fn.variant({ variant: 'light', color: theme.primaryColor })
-				.color,
-		},
-	},
-}))
-
-const NavBarApp = ({ admin }) => {
+const NavBarApp = ({ close, admin }) => {
 	const adminLinksCategories = useSelector(state => state.categories.categories)
 	const adminSubsectionCategories = useSelector(state => state.categories.categoriesSubsection)
-	const opened = useSelector(state => state.navBar.navBar)
-	const dispatch = useDispatch()
-	const { classes } = useStyles()
 	const [open, { toggle }] = useDisclosure(false)
 
 
@@ -85,7 +42,7 @@ const NavBarApp = ({ admin }) => {
 				to={link.link}
 				key={indx}
 				className={classes.link}
-				onClick={() => dispatch(closeNavBar())}
+				onClick={() => close()}
 			>
 				{link.name}
 			</Anchor>
@@ -99,7 +56,7 @@ const NavBarApp = ({ admin }) => {
 				to={link.link}
 				key={indx}
 				className={classes.link}
-				onClick={() => dispatch(closeNavBar())}
+				onClick={() => close()}
 			>
 				{link.name}
 			</Anchor>
@@ -113,7 +70,7 @@ const NavBarApp = ({ admin }) => {
 				to={`category/subcategory/${link.link}`}
 				key={indx}
 				className={classes.link}
-				onClick={() => dispatch(closeNavBar())}
+				onClick={() => close()}
 			>
 				{`Категории ${link.name}`}
 			</Anchor>
@@ -150,7 +107,7 @@ const NavBarApp = ({ admin }) => {
 				component={NavLink}
 				to={item.link}
 				className={classes.link}
-				onClick={() => dispatch(closeNavBar())}
+				onClick={() => close()}
 			>
 				{item.label}
 			</Anchor>
@@ -158,7 +115,6 @@ const NavBarApp = ({ admin }) => {
 	})
 
 	return (
-		<Navbar p='md' hiddenBreakpoint='md' hidden={!opened} width={{ md: 220 }}>
 			<ScrollArea>
 				{admin ? <>{adminLinks}</> : undefined}
 				{admin ? <>{itemsSubcategories}</> : undefined}
@@ -178,7 +134,6 @@ const NavBarApp = ({ admin }) => {
 					<>{items}</>
 				)}
 			</ScrollArea>
-		</Navbar>
 	)
 }
 export default NavBarApp

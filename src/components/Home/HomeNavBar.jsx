@@ -1,57 +1,57 @@
-import { Anchor, createStyles, Navbar, Paper, ScrollArea } from '@mantine/core'
+import { Anchor, AppShellNavbar, Paper, ScrollArea } from '@mantine/core'
 import { NavLink } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { closeHomeNavBar } from '../../store/navBarSlice'
-import ContactsHeader from '../ContactsHeader'
 import HomeNavBarCntacts from './HomeNavBarCntacts'
+import classes from './HomeNavBar.module.css'
 
-const useStyles = createStyles(theme => ({
-	navBar: {
-		backgroundColor: 'transparent',
-	},
-	links: {
-		[theme.fn.smallerThan('xs')]: {
-			display: 'none',
-		},
-	},
-	link: {
-		display: 'block',
-		lineHeight: 1,
-		padding: '18px 17px',
-		marginBottom: '15px',
-		borderRadius: theme.radius.sm,
-		textDecoration: 'none',
-		color:
-			theme.colorScheme === 'dark'
-				? theme.colors.yellow[7]
-				: theme.colors.gray[7],
-		fontSize: theme.fontSizes.sm,
-		fontWeight: 500,
-		backgroundColor: theme.colors.dark[6],
+// const useStyles = createStyles(theme => ({
+// 	navBar: {
+// 		backgroundColor: 'transparent',
+// 	},
+// 	links: {
+// 		[theme.fn.smallerThan('xs')]: {
+// 			display: 'none',
+// 		},
+// 	},
+// 	link: {
+// 		display: 'block',
+// 		lineHeight: 1,
+// 		padding: '18px 17px',
+// 		marginBottom: '15px',
+// 		borderRadius: theme.radius.sm,
+// 		textDecoration: 'none',
+// 		color:
+// 			theme.colorScheme === 'dark'
+// 				? theme.colors.yellow[7]
+// 				: theme.colors.gray[7],
+// 		fontSize: theme.fontSizes.sm,
+// 		fontWeight: 500,
+// 		backgroundColor: theme.colors.dark[6],
 
-		'&:hover': {
-			backgroundColor:
-				theme.colorScheme === 'dark'
-					? theme.colors.dark[6]
-					: theme.colors.gray[0],
-		},
-	},
-	active: {
-		'&, &:hover': {
-			backgroundColor: theme.fn.variant({
-				variant: 'light',
-				color: theme.primaryColor,
-			}).background,
-			color: theme.fn.variant({ variant: 'light', color: theme.primaryColor })
-				.color,
-		},
-	},
-}))
+// 		'&:hover': {
+// 			backgroundColor:
+// 				theme.colorScheme === 'dark'
+// 					? theme.colors.dark[6]
+// 					: theme.colors.gray[0],
+// 		},
+// 	},
+// 	active: {
+// 		'&, &:hover': {
+// 			backgroundColor: theme.fn.variant({
+// 				variant: 'light',
+// 				color: theme.primaryColor,
+// 			}).background,
+// 			color: theme.fn.variant({ variant: 'light', color: theme.primaryColor })
+// 				.color,
+// 		},
+// 	},
+// }))
 
 const HomeNavBar = () => {
 	const opened = useSelector(state => state.navBar.homeNavBar)
 	const dispatch = useDispatch()
-	const { classes } = useStyles()
+	// const { classes } = useStyles()
 
 	const linksMain = [
 		{
@@ -87,10 +87,10 @@ const HomeNavBar = () => {
 	})
 
 	return (
-		<Navbar
+		<AppShellNavbar
 			p='md'
 			className={classes.navBar}
-			hiddenBreakpoint={5000}
+			// hiddenBreakpoint={5000}
 			hidden={!opened}
 			width={{ md: 220 }}
 		>
@@ -100,7 +100,7 @@ const HomeNavBar = () => {
 			<Paper p='xs'>
 				<HomeNavBarCntacts />
 			</Paper>
-		</Navbar>
+		</AppShellNavbar>
 	)
 }
 export default HomeNavBar

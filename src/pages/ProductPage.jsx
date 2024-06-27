@@ -82,7 +82,7 @@ const ProductPage = () => {
   return (
     <>
       <Grid className={classes.wrapper}>
-        <Grid.Col md={6}>
+        <Grid.Col span={6} order={{ base: 6, sm: 12}}>
           <BackButton />
           <ProductImage
             category={category}
@@ -91,7 +91,7 @@ const ProductPage = () => {
             vertical={dataCategories.verticalImage}
           />
         </Grid.Col>
-        <Grid.Col md={6}>
+        <Grid.Col span={6} order={{ base: 6, sm: 12}}>
           <Paper shadow="xs" p="md" withBorder>
             <Stack>
               <Group position="apart">

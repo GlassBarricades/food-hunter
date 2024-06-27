@@ -1,18 +1,18 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import '@mantine/carousel/styles.css'
-import './index.css'
-import '@mantine/tiptap/styles.css';
-import '@mantine/core/styles.css'
-import 'dayjs/locale/ru'
+import "@mantine/core/styles.css";
+import "@mantine/tiptap/styles.css";
+import "@mantine/carousel/styles.css";
+import "./index.css";
+import "dayjs/locale/ru";
 import { ModalsProvider } from "@mantine/modals";
 import { Provider } from "react-redux";
+import store, { persistor } from './store'
 import { PersistGate } from "redux-persist/integration/react";
 import App from "./App";
-import { MantineProvider } from "@mantine/core";
+import { MantineProvider, createTheme } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
 import { DatesProvider } from "@mantine/dates";
-
 
 const theme = createTheme({
   globalStyles: (theme) => ({
@@ -29,7 +29,7 @@ const theme = createTheme({
       },
     },
   }),
-//   colorScheme: colorScheme,
+  //   colorScheme: colorScheme,
   components: {
     Text: {
       styles: {
@@ -60,18 +60,18 @@ const theme = createTheme({
 });
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
+  <MantineProvider theme={theme}>
     <DatesProvider
-					settings={{ locale: 'ru', firstDayOfWeek: 0, weekendDays: [0] }}
-				>
-    <ModalsProvider>
-      <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-        <Notifications position='top-right' />
-          <App />
-        </PersistGate>
-      </Provider>
-    </ModalsProvider>
+      settings={{ locale: "ru", firstDayOfWeek: 0, weekendDays: [0] }}
+    >
+      <ModalsProvider>
+        <Provider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
+            <Notifications position="top-right" />
+            <App />
+          </PersistGate>
+        </Provider>
+      </ModalsProvider>
     </DatesProvider>
   </MantineProvider>
 );

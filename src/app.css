@@ -1,3 +1,12 @@
 .active {
-    color: #ffffff
+    &, &:hover {
+        background-color: light(var(--mantine-primary-color-light-hover));
+        /* theme.fn.variant({
+            variant: 'light',
+            color: theme.primaryColor,
+        }).background, */
+        color: light(var(--mantine-primary-color-light-hover));
+         /* theme.fn.variant({ variant: 'light', color: theme.primaryColor })
+            .color, */
+    }
 }

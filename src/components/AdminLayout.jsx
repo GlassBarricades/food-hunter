@@ -1,6 +1,6 @@
-import { AppShell, Footer, useMantineTheme } from '@mantine/core'
+import { AppShell, useMantineTheme } from '@mantine/core'
 import { Outlet } from 'react-router-dom'
-import { HeaderSimple } from './Header'
+import { Header } from './Header'
 import NavBarApp from './NavBarApp'
 import { memo, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
@@ -28,11 +28,11 @@ const AdminLayout = memo(() => {
 			asideOffsetBreakpoint='sm'
 			navbar={<NavBarApp admin={true} />}
 			footer={
-				<Footer height={60} p='md'>
+				<AppShell.Footer height={60} p='md'>
 					Application footer
-				</Footer>
+				</AppShell.Footer>
 			}
-			header={<HeaderSimple admin={true} />}
+			header={<Header admin={true} />}
 		>
 			<Outlet />
 		</AppShell>

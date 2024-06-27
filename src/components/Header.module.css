@@ -1,0 +1,17 @@
+.burger {
+    @media (min-width: $mantine-breakpoint-md) {
+        display: none
+      }
+}
+.img {
+    @media (max-width: $mantine-breakpoint-sm) {
+        display: none
+      }
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}

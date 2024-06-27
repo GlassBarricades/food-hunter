@@ -4,33 +4,33 @@ import {
 	AppShell,
 	Paper,
 	useMantineTheme,
-	createStyles,
 	LoadingOverlay,
 } from '@mantine/core'
 import HomeHeader from './HomeHeader'
 import HomeNavBar from './HomeNavBar'
 import { BrandInstagram } from 'tabler-icons-react'
 import useFetchImage from '../../hooks/useFetchImage'
+import classes from './HomeLayout.module.css'
 
-const useStyles = createStyles(theme => ({
-	socWrap: {
-		minWidth: '50px',
-		minheight: '50px',
-		display: 'flex',
-		justifyContent: 'space-around',
-		position: 'absolute',
-		bottom: '50px',
-		right: '20px',
-		padding: '15px',
-	},
-	layoutWrap: {
-		position: 'relative',
-	},
-}))
+// const useStyles = createStyles(theme => ({
+// 	socWrap: {
+// 		minWidth: '50px',
+// 		minheight: '50px',
+// 		display: 'flex',
+// 		justifyContent: 'space-around',
+// 		position: 'absolute',
+// 		bottom: '50px',
+// 		right: '20px',
+// 		padding: '15px',
+// 	},
+// 	layoutWrap: {
+// 		position: 'relative',
+// 	},
+// }))
 
 const HomeLayout = () => {
 	const theme = useMantineTheme()
-	const { classes } = useStyles()
+	// const { classes } = useStyles()
 	const {url} = useFetchImage('https://i.ibb.co/tZy6t7D/Gt-Z61-HH2-C9-M.jpg')
 
 	return (
@@ -41,7 +41,7 @@ const HomeLayout = () => {
 				minHeight: '100vh',
 			})}
 		>
-			<LoadingOverlay visible={!url} transitionDuration={2000} overlayBlur={2} loaderProps={{ size: 'xl', color: 'orange'}} />
+			<LoadingOverlay visible={!url} loaderProps={{ size: 'xl', color: 'orange'}} />
 			<BackgroundImage
 				src={url}
 				radius='sm'

@@ -54,20 +54,36 @@ const unitsSlice = createSlice({
 				})
 		},
 	},
-	extraReducers: {
-		[fetchUnits.pending]: state => {
-			state.status = 'loading'
-			state.error = null
-		},
-		[fetchUnits.fulfilled]: (state, action) => {
-			state.status = 'resolved'
-			state.units = action.payload
-			state.unitsNamesArray = action.payload.map(item => {
-				return item.name
+	extraReducers: (builder) => {
+		builder
+			.addCase(fetchUnits.pending, (state) => {
+				state.status = 'loading';
+				state.error = null;
 			})
-		},
-		[fetchUnits.rejected]: (state, action) => {},
-	},
+			.addCase(fetchUnits.fulfilled, (state, action) => {
+				state.status = 'resolved';
+				state.units = action.payload;
+				state.unitsNamesArray = action.payload.map(item => item.name);
+			})
+			.addCase(fetchUnits.rejected, (state, action) => {
+				state.status = 'failed';
+				state.error = action.error.message;
+			})
+	}
+	// extraReducers: {
+	// 	[fetchUnits.pending]: state => {
+	// 		state.status = 'loading'
+	// 		state.error = null
+	// 	},
+	// 	[fetchUnits.fulfilled]: (state, action) => {
+	// 		state.status = 'resolved'
+	// 		state.units = action.payload
+	// 		state.unitsNamesArray = action.payload.map(item => {
+	// 			return item.name
+	// 		})
+	// 	},
+	// 	[fetchUnits.rejected]: (state, action) => {},
+	// },
 })
 
 export default unitsSlice.reducer

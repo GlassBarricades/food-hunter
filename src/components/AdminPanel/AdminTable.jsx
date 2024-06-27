@@ -1,14 +1,15 @@
-import { Table, ScrollArea, createStyles, Text } from '@mantine/core'
+import { Table, ScrollArea, Text } from '@mantine/core'
 import { memo } from 'react'
+import classes from './AdminTable.module.css'
 
-const useStyles = createStyles({
-	tableWrap: {
-		minWidth: '100%',
-	},
-})
+// const useStyles = createStyles({
+// 	tableWrap: {
+// 		minWidth: '100%',
+// 	},
+// })
 
 const AdminTable = memo(({ rows, columnArray, loading }) => {
-	const { classes } = useStyles()
+	// const { classes } = useStyles()
 
 	return (
 		<>

@@ -1,0 +1,38 @@
+.burger {
+  background-color: var(--mantine-color-yellow-4);
+
+  @media (max-width: $mantine-breakpoint-md) {
+    display: none;
+  }
+}
+.items {
+  @media (min-width: $mantine-breakpoint-md) {
+    display: none;
+  }
+}
+.header {
+  display: "flex";
+  justify-content: "space-between";
+  align-items: "center";
+  height: "100%";
+  width: "100%";
+}
+.link {
+  display: block;
+  line-height: 1;
+  padding: 8px 12px;
+  border-radius: var(--mantine-radius-sm);
+  text-decoration: none;
+  text-transform: uppercase;
+  color: var(--mantine-color-yellow-7);
+  font-size: var(--mantine-font-size-md);
+  font-weight: 700;
+  text-shadow: 1px 1px 2px black;
+
+  &:hover {
+    background-color: ligth-dark(
+      var(--mantine-color-gray-0),
+      var(--mantine-color-gdark-6)
+    );
+  }
+}

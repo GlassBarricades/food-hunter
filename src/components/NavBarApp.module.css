@@ -1,0 +1,32 @@
+.link {
+    display: block;
+    line-height: 1;
+    padding: 8px 12px;
+    border-radius: var(--mantine-radius-sm);
+    text-decoration: none;
+    color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-0));
+        /* theme.colorScheme === 'dark'
+            ? theme.colors.dark[0]
+            : theme.colors.gray[7], */
+    font-size: var(--mantine-font-size-sm);
+    font-weight: 500;
+
+    &:hover {
+        background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6));
+            /* theme.colorScheme === 'dark'
+                ? theme.colors.dark[6]
+                : theme.colors.gray[0], */
+    }
+}
+.active {
+    &, &:hover {
+        background-color: light(var(--mantine-primary-color-light-hover));
+        /* theme.fn.variant({
+            variant: 'light',
+            color: theme.primaryColor,
+        }).background, */
+        color: light(var(--mantine-primary-color-light-hover));
+         /* theme.fn.variant({ variant: 'light', color: theme.primaryColor })
+            .color, */
+    }
+}

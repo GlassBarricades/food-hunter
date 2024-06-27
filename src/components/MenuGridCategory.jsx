@@ -15,15 +15,8 @@ const MenuGridCategory = ({ variant, categories }) => {
 		<Text size="xl">Загрузка...</Text>
       ) : (
         <SimpleGrid
-          cols={5}
+        cols={{ base: 2, sm: 2, md: 3, lg: 4, xl: 5 }}
           spacing="xl"
-          breakpoints={[
-            { maxWidth: "xl", cols: 5, spacing: "lg" },
-            { maxWidth: "lg", cols: 4, spacing: "lg" },
-            { maxWidth: "md", cols: 3, spacing: "md" },
-            { maxWidth: "sm", cols: 2, spacing: "sm" },
-            { maxWidth: "xs", cols: 2, spacing: "sm" },
-          ]}
         >
           {dataCategories.map((item, index) => {
             const itemVariants = item.variant

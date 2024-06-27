@@ -1,0 +1,8 @@
+.wrapper {
+  @media (max-width: $mantine-breakpoint-sm) {
+    display: none
+  }
+}
+.link {
+  color: light-dark(var(--mantine-color-black), var(--mantine-color-yellow-5))
+}
