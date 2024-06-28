@@ -11,3 +11,6 @@
 .layoutWrap {
     position: relative;
 }
+.header {
+    background-color: transparent;
+}

@@ -1,21 +1,27 @@
 .burger {
   background-color: var(--mantine-color-yellow-4);
 
-  @media (max-width: $mantine-breakpoint-md) {
-    display: none;
-  }
-}
-.items {
   @media (min-width: $mantine-breakpoint-md) {
     display: none;
   }
 }
-.header {
-  display: "flex";
-  justify-content: "space-between";
-  align-items: "center";
-  height: "100%";
-  width: "100%";
+.items {
+  @media (max-width: $mantine-breakpoint-md) {
+    display: none;
+  }
+}
+
+.headerWrap {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+
+}
+.headerInner {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
 .link {
   display: block;

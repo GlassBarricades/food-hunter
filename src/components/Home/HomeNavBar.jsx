@@ -5,53 +5,9 @@ import { closeHomeNavBar } from '../../store/navBarSlice'
 import HomeNavBarCntacts from './HomeNavBarCntacts'
 import classes from './HomeNavBar.module.css'
 
-// const useStyles = createStyles(theme => ({
-// 	navBar: {
-// 		backgroundColor: 'transparent',
-// 	},
-// 	links: {
-// 		[theme.fn.smallerThan('xs')]: {
-// 			display: 'none',
-// 		},
-// 	},
-// 	link: {
-// 		display: 'block',
-// 		lineHeight: 1,
-// 		padding: '18px 17px',
-// 		marginBottom: '15px',
-// 		borderRadius: theme.radius.sm,
-// 		textDecoration: 'none',
-// 		color:
-// 			theme.colorScheme === 'dark'
-// 				? theme.colors.yellow[7]
-// 				: theme.colors.gray[7],
-// 		fontSize: theme.fontSizes.sm,
-// 		fontWeight: 500,
-// 		backgroundColor: theme.colors.dark[6],
-
-// 		'&:hover': {
-// 			backgroundColor:
-// 				theme.colorScheme === 'dark'
-// 					? theme.colors.dark[6]
-// 					: theme.colors.gray[0],
-// 		},
-// 	},
-// 	active: {
-// 		'&, &:hover': {
-// 			backgroundColor: theme.fn.variant({
-// 				variant: 'light',
-// 				color: theme.primaryColor,
-// 			}).background,
-// 			color: theme.fn.variant({ variant: 'light', color: theme.primaryColor })
-// 				.color,
-// 		},
-// 	},
-// }))
-
 const HomeNavBar = () => {
 	const opened = useSelector(state => state.navBar.homeNavBar)
 	const dispatch = useDispatch()
-	// const { classes } = useStyles()
 
 	const linksMain = [
 		{

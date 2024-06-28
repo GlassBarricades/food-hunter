@@ -3,19 +3,13 @@ import {
   Group,
   Burger,
   Image,
-  useMantineTheme,
 } from "@mantine/core";
 import { ThemeChange } from "./Theme-change";
 import ContactsHeader from "./ContactsHeader";
 import Basket from "./Basket";
-import { useSelector, useDispatch } from "react-redux";
-import { toggleNavBar } from "../store/navBarSlice";
 import classes from "./Header.module.css";
 
 export function Header({ open, toggle, admin }) {
-  //   const opened = useSelector((state) => state.navBar.navBar);
-  // const dispatch = useDispatch();
-  const theme = useMantineTheme();
 
   return (
     <Container h="100%">
