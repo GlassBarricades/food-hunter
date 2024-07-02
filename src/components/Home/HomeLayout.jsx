@@ -3,7 +3,6 @@ import {
   BackgroundImage,
   AppShell,
   Paper,
-  useMantineTheme,
   LoadingOverlay,
 } from "@mantine/core";
 import HomeHeader from "./HomeHeader";
@@ -11,9 +10,10 @@ import HomeNavBar from "./HomeNavBar";
 import { BrandInstagram } from "tabler-icons-react";
 import useFetchImage from "../../hooks/useFetchImage";
 import classes from "./HomeLayout.module.css";
+import { useDisclosure } from "@mantine/hooks";
 
 const HomeLayout = () => {
-  const theme = useMantineTheme();
+  const [opened, { toggle, close }] = useDisclosure();
   const { url } = useFetchImage("https://i.ibb.co/tZy6t7D/Gt-Z61-HH2-C9-M.jpg");
 
   return (
@@ -33,12 +33,18 @@ const HomeLayout = () => {
           className={classes.layoutWrap}
           padding="md"
           header={{ height: { base: 60, md: 110 } }}
-          // navbar={<HomeNavBar />}
+          navbar={{
+            width: { base: 200, md: 300, lg: 400 },
+            breakpoint: "sm",
+            collapsed: { desktop: true, mobile: !opened },
+          }}
         >
           <AppShell.Header className={classes.header}>
-            <HomeHeader />
+            <HomeHeader open={opened} toggle={toggle} />
           </AppShell.Header>
-          <HomeNavBar />
+          <AppShell.Navbar className={classes.navbar}>
+            <HomeNavBar close={close}/>
+          </AppShell.Navbar>
           <AppShell.Main>
             <Paper
               component="a"
@@ -46,12 +52,7 @@ const HomeLayout = () => {
               target="_blank"
               className={classes.socWrap}
             >
-              <BrandInstagram
-                color={
-                  theme.colorScheme === "dark"
-                    ? theme.colors.yellow[5]
-                    : theme.black
-                }
+              <BrandInstagram className={classes.socIcon}
               />
             </Paper>
           </AppShell.Main>

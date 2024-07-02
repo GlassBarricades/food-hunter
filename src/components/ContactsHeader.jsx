@@ -12,7 +12,7 @@ import classes from './ContactsHeader.module.css';
 const ContactsHeader = () => {
 	const theme = useMantineTheme()
 	return (
-			<Stack spacing={0.5} className={classes.wrapper}>
+			<Stack gap="xs" className={classes.wrapper}>
 				<Group>
 					<Text weight={500}>ПРИЕМ ЗАКАЗОВ: </Text>
 					<HoverCard width={280} shadow='md'>

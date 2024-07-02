@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleHomeNavBar } from "../../store/navBarSlice";
 import classes from './HomeHeader.module.css';
 
-const HomeHeader = () => {
+const HomeHeader = ({ open, toggle }) => {
   const theme = useMantineTheme();
   const opened = useSelector((state) => state.navBar.homeNavBar);
   const dispatch = useDispatch();
@@ -55,9 +55,9 @@ const HomeHeader = () => {
         <Group className={classes.headerInner}>
           <Burger
             className={classes.burger}
-            opened={opened}
+            opened={open} onClick={toggle}
             hiddenFrom="sm"
-            onClick={() => dispatch(toggleHomeNavBar())}
+            // onClick={() => dispatch(toggleHomeNavBar())}
             size="lg"
             color={theme.colors.dark[6]}
             mr="xl"
@@ -65,7 +65,7 @@ const HomeHeader = () => {
 
             <Image w={60} src="https://i.ibb.co/GW6fC9X/logo1.png" />
             <Group className={classes.items}>{items}</Group>
-          <Group spacing="md" align="center">
+          <Group spacing="md" align="center" className={classes.contactsHeaderWrap}>
               <Paper p="xs">
                 <ContactsHeader />
               </Paper>

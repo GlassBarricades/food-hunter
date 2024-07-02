@@ -7,6 +7,7 @@ import {
 	useMantineTheme,
 } from '@mantine/core'
 import { PhoneCall } from 'tabler-icons-react'
+import classes from './HomeNavBarCntacts.module.css'
 
 const HomeNavBarCntacts = () => {
 	const theme = useMantineTheme()
@@ -18,22 +19,14 @@ const HomeNavBarCntacts = () => {
 					<HoverCard.Target>
 						<Group>
 							<PhoneCall
-								color={
-									theme.colorScheme === 'dark'
-										? theme.colors.yellow[5]
-										: theme.black
-								}
+								className={classes.link}
 							/>
 							<Anchor
 								component='a'
 								href='tel:7352'
 								weight={500}
 								size='xl'
-								color={
-									theme.colorScheme === 'dark'
-										? theme.colors.yellow[5]
-										: theme.black
-								}
+								className={classes.link}
 							>
 								7352
 							</Anchor>
@@ -43,44 +36,28 @@ const HomeNavBarCntacts = () => {
 						<Stack>
 							<Group>
 								<PhoneCall
-									color={
-										theme.colorScheme === 'dark'
-											? theme.colors.yellow[5]
-											: theme.black
-									}
+									className={classes.link}
 								/>
 								<Anchor
 									component='a'
 									href='tel:+375296669399'
 									weight={500}
 									size='xl'
-									color={
-										theme.colorScheme === 'dark'
-											? theme.colors.yellow[5]
-											: theme.black
-									}
+									className={classes.link}
 								>
 									+375(29)666-93-99
 								</Anchor>
 							</Group>
 							<Group>
 								<PhoneCall
-									color={
-										theme.colorScheme === 'dark'
-											? theme.colors.yellow[5]
-											: theme.black
-									}
+									className={classes.link}
 								/>
 								<Anchor
 									component='a'
 									href='tel:+375298369399'
 									weight={500}
 									size='xl'
-									color={
-										theme.colorScheme === 'dark'
-											? theme.colors.yellow[5]
-											: theme.black
-									}
+									className={classes.link}
 								>
 									+375(29)836-93-99
 								</Anchor>

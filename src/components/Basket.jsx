@@ -29,7 +29,7 @@ const Basket = () => {
   const rows = order.map((element) => (
     <tr key={element.orderUuid}>
       <td>
-        <Image width={40} src={element.image} />
+        <Image w={40} src={element.image} />
       </td>
       <td>
         {element.name} ({element.variantOrder})

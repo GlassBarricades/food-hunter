@@ -1,4 +1,4 @@
-import { MantineProvider, ColorSchemeProvider } from '@mantine/core'
+import { MantineProvider, ColorSchemeProvider, lighten } from '@mantine/core'
 import { useHotkeys, useLocalStorage } from '@mantine/hooks'
 import 'dayjs/locale/ru'
 import { DatesProvider } from '@mantine/dates'
@@ -43,7 +43,7 @@ function Main() {
 					}),
 					colorScheme: colorScheme,
 					components: {
-						Text: {
+						Text: Text.extend({
 							styles: {
 								root: {
 									wordSpacing: '0.05em',
@@ -51,18 +51,18 @@ function Main() {
 									letterSpacing: '0.05em',
 								},
 							},
-						},
-						Title: {
-							styles: theme => ({
+						}),
+						Title: Title.extend({
+							styles: {
 								root: {
 									fontFamily: `Greycliff CF, ${theme.fontFamily}`,
-									color:
-										theme.colorScheme === 'dark'
-											? theme.colors.yellow[5]
-											: theme.black,
+									color: 'ligh-dark(var(--mantine-color-black), var(--mantine-color-yellow-5))'
+										// theme.colorScheme === 'dark'
+										// 	? theme.colors.yellow[5]
+										// 	: theme.black,
 								},
 							}),
-						},
+						}),
 						Table: {
 							styles: {
 								root: {
@@ -74,6 +74,7 @@ function Main() {
 				}}
 				withGlobalStyles
 				withNormalizeCSS
+				defaultColorScheme='dark'
 			>
 				<DatesProvider
 					settings={{ locale: 'ru', firstDayOfWeek: 0, weekendDays: [0] }}

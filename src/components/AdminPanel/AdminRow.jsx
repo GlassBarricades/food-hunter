@@ -17,7 +17,7 @@ const AdminRow = memo(({ element, variant }) => {
 			<td>{element.name}</td>
 			{variant === 'main' || variant === 'category' || variant === 'pizza' || variant === 'promo' ? (
 				<td>
-					<Image width={50} src={element.image} alt={element.name} />
+					<Image w={50} src={element.image} alt={element.name} />
 				</td>
 			) : undefined}
 

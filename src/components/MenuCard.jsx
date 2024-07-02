@@ -1,15 +1,15 @@
 import { Link } from 'react-router-dom'
 import { Card, Image, Text, Button } from '@mantine/core'
 import { memo, useMemo } from 'react'
+import classes from './MenuCard.module.css'
 
 const MenuCard = memo(({ dataItem: { image, name, link }, category, itemVariants, vertical }) => {
   const fit = useMemo(() => (vertical ? 'contain' : 'cover'), [category]);
-  console.log(vertical)
 
   return (
     <Card
       shadow='sm'
-      padding='xl'
+      padding='xs'
       radius='lg'
       component={Link}
       to={link}
@@ -17,21 +17,23 @@ const MenuCard = memo(({ dataItem: { image, name, link }, category, itemVariants
       <Card.Section>
         <Image
           src={image}
-          height={160}
+          height={vertical ? 320 : 160}
           fit={fit}
           alt={name}
         />
       </Card.Section>
-      <Text mt='xs' size='lg'>
+      <Card.Section inheritPadding className={classes.infoContainer}>
+      <Text mt='xs' size='md'>
         {itemVariants[0].price} руб.
       </Text>
 
-      <Text weight={500} size='lg' mt='md'>
+      <Text weight={400} size='lg'>
         {name}
       </Text>
-      <Button mt='sm' variant='default' fullWidth>
+      <Button mt='xs' variant='default' fullWidth>
         Выбрать
       </Button>
+      </Card.Section>
     </Card>
   )
 })

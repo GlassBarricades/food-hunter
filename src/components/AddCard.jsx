@@ -14,6 +14,7 @@ import { addOrder } from '../store/orderSlice'
 import { useSelector } from 'react-redux'
 import { uid } from 'uid'
 import { memo } from 'react'
+import classes from './AddCard.module.css'
 
 const AddCard = memo(({ item }) => {
 	const [count, handlers] = useCounter(0, { min: 0, max: 10 })
@@ -21,10 +22,11 @@ const AddCard = memo(({ item }) => {
 	const dispatch = useDispatch()
 
 	return (
-		<Card shadow='sm' padding='sm' radius='lg'>
+		<Card shadow='sm' padding='xs' radius='lg'>
 			<Card.Section>
 				<Image src={item.image} height={110} alt={item.name} />
 			</Card.Section>
+			<Card.Section inheritPadding className={classes.addCardInfo}>
 			<Group position='apart'>
 				<Text size='sm' mt='xs'>
 					{item.name}
@@ -40,7 +42,7 @@ const AddCard = memo(({ item }) => {
 					руб
 				</Text>
 			</Group>
-			<Group position='apart' spacing={1}>
+			<Group mt="xs" justify='center' spacing={1}>
 				<ActionIcon onClick={handlers.decrement}>
 					<CircleMinus />
 				</ActionIcon>
@@ -53,8 +55,6 @@ const AddCard = memo(({ item }) => {
 				{count === 0 ? (
 					<Button
 						data-disabled
-						variant='outline'
-						color='yellow'
 						size='xs'
 						compact
 						fullWidth
@@ -64,8 +64,6 @@ const AddCard = memo(({ item }) => {
 					</Button>
 				) : (
 					<Button
-						variant='outline'
-						color='yellow'
 						size='xs'
 						compact
 						fullWidth
@@ -88,6 +86,7 @@ const AddCard = memo(({ item }) => {
 					</Button>
 				)}
 			</Group>
+			</Card.Section>
 		</Card>
 	)
 })

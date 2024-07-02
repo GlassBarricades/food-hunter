@@ -1,13 +1,10 @@
-import { Anchor, AppShellNavbar, Paper, ScrollArea } from '@mantine/core'
+import { Anchor, Center, Paper, ScrollArea, SimpleGrid } from '@mantine/core'
 import { NavLink } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
-import { closeHomeNavBar } from '../../store/navBarSlice'
 import HomeNavBarCntacts from './HomeNavBarCntacts'
 import classes from './HomeNavBar.module.css'
+import { ThemeChange } from '../Theme-change'
 
-const HomeNavBar = () => {
-	const opened = useSelector(state => state.navBar.homeNavBar)
-	const dispatch = useDispatch()
+const HomeNavBar = ({ close }) => {
 
 	const linksMain = [
 		{
@@ -35,7 +32,7 @@ const HomeNavBar = () => {
 				to={link.link}
 				key={indx}
 				className={classes.link}
-				onClick={() => dispatch(closeHomeNavBar())}
+				onClick={() => close()}
 			>
 				{link.name}
 			</Anchor>
@@ -43,20 +40,22 @@ const HomeNavBar = () => {
 	})
 
 	return (
-		<AppShellNavbar
-			p='md'
-			className={classes.navBar}
-			// hiddenBreakpoint={5000}
-			hidden={!opened}
-			width={{ md: 220 }}
-		>
+		<>
 			<ScrollArea>
 				<>{items}</>
 			</ScrollArea>
-			<Paper p='xs'>
-				<HomeNavBarCntacts />
-			</Paper>
-		</AppShellNavbar>
+			<SimpleGrid cols={2}>
+				<Paper p='xs'>
+					<HomeNavBarCntacts />
+				</Paper>
+				<Paper>
+					<Center h="100%">
+					<ThemeChange />
+					</Center>
+				</Paper>
+			</SimpleGrid>
+
+		</>
 	)
 }
 export default HomeNavBar

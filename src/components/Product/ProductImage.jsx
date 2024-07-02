@@ -20,7 +20,7 @@ const ProductImage = memo(({ category, link, title, vertical }) => {
         <Image mah={"100%"} fit="cover" src={link} alt={title} />
       </Modal>
 		<Box className={classes.imageBox}>
-			<ActionIcon size="xl" variant='filled' className={classes.imageIconFullScreen} onClick={open}>
+			<ActionIcon size="xl" variant='filled' color='gray' className={classes.imageIconFullScreen} onClick={open}>
 				<ArrowsDiagonal size="2.125rem" />
 			</ActionIcon>
 			<LoadingOverlay visible={!url} transitionDuration={2000} overlayBlur={2} loaderProps={{ size: 'xl', color: 'orange' }} />

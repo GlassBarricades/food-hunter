@@ -24,9 +24,8 @@ const OrderPage = () => {
       <Title>Оформление заказа</Title>
       <SimpleGrid
         mt="md"
-        cols={2}
+        cols={{ base: 1, sm: 2 }}
         spacing="md"
-        breakpoints={[{ maxWidth: "sm", cols: 1 }]}
       >
         <Paper radius="md">
           <Card

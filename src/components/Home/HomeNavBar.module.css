@@ -1,31 +1,16 @@
-.navBar {
-    background-color: transparent;
-}
-
-/* .links {
-
-    @media (min-width: $mantine-breakpoint-xs) {
-        display: none;
-    }
-} */
-
 .link {
-    display: 'block';
+    display: block;
     line-height: 1;
-    padding: '8px 12px';
+    padding: 10px 12px;
     border-radius: var(--mantine-radius-sm);
-    text-decoration: 'none';
+    text-decoration: none;
     color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-0));
-    font-size: var(--mantine-font-size-sm);
+    background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-6));
+    font-size: var(--mantine-font-size-xl);
     font-weight: 500;
+    margin-bottom: 10px;
 
     &:hover {
         background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6));
     }
 }
-/* .active {
-    &, &:hover {
-        background-color: light(var(--mantine-primary-color-light-hover));
-        color: light(var(--mantine-primary-color-light-hover));
-    }
-} */

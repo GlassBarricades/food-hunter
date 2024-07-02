@@ -7,6 +7,8 @@ import {
   Stack,
   Paper,
   Button,
+  SimpleGrid,
+  Container,
 } from "@mantine/core";
 import { useLoaderData } from "react-router-dom";
 import { getDatabase, ref, child, get } from "firebase/database";
@@ -44,9 +46,9 @@ const createVariants = (arr, unit) => {
         : false;
     })
     .filter(Boolean);
-	if (array.length === 1) {
-		array[0].value = '0'
-	}
+  if (array.length === 1) {
+    array[0].value = '0'
+  }
   return array;
 };
 
@@ -64,87 +66,85 @@ const ProductPage = () => {
   const [variantValue, setVarianValue] = useState(variants[0].value);
   const dispatch = useDispatch();
 
-   const arr = useMemo(
-     () =>
-       arrA
-         .map((item, index) =>
-           item.size !== 0
-             ? {
-                 label: `${item.size} ${productDataBase.unit}`,
-                 value: `${index}`,
-               }
-             : null
-         )
-         .filter(Boolean),
-     [arrA, productDataBase.unit]
-   );
+  const arr = useMemo(
+    () =>
+      arrA
+        .map((item, index) =>
+          item.size !== 0
+            ? {
+              label: `${item.size} ${productDataBase.unit}`,
+              value: `${index}`,
+            }
+            : null
+        )
+        .filter(Boolean),
+    [arrA, productDataBase.unit]
+  );
   const filteredArr = useMemo(() => variants.filter(Boolean), [variants]);
   return (
-    <>
-      <Grid className={classes.wrapper}>
-        <Grid.Col span={6} order={{ base: 6, sm: 12}}>
-          <BackButton />
-          <ProductImage
-            category={category}
-            link={productDataBase.image}
-            title={productDataBase.name}
-            vertical={dataCategories.verticalImage}
-          />
-        </Grid.Col>
-        <Grid.Col span={6} order={{ base: 6, sm: 12}}>
-          <Paper shadow="xs" p="md" withBorder>
-            <Stack>
-              <Group position="apart">
-                <ProductTitle title={productDataBase.name} />
-                {dataCategories.delivery ? (
-                  <Text>(Доставка не осуществляется)</Text>
-                ) : undefined}
-              </Group>
-              <Compound compound={productDataBase.compound} />
-              {categoriesWithAddList && addList && (
-                <AddList
-                  addList={addList}
-                  variant={category.includes("pizza") ? "pizza" : undefined}
-                />
-              )}
-              <Group>
-                <Text>Размер: </Text>
-                <SegmentedControl
-                  size="md"
-                  value={variantValue}
-                  onChange={setVarianValue}
-                  data={filteredArr}
-                />
-              </Group>
-              <ProductPrice price={dataVariants[variantValue].price} />
-              <Group position="apart">
-                <ProductQuantity />
-                <Button
-                  variant="outline"
-                  color="yellow"
-                  onClick={() =>
-                    dispatch(
-                      addOrder({
-                        item: productDataBase,
-                        quantity: quantity,
-                        label: arr[variantValue].label,
-                        price: dataVariants[variantValue].price,
-                        id: dataVariants[variantValue].id,
-                        handlers: undefined,
-                        orderUuid: uid(),
-                        delive: dataCategories.delivery,
-                      })
-                    )
-                  }
-                >
-                  Добавить в корзину
-                </Button>
-              </Group>
-            </Stack>
-          </Paper>
-        </Grid.Col>
-      </Grid>
-    </>
+    <Container fluid h="100%" className={classes.wrapper}>
+    <SimpleGrid cols={{ base: 1, md: 2 }}>
+      <Paper>
+        <BackButton />
+        <ProductImage
+          category={category}
+          link={productDataBase.image}
+          title={productDataBase.name}
+          vertical={dataCategories.verticalImage}
+        />
+      </Paper>
+      <Paper shadow="xs" p="md" withBorder>
+        <Stack>
+          <Group position="apart">
+            <ProductTitle title={productDataBase.name} />
+            {dataCategories.delivery ? (
+              <Text>(Доставка не осуществляется)</Text>
+            ) : undefined}
+          </Group>
+          <Compound compound={productDataBase.compound} />
+          {categoriesWithAddList && addList && (
+            <AddList
+              addList={addList}
+              variant={category.includes("pizza") ? "pizza" : undefined}
+            />
+          )}
+          <Group>
+            <Text>Размер: </Text>
+            <SegmentedControl
+              size="md"
+              value={variantValue}
+              onChange={setVarianValue}
+              data={filteredArr}
+            />
+          </Group>
+          <ProductPrice price={dataVariants[variantValue].price} />
+          <Group position="apart">
+            <ProductQuantity />
+            <Button
+              variant="outline"
+              color="yellow"
+              onClick={() =>
+                dispatch(
+                  addOrder({
+                    item: productDataBase,
+                    quantity: quantity,
+                    label: arr[variantValue].label,
+                    price: dataVariants[variantValue].price,
+                    id: dataVariants[variantValue].id,
+                    handlers: undefined,
+                    orderUuid: uid(),
+                    delive: dataCategories.delivery,
+                  })
+                )
+              }
+            >
+              Добавить в корзину
+            </Button>
+          </Group>
+        </Stack>
+      </Paper>
+    </SimpleGrid>
+    </Container>
   );
 };
 const getData = async (dbRef, path) => {

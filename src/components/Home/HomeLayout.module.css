@@ -14,3 +14,10 @@
 .header {
     background-color: transparent;
 }
+.navbar {
+    background-color: transparent;
+    padding: 10px;
+}
+.socIcon {
+    color: light-dark(var(--mantine-color-black), var(--mantine-color-yellow-5))
+}

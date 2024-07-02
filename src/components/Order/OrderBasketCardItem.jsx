@@ -6,8 +6,8 @@ import { removeOrder } from '../../store/orderSlice'
 const OrderBasketCardItem = ({ item }) => {
 	const dispatch = useDispatch()
 	return (
-		<Group position='apart'>
-			<Image width={80} src={item.image} />
+		<Group justify='space-between'>
+			<Image w={80} src={item.image} />
 			<Text>
 				{item.name} ({item.variantOrder})
 			</Text>
@@ -31,7 +31,7 @@ const OrderBasketCardItem = ({ item }) => {
 				size='xl'
 				onClick={() => dispatch(removeOrder({ id: item.orderUuid }))}
 			>
-				<Trash size='1.5rem' color='yellow' />
+				<Trash size='1.5rem' />
 			</ActionIcon>
 		</Group>
 	)

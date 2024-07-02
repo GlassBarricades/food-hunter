@@ -10,26 +10,12 @@ import { Provider } from "react-redux";
 import store, { persistor } from './store'
 import { PersistGate } from "redux-persist/integration/react";
 import App from "./App";
-import { MantineProvider, createTheme } from "@mantine/core";
+import { ActionIcon, Button, MantineProvider, Table, Title, createTheme } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
 import { DatesProvider } from "@mantine/dates";
+import classes from './main.module.css'
 
 const theme = createTheme({
-  globalStyles: (theme) => ({
-    ".active": {
-      "&, &:hover": {
-        backgroundColor: theme.fn.variant({
-          variant: "light",
-          color: theme.primaryColor,
-        }).background,
-        color: theme.fn.variant({
-          variant: "light",
-          color: theme.primaryColor,
-        }).color,
-      },
-    },
-  }),
-  //   colorScheme: colorScheme,
   components: {
     Text: {
       styles: {
@@ -40,22 +26,27 @@ const theme = createTheme({
         },
       },
     },
-    Title: {
-      styles: (theme) => ({
-        root: {
-          fontFamily: `Greycliff CF, ${theme.fontFamily}`,
-          color:
-            theme.colorScheme === "dark" ? theme.colors.yellow[5] : theme.black,
-        },
-      }),
-    },
-    Table: {
-      styles: {
-        root: {
-          fontSize: "1.2em",
-        },
+    ActionIcon: ActionIcon.extend ({
+      defaultProps: {
+        variant: 'outline'
       },
-    },
+    }),
+    Button: Button.extend({
+      defaultProps: {
+        color: 'black',
+        variant: 'outline'
+      }
+    }),
+    Title: Title.extend({
+      classNames: {
+        root: classes.titleRoot
+      }
+    }),
+    Table: Table.extend({
+      classNames: {
+        root: classes.tableRoot
+      }
+    }),
   },
 });
 

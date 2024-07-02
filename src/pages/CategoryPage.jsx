@@ -47,7 +47,7 @@ const CategoryPage = () => {
               variant="pills"
               defaultValue={activeTab}
               value={tabValue}
-              onTabChange={(value) =>
+              onChange={(value) =>
                 navigate(`/menu/${category}/tabs/${value}`)
               }
             >
@@ -65,15 +65,8 @@ const CategoryPage = () => {
                 return (
                   <Tabs.Panel key={item.uuid} value={item.name} pt="xs">
                     <SimpleGrid
-                      cols={5}
+                      cols={{base: 2, md: 3, lg: 4, xl: 5}}
                       spacing="xl"
-                      breakpoints={[
-                        { maxWidth: "xl", cols: 5, spacing: "lg" },
-                        { maxWidth: "lg", cols: 4, spacing: "lg" },
-                        { maxWidth: "md", cols: 3, spacing: "md" },
-                        { maxWidth: "sm", cols: 2, spacing: "sm" },
-                        { maxWidth: "xs", cols: 2, spacing: "sm" },
-                      ]}
                     >
                       {sortedDataA.map((item, index) => {
                         const itemVariants = item.variant
@@ -96,15 +89,8 @@ const CategoryPage = () => {
             </Tabs>
           ) : (
             <SimpleGrid
-              cols={5}
-              spacing="xl"
-              breakpoints={[
-                { maxWidth: "xl", cols: 5, spacing: "lg" },
-                { maxWidth: "lg", cols: 4, spacing: "lg" },
-                { maxWidth: "md", cols: 3, spacing: "md" },
-                { maxWidth: "sm", cols: 2, spacing: "sm" },
-                { maxWidth: "xs", cols: 2, spacing: "sm" },
-              ]}
+              cols={{base: 2, md: 3, lg: 4, xl: 5}}
+              spacing="sm"
             >
               {sortedData.map((item, index) => {
                 const itemVariants = item.variant

@@ -104,9 +104,8 @@ const ContactPage = () => {
   return (
     <div className={classes.wrapper}>
       <SimpleGrid
-        cols={2}
         spacing={50}
-        breakpoints={[{ maxWidth: "sm", cols: 1 }]}
+        cols={{ base: 1, sm: 2 }}
       >
         <div>
           <Title mb="xl">Контактная информация</Title>

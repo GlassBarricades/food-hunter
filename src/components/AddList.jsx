@@ -10,17 +10,10 @@ const AddList = memo(({ addList, variant }) => {
 	)
 	console.log(addList)
 	return (
-		<ScrollArea h={300}>
+		<ScrollArea h={300} offsetScrollbars>
 			<SimpleGrid
-				cols={4}
+				cols={{base: 2, sm: 3, md: 2, lg: 2, xl: 3}}
 				spacing='xs'
-				breakpoints={[
-					{ maxWidth: 'xl', cols: 3, spacing: 'xs' },
-					{ maxWidth: 'lg', cols: 2, spacing: 'xs' },
-					{ maxWidth: 'md', cols: 2, spacing: 'xs' },
-					{ maxWidth: 'sm', cols: 3, spacing: 'xs' },
-					{ maxWidth: 'xs', cols: 2, spacing: 'xs' },
-				]}
 			>
 				{variant === 'pizza'
 					? categories.map(item => {
