@@ -28,6 +28,10 @@ const HomeHeader = ({ open, toggle }) => {
       name: "Меню",
     },
     {
+			link: '/delivery',
+			name: 'Доставка'
+		},
+    {
       link: "/stock",
       name: "Акции",
     },
@@ -51,7 +55,7 @@ const HomeHeader = ({ open, toggle }) => {
   });
 
   return (
-      <Container className={classes.headerWrap}>
+      <Container fluid className={classes.headerWrap}>
         <Group className={classes.headerInner}>
           <Burger
             className={classes.burger}
@@ -63,7 +67,7 @@ const HomeHeader = ({ open, toggle }) => {
             mr="xl"
           />
 
-            <Image w={60} src="https://i.ibb.co/GW6fC9X/logo1.png" />
+            <Image w={70} src="https://i.ibb.co/GW6fC9X/logo1.png" />
             <Group className={classes.items}>{items}</Group>
           <Group spacing="md" align="center" className={classes.contactsHeaderWrap}>
               <Paper p="xs">

@@ -11,7 +11,7 @@ const AdminHeaderBlock = memo(({ title }) => {
 	const linkItem = useFetchDataOne(`/categories/${adminElement}`)
 	return (
 		<>
-			<Group position='apart'>
+			<Group justify='space-between'>
 				{title ? <Title>{title}</Title> : <Title>{linkItem[0].name}</Title>}
 				<Button onClick={() => dispatch(openModal())}>Добавить элемент</Button>
 			</Group>

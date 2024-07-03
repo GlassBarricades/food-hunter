@@ -29,6 +29,7 @@ import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
 import HomeLayout from './components/Home/HomeLayout'
 import { MainLayout } from './components/MainLayout'
+import DeliveryPage from './pages/DeliveryPage'
 
 const App = () => {
 	const categories = useSelector(state => state.categories.categories)
@@ -51,6 +52,7 @@ const App = () => {
 						element={<PromotionPage />}
 						loader={promoLoader}
 					/>
+					<Route path='/delivery' element={<DeliveryPage />} />
 					<Route path='menu' element={<MenuPage />}>
 						<Route
 							index

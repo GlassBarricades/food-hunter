@@ -16,6 +16,10 @@ const HomeNavBar = ({ close }) => {
 			name: 'Меню',
 		},
 		{
+			link: '/delivery',
+			name: 'Доставка'
+		},
+		{
 			link: '/stock',
 			name: 'Акции',
 		},

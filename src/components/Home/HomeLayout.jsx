@@ -32,7 +32,7 @@ const HomeLayout = () => {
         <AppShell
           className={classes.layoutWrap}
           padding="md"
-          header={{ height: { base: 60, md: 110 } }}
+          header={{ height: { base: 70, md: 110 } }}
           navbar={{
             width: { base: 200, md: 300, lg: 400 },
             breakpoint: "sm",

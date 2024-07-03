@@ -58,7 +58,7 @@ const Basket = () => {
           size={16}
         >
           <ActionIcon variant="default">
-            <ShoppingBag className={classes.icon} size={35} />
+            <ShoppingBag className={classes.icon} size={20} />
           </ActionIcon>
         </Indicator>
       </HoverCard.Target>

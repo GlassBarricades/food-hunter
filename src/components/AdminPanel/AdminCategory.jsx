@@ -28,7 +28,7 @@ const AdminCategory = () => {
       <AdminModal>
         <AdminCategoryForm />
       </AdminModal>
-      <AdminHeaderBlock />
+      <AdminHeaderBlock title="Категории"/>
       <AdminTable
         rows={rows}
         columnArray={columnArray}

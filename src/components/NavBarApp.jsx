@@ -3,6 +3,8 @@ import {
 	Button,
 	ScrollArea,
 	Collapse,
+	UnstyledButton,
+	Group,
 } from '@mantine/core'
 import { NavLink } from 'react-router-dom'
 import { useDisclosure } from '@mantine/hooks'
@@ -24,6 +26,10 @@ const NavBarApp = ({ close, admin }) => {
 		{
 			link: '/menu',
 			name: 'Меню',
+		},
+		{
+			link: '/delivery',
+			name: 'Доставка'
 		},
 		{
 			link: '/stock',
@@ -121,12 +127,13 @@ const NavBarApp = ({ close, admin }) => {
 				{admin ? (
 					<>
 						<Anchor
-							component={Button}
 							className={classes.link}
 							onClick={toggle}
-							rightIcon={!open ? <CaretDown /> : <CaretUp />}
 						>
+							<Group justify='space-between'>
 							Категории меню
+							{!open ? <CaretDown /> : <CaretUp />}
+							</Group>
 						</Anchor>
 						<Collapse in={open}>{adminItems}</Collapse>
 					</>
