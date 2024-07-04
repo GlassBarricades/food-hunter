@@ -30,6 +30,7 @@ import { useSelector } from 'react-redux'
 import HomeLayout from './components/Home/HomeLayout'
 import { MainLayout } from './components/MainLayout'
 import DeliveryPage from './pages/DeliveryPage'
+import AdminDelivery from './components/AdminPanel/AdminDelivery'
 
 const App = () => {
 	const categories = useSelector(state => state.categories.categories)
@@ -93,6 +94,14 @@ const App = () => {
 						element={
 							<RequireAuth>
 								<AdminStats />
+							</RequireAuth>
+						}
+					/>
+					<Route
+						path='delivery'
+						element={
+							<RequireAuth>
+								<AdminDelivery />
 							</RequireAuth>
 						}
 					/>

@@ -5,6 +5,7 @@ import "@mantine/tiptap/styles.css";
 import "@mantine/carousel/styles.css";
 import "./index.css";
 import "dayjs/locale/ru";
+import '@mantine/tiptap/styles.css';
 import { ModalsProvider } from "@mantine/modals";
 import { Provider } from "react-redux";
 import store, { persistor } from './store'

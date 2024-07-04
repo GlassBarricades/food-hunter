@@ -89,6 +89,10 @@ const NavBarApp = ({ close, admin }) => {
 			link: '/admin',
 		},
 		{
+			label: 'Доставка',
+			link: 'delivery',
+		},
+		{
 			label: 'Акции',
 			link: 'promo',
 		},
