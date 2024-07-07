@@ -17,7 +17,7 @@ const MenuCard = memo(({ dataItem: { image, name, link }, category, itemVariants
       <Card.Section>
         <Image
           src={image}
-          height={vertical ? 320 : 160}
+          height={vertical ? 240 : 160}
           fit={fit}
           alt={name}
         />

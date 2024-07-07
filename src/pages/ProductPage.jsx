@@ -1,6 +1,5 @@
 import { useMemo, useState } from "react";
 import {
-  Grid,
   Text,
   SegmentedControl,
   Group,
@@ -25,6 +24,7 @@ import ProductQuantity from "../components/Product/ProductQuantity";
 import BackButton from "../components/BackButton";
 import ProductImage from "../components/Product/ProductImage";
 import classes from './ProductPage.module.css';
+import ScrollToTop from "../helpers/ScrollToTop";
 
 const categoriesWithAddList = [
   "sushi",
@@ -82,7 +82,8 @@ const ProductPage = () => {
   );
   const filteredArr = useMemo(() => variants.filter(Boolean), [variants]);
   return (
-    <Container fluid h="100%" className={classes.wrapper}>
+    <Container fluid h="100%" >
+      <ScrollToTop />
     <SimpleGrid cols={{ base: 1, md: 2 }}>
       <Paper>
         <BackButton />
@@ -93,8 +94,8 @@ const ProductPage = () => {
           vertical={dataCategories.verticalImage}
         />
       </Paper>
-      <Paper shadow="xs" p="md" withBorder>
-        <Stack>
+      <Paper shadow="xs" p="md" withBorder h="100%">
+        <Stack justify="center" h="100%">
           <Group position="apart">
             <ProductTitle title={productDataBase.name} />
             {dataCategories.delivery ? (

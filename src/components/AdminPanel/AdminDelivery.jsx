@@ -31,14 +31,6 @@ const AdminDelivery = () => {
           >
             <Pencil size="1.2rem" />
           </ActionIcon>
-          {/* <Button
-            variant="default"
-            radius={0}
-            size="md"
-            onClick={() => dispatch(openModalText())}
-          >
-            Добавить текст
-          </Button> */}
         </Group>
       </Group>
       <ScrollArea h={"80vh"} miw={"100%"} mx="auto" offsetScrollbars>
