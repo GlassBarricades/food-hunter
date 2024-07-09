@@ -2,12 +2,10 @@ import {
   Box,
   BackgroundImage,
   AppShell,
-  Paper,
   LoadingOverlay,
 } from "@mantine/core";
 import HomeHeader from "./HomeHeader";
 import HomeNavBar from "./HomeNavBar";
-import { BrandInstagram } from "tabler-icons-react";
 import useFetchImage from "../../hooks/useFetchImage";
 import classes from "./HomeLayout.module.css";
 import { useDisclosure } from "@mantine/hooks";
@@ -35,7 +33,7 @@ const HomeLayout = () => {
           header={{ height: { base: 70, md: 110 } }}
           navbar={{
             width: { base: 200, md: 300, lg: 400 },
-            breakpoint: "sm",
+            breakpoint: "xl",
             collapsed: { desktop: true, mobile: !opened },
           }}
         >
@@ -45,17 +43,6 @@ const HomeLayout = () => {
           <AppShell.Navbar className={classes.navbar}>
             <HomeNavBar close={close}/>
           </AppShell.Navbar>
-          <AppShell.Main>
-            <Paper
-              component="a"
-              href="https://www.instagram.com/food_hunter.by/?igsh=MXN4dmpoamNkc3h2eA%3D%3D"
-              target="_blank"
-              className={classes.socWrap}
-            >
-              <BrandInstagram className={classes.socIcon}
-              />
-            </Paper>
-          </AppShell.Main>
         </AppShell>
       </BackgroundImage>
     </Box>

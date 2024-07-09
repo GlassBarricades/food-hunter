@@ -2,14 +2,13 @@ import {
   Container,
   Group,
   Burger,
-  Image,
-  ActionIcon,
+  Image
 } from "@mantine/core";
 import { ThemeChange } from "./Theme-change";
 import ContactsHeader from "./ContactsHeader";
 import Basket from "./Basket";
 import classes from "./Header.module.css";
-import { BrandInstagram } from "tabler-icons-react";
+import InstagramIcon from "./InstagramIcon";
 
 export function Header({ open, toggle, admin }) {
 
@@ -24,8 +23,7 @@ export function Header({ open, toggle, admin }) {
         />
         <ContactsHeader />
         <Group spacing="md" align="center" justify="center">
-          {!admin ? <ActionIcon component="a" href="https://www.instagram.com/food_hunter.by/?igsh=MXN4dmpoamNkc3h2eA%3D%3D"
-            target="_blank"><BrandInstagram /></ActionIcon> : undefined}
+          {!admin ? <InstagramIcon /> : undefined}
           <ThemeChange />
           {!admin ? <Basket /> : undefined}
         </Group>

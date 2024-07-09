@@ -1,12 +1,18 @@
 .burger {
   background-color: var(--mantine-color-yellow-4);
 
-  @media (min-width: $mantine-breakpoint-md) {
+  /* @media (min-width: $mantine-breakpoint-xl) {
+    display: none;
+  } */
+  @mixin larger-than 1049px {
     display: none;
   }
 }
 .items {
-  @media (max-width: $mantine-breakpoint-md) {
+  /* @media (max-width: $mantine-breakpoint-lg) {
+    display: none;
+  } */
+  @mixin smaller-than 1050px {
     display: none;
   }
 }
@@ -24,7 +30,7 @@
   justify-content: space-between;
 }
 .link {
-  display: block;
+  /* display: block; */
   line-height: 1;
   padding: 8px 12px;
   border-radius: var(--mantine-radius-sm);
@@ -43,7 +49,7 @@
   }
 } 
 .contactsHeaderWrap {
-  @media (max-width: $mantine-breakpoint-sm) {
+  @mixin smaller-than 1050px {
     display: none;
   }
 }

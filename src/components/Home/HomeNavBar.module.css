@@ -6,7 +6,7 @@
     text-decoration: none;
     color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-0));
     background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-6));
-    font-size: var(--mantine-font-size-xl);
+    font-size: var(--mantine-font-size-md);
     font-weight: 500;
     margin-bottom: 10px;
 

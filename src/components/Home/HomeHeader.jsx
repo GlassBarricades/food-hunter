@@ -9,14 +9,10 @@ import {
 } from "@mantine/core";
 import { NavLink } from "react-router-dom";
 import ContactsHeader from "../ContactsHeader";
-import { useDispatch, useSelector } from "react-redux";
-import { toggleHomeNavBar } from "../../store/navBarSlice";
 import classes from './HomeHeader.module.css';
 
 const HomeHeader = ({ open, toggle }) => {
   const theme = useMantineTheme();
-  const opened = useSelector((state) => state.navBar.homeNavBar);
-  const dispatch = useDispatch();
 
   const linksMain = [
     {
@@ -60,8 +56,7 @@ const HomeHeader = ({ open, toggle }) => {
           <Burger
             className={classes.burger}
             opened={open} onClick={toggle}
-            hiddenFrom="sm"
-            // onClick={() => dispatch(toggleHomeNavBar())}
+            // hiddenFrom="sm"
             size="lg"
             color={theme.colors.dark[6]}
             mr="xl"
